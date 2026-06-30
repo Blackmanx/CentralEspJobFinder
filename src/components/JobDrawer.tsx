@@ -798,19 +798,18 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           backdropFilter: 'blur(4px)',
           zIndex: 2000,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '24px'
+          alignItems: 'stretch',
+          justifyContent: 'stretch',
+          padding: '0'
         }}>
           <div style={{
             backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border-color)',
-            borderRadius: '8px',
-            width: '98vw',
-            height: '96vh',
+            border: 'none',
+            borderRadius: '0',
+            width: '100vw',
+            height: '100vh',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: 'var(--shadow-lg)',
             overflow: 'hidden'
           }}>
             {/* Modal Header */}

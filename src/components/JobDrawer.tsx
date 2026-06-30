@@ -56,7 +56,7 @@ interface JobDrawerProps {
   job: Job | null;
   onClose: () => void;
   userState: UserJobState;
-  onUpdateState: (jobId: string, status: ApplicationStatus, notes: string) => void;
+  onUpdateState: (jobId: string, status: ApplicationStatus, notes: string, interviewDate?: string) => void;
 }
 
 // Helper component to center Leaflet map on coordinate changes
@@ -93,6 +93,9 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   const [generatingLetter, setGeneratingLetter] = useState(false);
   const [letterError, setLetterError] = useState<string | null>(null);
 
+  // Interview Date State
+  const [interviewDate, setInterviewDate] = useState(userState.interviewDate || '');
+
   // Sync state with selected job
   useEffect(() => {
     if (job) {
@@ -108,6 +111,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setCoverLetter(null);
       setGeneratingLetter(false);
       setLetterError(null);
+      setInterviewDate(userState.interviewDate || '');
 
       // Fetch geocoding for Leaflet Map
       if (job.location) {
@@ -141,14 +145,14 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   if (!job) return null;
 
   const handleSaveState = () => {
-    onUpdateState(job.id, status, notes);
+    onUpdateState(job.id, status, notes, status === 'interviewing' ? interviewDate : undefined);
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 2000);
   };
 
   const handleStatusChange = (newStatus: ApplicationStatus) => {
     setStatus(newStatus);
-    onUpdateState(job.id, newStatus, notes);
+    onUpdateState(job.id, newStatus, notes, newStatus === 'interviewing' ? interviewDate : undefined);
   };
 
   const handleAnalyzeCV = async () => {
@@ -409,6 +413,41 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                 );
               })}
             </div>
+
+            {/* Interview Datetime Selector */}
+            {status === 'interviewing' && (
+              <div style={{ marginTop: '12px', marginBottom: '16px' }}>
+                <label 
+                  style={{ 
+                    display: 'block', 
+                    fontSize: '0.8rem', 
+                    color: 'var(--text-secondary)',
+                    marginBottom: '6px' 
+                  }}
+                >
+                  Fecha y hora de la entrevista:
+                </label>
+                <input
+                  type="datetime-local"
+                  value={interviewDate}
+                  onChange={(e) => {
+                    setInterviewDate(e.target.value);
+                    onUpdateState(job.id, status, notes, e.target.value);
+                  }}
+                  style={{
+                    width: '100%',
+                    backgroundColor: 'var(--bg-tertiary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'inherit',
+                    fontSize: '0.85rem',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+            )}
 
             {/* Notes Section */}
             <div>

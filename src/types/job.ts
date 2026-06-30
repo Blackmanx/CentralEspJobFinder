@@ -25,6 +25,7 @@ export interface UserJobState {
   status: ApplicationStatus;
   notes: string;
   updatedAt: string;
+  interviewDate?: string;
 }
 
 export interface LocalStorageAppState {

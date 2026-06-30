@@ -71,8 +71,31 @@ export const JobTable: React.FC<JobTableProps> = ({
               <tr key={job.id} className={isSelected ? 'selected' : ''}>
                   {/* Job Title */}
                   <td>
-                    <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                      {job.title}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {job.title}
+                      </span>
+                      {(() => {
+                        const diffTime = Math.abs(new Date().getTime() - new Date(job.scrapedAt).getTime());
+                        const diffHours = diffTime / (1000 * 60 * 60);
+                        if (diffHours <= 24) {
+                          return (
+                            <span style={{
+                              backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                              color: '#10b981',
+                              fontSize: '0.65rem',
+                              fontWeight: 'bold',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.05em'
+                            }}>
+                              Nuevo
+                            </span>
+                          );
+                        }
+                        return null;
+                      })()}
                     </div>
                     {job.companyType && (
                       <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
@@ -239,7 +262,30 @@ export const JobTable: React.FC<JobTableProps> = ({
               {/* Header: Title and Status */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                 <div>
-                  <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>{job.title}</h4>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
+                    {(() => {
+                      const diffTime = Math.abs(new Date().getTime() - new Date(job.scrapedAt).getTime());
+                      const diffHours = diffTime / (1000 * 60 * 60);
+                      if (diffHours <= 24) {
+                        return (
+                          <span style={{
+                            backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                            color: '#10b981',
+                            fontSize: '0.6rem',
+                            fontWeight: 'bold',
+                            padding: '1px 5px',
+                            borderRadius: '3px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em'
+                          }}>
+                            Nuevo
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
+                  </div>
                   <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
                     {job.companyType || 'Docente'}
                   </span>

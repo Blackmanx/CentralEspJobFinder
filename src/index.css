@@ -178,38 +178,46 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
 }
 
-/* Right Details Pane (Side-by-side on desktop) */
-.detail-pane {
-  width: 480px;
-  background-color: var(--bg-surface);
-  border-left: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-  z-index: 20;
-}
-
-/* Drawer / Split pane layouts */
+/* Drawer / Split pane layouts as a Centered Modal Popup */
 .drawer-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  z-index: 998;
-  animation: fadeIn 0.2s ease-out;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1500;
+  display: block;
 }
 
 .drawer-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(850px, 95vw);
+  height: 85vh;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1501;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background-color: var(--bg-surface);
+  overflow: hidden;
+  animation: fadeInScale 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* Table Style Refinements */
@@ -481,33 +489,16 @@ input[type="text"]:focus, select:focus, textarea:focus {
   }
   
   .detail-pane {
-    display: none; /* Controlled dynamically in react via state */
-  }
-
-  .drawer-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    z-index: 999;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
-    animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .drawer-backdrop {
-    display: block !important;
+    display: none !important;
   }
 }
 
-@media (min-width: 1024px) {
-  .drawer-backdrop {
-    display: none !important;
-  }
+@media (max-width: 550px) {
   .drawer-container {
-    position: relative;
-    box-shadow: none;
-    animation: none;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
   }
 }
 

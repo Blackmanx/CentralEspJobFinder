@@ -197,11 +197,12 @@ export default function App() {
   }, [jobs.length]);
 
   // Update Application Status & Notes with database sync
-  const handleUpdateJobState = async (jobId: string, status: ApplicationStatus, notes: string = '') => {
+  const handleUpdateJobState = async (jobId: string, status: ApplicationStatus, notes: string = '', interviewDate?: string) => {
     const newState: UserJobState = {
       status,
       notes,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      interviewDate
     };
 
     const updatedStates = {
@@ -234,8 +235,8 @@ export default function App() {
   };
 
   const handleUpdateStatusOnly = (jobId: string, status: ApplicationStatus) => {
-    const currentState = userStates[jobId] || { status: 'not_applied', notes: '', updatedAt: '' };
-    handleUpdateJobState(jobId, status, currentState.notes);
+    const currentState = userStates[jobId] || { status: 'not_applied', notes: '', updatedAt: '', interviewDate: undefined };
+    handleUpdateJobState(jobId, status, currentState.notes, currentState.interviewDate);
   };
 
   // Helper to determine if a job matches strictly "Educación Infantil"
@@ -377,102 +378,6 @@ export default function App() {
             <h2>
               JobFinder
             </h2>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              {/* Notification Bell */}
-              <div style={{ position: 'relative' }}>
-                <button
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className="btn-secondary"
-                  style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto', position: 'relative' }}
-                  title="Notificaciones"
-                >
-                  <Bell size={14} />
-                  {unreadNotificationsCount > 0 && (
-                    <span style={{
-                      position: 'absolute',
-                      top: '-2px',
-                      right: '-2px',
-                      backgroundColor: 'var(--accent-red)',
-                      color: '#ffffff',
-                      fontSize: '0.6rem',
-                      fontWeight: 'bold',
-                      borderRadius: '50%',
-                      width: '12px',
-                      height: '12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      {unreadNotificationsCount}
-                    </span>
-                  )}
-                </button>
-
-                {/* Notifications Dropdown */}
-                {showNotifications && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '32px',
-                    right: '0',
-                    width: '280px',
-                    backgroundColor: 'var(--bg-surface)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                    boxShadow: 'var(--shadow-lg)',
-                    zIndex: 1000,
-                    padding: '8px 0',
-                    maxHeight: '300px',
-                    overflowY: 'auto'
-                  }}>
-                    <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>Notificaciones</span>
-                      <button 
-                        onClick={() => {
-                          setUnreadNotificationsCount(0);
-                          setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-                        }} 
-                        style={{ fontSize: '0.65rem', color: 'var(--accent-primary)', border: 'none', background: 'none', cursor: 'pointer' }}
-                      >
-                        Marcar todo leído
-                      </button>
-                    </div>
-                    {notifications.length === 0 ? (
-                      <div style={{ padding: '16px', fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-                        No hay notificaciones
-                      </div>
-                    ) : (
-                      notifications.map(n => (
-                        <div 
-                          key={n.id} 
-                          style={{
-                            padding: '10px 12px',
-                            borderBottom: '1px solid var(--border-color)',
-                            backgroundColor: n.read ? 'transparent' : 'rgba(59, 130, 246, 0.04)',
-                            transition: 'background-color 0.2s'
-                          }}
-                        >
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2px' }}>
-                            <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>{n.title}</span>
-                            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                          </div>
-                          <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.3 }}>{n.message}</p>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Theme Switcher */}
-              <button 
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="btn-secondary"
-                style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
-                title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-              >
-                {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-              </button>
-            </div>
           </div>
           <span style={{ 
             color: 'var(--accent-primary)', 
@@ -611,6 +516,134 @@ export default function App() {
       {/* Right Main Panel */}
       <main className="main-content">
         
+        {/* Main Content Header */}
+        <header style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '16px 24px',
+          borderBottom: '1px solid var(--border-color)',
+          backgroundColor: 'var(--bg-surface)'
+        }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+            Tablero de Candidaturas
+          </h2>
+          
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            {/* Notification Bell */}
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="btn-secondary"
+                style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto', position: 'relative' }}
+                title="Notificaciones"
+              >
+                <Bell size={14} />
+                {unreadNotificationsCount > 0 && (
+                  <span style={{
+                    position: 'absolute',
+                    top: '-2px',
+                    right: '-2px',
+                    backgroundColor: 'var(--accent-red)',
+                    color: '#ffffff',
+                    fontSize: '0.6rem',
+                    fontWeight: 'bold',
+                    borderRadius: '50%',
+                    width: '12px',
+                    height: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    {unreadNotificationsCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div style={{
+                  position: 'absolute',
+                  top: '36px',
+                  right: '0',
+                  width: '320px',
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '8px',
+                  boxShadow: 'var(--shadow-lg)',
+                  zIndex: 1000,
+                  padding: '8px 0',
+                  maxHeight: '300px',
+                  overflowY: 'auto'
+                }}>
+                  <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>Notificaciones</span>
+                    <button 
+                      onClick={() => {
+                        setUnreadNotificationsCount(0);
+                        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+                      }} 
+                      style={{ fontSize: '0.65rem', color: 'var(--accent-primary)', border: 'none', background: 'none', cursor: 'pointer' }}
+                    >
+                      Marcar todo leído
+                    </button>
+                  </div>
+                  {notifications.length === 0 ? (
+                    <div style={{ padding: '16px', fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+                      No hay notificaciones
+                    </div>
+                  ) : (
+                    notifications.map(n => (
+                      <div 
+                        key={n.id} 
+                        style={{
+                          padding: '10px 12px',
+                          borderBottom: '1px solid var(--border-color)',
+                          backgroundColor: n.read ? 'transparent' : 'rgba(59, 130, 246, 0.04)',
+                          transition: 'background-color 0.2s',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => {
+                          if (n.message.includes('Colegio') || n.message.includes('vacante') || n.message.includes('oferta')) {
+                            const matchedJob = jobs.find(j => 
+                              (n.message.includes('Brains') && j.companyName.toLowerCase().includes('brains')) ||
+                              (n.message.includes('Segovia') && (j.location || '').toLowerCase().includes('segovia')) ||
+                              (n.message.includes('Ávila') && (j.location || '').toLowerCase().includes('avila')) ||
+                              (n.message.includes('Madrid') && (j.location || '').toLowerCase().includes('madrid'))
+                            );
+                            if (matchedJob) {
+                              setSelectedJob(matchedJob);
+                            }
+                          }
+                          setNotifications(prev => prev.map(item => item.id === n.id ? { ...item, read: true } : item));
+                          setUnreadNotificationsCount(prev => Math.max(0, prev - (n.read ? 0 : 1)));
+                          setShowNotifications(false);
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2px' }}>
+                          <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>{n.title}</span>
+                          <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.3 }}>{n.message}</p>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Theme Switcher */}
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="btn-secondary"
+              style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
+              title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+          </div>
+        </header>
+
         {/* Statistics top bar */}
         <header className="stats-bar">
           <div className="stat-card">
@@ -722,10 +755,27 @@ export default function App() {
               /* Agenda Timeline View */
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {(() => {
-                  const agendaJobs = jobs.filter(j => {
-                    const state = userStates[j.id];
-                    return state && (state.status === 'applied' || state.status === 'interviewing' || state.status === 'offered');
-                  });
+                  const agendaJobs = jobs
+                    .filter(j => {
+                      const state = userStates[j.id];
+                      return state && (state.status === 'applied' || state.status === 'interviewing' || state.status === 'offered');
+                    })
+                    .sort((a, b) => {
+                      const stateA = userStates[a.id];
+                      const stateB = userStates[b.id];
+                      
+                      // Interviewing status always takes priority in agenda sorting
+                      if (stateA.status === 'interviewing' && stateB.status !== 'interviewing') return -1;
+                      if (stateA.status !== 'interviewing' && stateB.status === 'interviewing') return 1;
+                      
+                      if (stateA.interviewDate && stateB.interviewDate) {
+                        return new Date(stateA.interviewDate).getTime() - new Date(stateB.interviewDate).getTime();
+                      }
+                      if (stateA.interviewDate) return -1;
+                      if (stateB.interviewDate) return 1;
+                      
+                      return new Date(stateB.updatedAt).getTime() - new Date(stateA.updatedAt).getTime();
+                    });
 
                   if (agendaJobs.length === 0) {
                     return (
@@ -767,6 +817,34 @@ export default function App() {
                           </span>
                           <h4 style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
                           <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{job.companyName} — {job.location}</span>
+                          
+                          {/* Prominent Interview Date/Time display */}
+                          {state.status === 'interviewing' && state.interviewDate && (
+                            <div style={{
+                              marginTop: '8px',
+                              padding: '8px 12px',
+                              backgroundColor: 'var(--accent-gold-light)',
+                              color: 'var(--accent-gold)',
+                              borderRadius: '6px',
+                              fontSize: '0.8rem',
+                              fontWeight: 'bold',
+                              border: '1px solid var(--accent-gold)',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              width: 'fit-content'
+                            }}>
+                              <Clock size={12} />
+                              Entrevista: {new Date(state.interviewDate).toLocaleDateString('es-ES', { 
+                                weekday: 'long', 
+                                day: 'numeric', 
+                                month: 'long', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
+                            </div>
+                          )}
+
                           {state.notes && (
                             <p style={{
                               margin: '6px 0 0',
@@ -792,22 +870,19 @@ export default function App() {
               </div>
             )}
           </div>
-
-          {/* Right Pane (Embedded Job Details on desktop, overlay drawer on mobile) */}
-          {selectedJob && (
-            <div className="detail-pane animate-fade-in">
-              <JobDrawer
-                job={selectedJob}
-                onClose={() => setSelectedJob(null)}
-                userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
-                onUpdateState={handleUpdateJobState}
-              />
-            </div>
-          )}
-
         </div>
 
       </main>
+
+      {/* Centered Modal details popup */}
+      {selectedJob && (
+        <JobDrawer
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
+          userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
+          onUpdateState={handleUpdateJobState}
+        />
+      )}
 
       {/* CSS definitions for spin animation */}
       <style dangerouslySetInnerHTML={{__html: `

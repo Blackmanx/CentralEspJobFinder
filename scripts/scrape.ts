@@ -195,6 +195,19 @@ async function scrape() {
           const metaText = clean(page$(article).find('footer p.meta').text());
           const metaParts = metaText.split('|').map(p => p.trim());
           const location = metaParts[0] || 'Madrid';
+
+          // Discard jobs outside Comunidad de Madrid, Segovia, Avila, and Castilla-La Mancha
+          const allowedKeywords = [
+            'madrid', 
+            'segovia', 'avila', 'ávila', 
+            'toledo', 'guadalajara', 'cuenca', 'ciudad real', 'albacete', 
+            'castilla la mancha', 'castilla-la mancha'
+          ];
+          const isAllowedLocation = allowedKeywords.some(kw => location.toLowerCase().includes(kw));
+          if (!isAllowedLocation) {
+            return;
+          }
+
           const hours = metaParts[1] || '';
           const contract = metaParts[2] || '';
 

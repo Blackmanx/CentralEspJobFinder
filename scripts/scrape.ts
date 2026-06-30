@@ -397,8 +397,8 @@ async function scrape() {
     // 3. Fetch Escuelas Católicas jobs
     const ecJobs = await scrapeEscuelasCatolicas();
     
-    // Combine everything
-    const initialJobs = [...jobListings, ...indeedJobs, ...ecJobs];
+    // Combine everything (Only including real-time scraped Colejobs listings to prevent fake/expired mock offers)
+    const initialJobs = [...jobListings];
 
     // Ensure folder exists and write initial list
     await fs.mkdir(DATA_DIR, { recursive: true });
@@ -428,17 +428,15 @@ async function scrape() {
       
       finalColejobsJobs.push(updatedJob);
 
-      // Save incremental progress (detailed Colejobs + remaining Colejobs + other sources)
+      // Save incremental progress (detailed Colejobs + remaining Colejobs)
       const currentProgress = [
         ...finalColejobsJobs,
-        ...jobListings.slice(i + 1),
-        ...indeedJobs,
-        ...ecJobs
+        ...jobListings.slice(i + 1)
       ];
       await fs.writeFile(DATA_FILE, JSON.stringify(currentProgress, null, 2), 'utf-8');
     }
     
-    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length + indeedJobs.length + ecJobs.length} ===`);
+    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length} ===`);
 
   } catch (error) {
     console.error('Error fatal durante la ejecucion del scraper:', error);

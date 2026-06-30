@@ -7,7 +7,8 @@ import {
   Coins, 
   Calendar, 
   Eye, 
-  CheckCircle
+  CheckCircle,
+  Sparkles
 } from 'lucide-react';
 
 interface JobTableProps {
@@ -96,6 +97,24 @@ export const JobTable: React.FC<JobTableProps> = ({
                         }
                         return null;
                       })()}
+                      {state.cvAnalysis && (
+                        <span style={{
+                          backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                          color: '#f59e0b',
+                          fontSize: '0.65rem',
+                          fontWeight: 'bold',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <Sparkles size={10} />
+                          Analizado
+                        </span>
+                      )}
                     </div>
                     {job.companyType && (
                       <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
@@ -285,6 +304,24 @@ export const JobTable: React.FC<JobTableProps> = ({
                       }
                       return null;
                     })()}
+                    {state.cvAnalysis && (
+                      <span style={{
+                        backgroundColor: 'rgba(245, 158, 11, 0.12)',
+                        color: '#f59e0b',
+                        fontSize: '0.6rem',
+                        fontWeight: 'bold',
+                        padding: '1px 5px',
+                        borderRadius: '3px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '3px'
+                      }}>
+                        <Sparkles size={8} />
+                        Analizado
+                      </span>
+                    )}
                   </div>
                   <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
                     {job.companyType || 'Docente'}

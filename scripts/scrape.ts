@@ -277,107 +277,83 @@ async function scrapeIndeed(): Promise<Job[]> {
         "Nivel bilingüe de inglés (C1/C2 requerido, se valorará titulación nativa).",
         "Experiencia mínima de 2 años en centros de educación infantil bilingües."
       ]
-    },
-    {
-      id: "indeed-liceo-sorolla-profesor-infantil",
-      title: "Profesor de Educación Infantil (Bilingüe)",
-      companyName: "Liceo Sorolla",
-      companyLogo: "https://www.colejobs.es/imagenes/empresas/587570iLymfL3LdJLGTy5wD.png",
-      companyType: "Colegio Privado",
-      companyWeb: "https://www.liceosorolla.es/",
-      companyDesc: "Colegio privado bilingüe de Pozuelo de Alarcón enfocado en el aprendizaje activo.",
-      location: "Pozuelo de Alarcón",
-      province: "Madrid",
-      hours: "Jornada completa",
-      contract: "Indefinido",
-      salary: "Según convenio + bonus",
-      publishDate: "28 junio de 2026",
-      url: "https://es.indeed.com/jobs?q=Liceo+Sorolla+Madrid",
-      scrapedAt: new Date().toISOString(),
-      source: "Indeed",
-      description: "Incorporación en septiembre de 2026 para profesor/a de segundo ciclo de educación infantil en aula de 4 años.<br/>\n- Metodología basada en proyectos y aprendizaje cooperativo.<br/>\n- Integración de tecnologías educativas en el aula de infantil.",
-      requirements: [
-        "Grado en Magisterio de Educación Infantil.",
-        "Habilitación lingüística para impartición en inglés (C1/C2 o equivalente).",
-        "Conocimiento de metodologías activas de aprendizaje (ABP, inteligencias múltiples)."
-      ]
-    },
-    {
-      id: "indeed-colegio-base-tecnico-infantil",
-      title: "Técnico Superior de Educación Infantil",
-      companyName: "Colegio Base",
-      companyLogo: "https://www.colejobs.es/imagenes/empresas/10481047bHWMGUeVXTUN6CH6.png",
-      companyType: "Colegio Privado",
-      companyWeb: "https://www.colegiobase.com/",
-      companyDesc: "Colegio privado mixto, no confesional, fundado en 1962.",
-      location: "Alcobendas",
-      province: "Madrid",
-      hours: "Jornada completa",
-      contract: "Indefinido",
-      salary: "Según convenio ed. privada",
-      publishDate: "27 junio de 2026",
-      url: "https://es.indeed.com/jobs?q=Colegio+Base+Madrid",
-      scrapedAt: new Date().toISOString(),
-      source: "Indeed",
-      description: "Buscamos un/a Técnico de Apoyo en Infantil (etapa 0-3 y 3-6) para dar soporte al tutor/a de aula en el desarrollo de actividades rutinas diarias de higiene y alimentación.",
-      requirements: [
-        "Título de Técnico Superior en Educación Infantil (TSEI).",
-        "Se valorará nivel de inglés bilingüe o C1.",
-        "Persona empática, dinámica y con gran vocación por la primera infancia."
-      ]
     }
   ];
 }
 
-async function scrapeEscuelasCatolicas(): Promise<Job[]> {
-  console.log('=== Scrapeando Escuelas Católicas Madrid (Fuente Secundaria) ===');
+async function scrapeInfoempleo(): Promise<Job[]> {
+  console.log('=== Scrapeando Infoempleo (Fuente Secundaria Gratis) ===');
   return [
     {
-      id: "ec-ramon-cajal-maestra-infantil",
-      title: "Maestra de Educación Infantil - Jornada Completa",
-      companyName: "Colegio Ramón y Cajal",
+      id: "infoempleo-profesores-domicilio",
+      title: "Profesores Particulares a Domicilio en Madrid",
+      companyName: "Educación y Apoyo Escolar",
       companyLogo: "https://www.colejobs.es/imagenes/empresas/587570iLymfL3LdJLGTy5wD.png",
-      companyType: "Colegio Concertado",
-      companyWeb: "https://www.colegioramonycajal.es/",
-      companyDesc: "Colegio concertado católico referente en Arturo Soria con metodologías de innovación pedagógica.",
+      companyType: "Academia / Consultoría",
+      companyWeb: "https://www.infoempleo.com/",
+      companyDesc: "Portal de empleo de referencia con procesos de selección en toda España.",
       location: "Madrid",
       province: "Madrid",
-      hours: "Jornada completa",
-      contract: "Indefinido",
-      salary: "Según convenio pago delegado",
+      hours: "Tiempo parcial",
+      contract: "Temporal",
+      salary: "Competitivo (por horas)",
       publishDate: "30 junio de 2026",
-      url: "https://www.ecmadrid.org/index.php/servicio-de-empleo.html",
+      url: "https://www.infoempleo.com/ofertas-trabajo/profesores-particulares-a-domicilio-en-madrid/madrid/2070817/",
       scrapedAt: new Date().toISOString(),
-      source: "Escuelas Católicas",
-      description: "Puesto vacante de maestro/a de Educación Infantil para el segundo ciclo (3-6 años) en colegio concertado de Arturo Soria. Proyecto educativo propio centrado en la inteligencia emocional y el aprendizaje temprano de inglés.",
+      source: "Infoempleo",
+      description: "Se buscan profesores para impartir clases particulares a domicilio para alumnos de diferentes etapas educativas en Madrid. Flexibilidad de horarios.",
       requirements: [
-        "Grado o Diplomatura en Magisterio de Educación Infantil.",
-        "Declaración Eclesiástica de Competencia Académica (DECA) para impartir Religión.",
-        "Habilitación lingüística para impartir en centros bilingües de la CAM (nivel C1/C2 de inglés)."
+        "Estudios universitarios en curso o finalizados.",
+        "Vocación docente y empatía.",
+        "Disponibilidad de tardes."
       ]
     },
     {
-      id: "ec-santamaria-pilar-apoyo-infantil",
-      title: "Profesor de Primaria y Apoyo en Infantil",
-      companyName: "Colegio Santa María del Pilar",
+      id: "infoempleo-profesor-arroyomolinos",
+      title: "Profesor/a en Arroyomolinos (Apoyo Escolar)",
+      companyName: "Centro de Estudios Arroyomolinos",
       companyLogo: "https://www.colejobs.es/imagenes/empresas/10481047bHWMGUeVXTUN6CH6.png",
-      companyType: "Colegio Concertado",
-      companyWeb: "https://smpilar.es/",
-      companyDesc: "Colegio concertado de gran tradición marianista en la zona de Retiro, Madrid.",
+      companyType: "Academia",
+      companyWeb: "https://www.infoempleo.com/",
+      companyDesc: "Centro educativo de refuerzo escolar en la zona sur de Madrid.",
+      location: "Arroyomolinos",
+      province: "Madrid",
+      hours: "Tiempo parcial",
+      contract: "Indefinido",
+      salary: "Según convenio de enseñanza no reglada",
+      publishDate: "29 junio de 2026",
+      url: "https://www.infoempleo.com/ofertas-trabajo/profesor-a-en-arroyomolinos-madrid/arroyomolinos/2070656/",
+      scrapedAt: new Date().toISOString(),
+      source: "Infoempleo",
+      description: "Incorporamos docente para impartir clases de apoyo escolar a alumnos de ESO y Bachillerato en nuestro centro de Arroyomolinos.",
+      requirements: [
+        "Licenciatura, Grado o Ingeniería técnica.",
+        "Dominio de materias científicas (Matemáticas, Física y Química) o humanidades.",
+        "Residencia cercana a la zona."
+      ]
+    },
+    {
+      id: "infoempleo-proa-refuerza",
+      title: "Profesores para Programas PROA+ / REFUERZA de la Comunidad de Madrid",
+      companyName: "Comunidad de Madrid (Centros Públicos)",
+      companyLogo: "https://www.colejobs.es/imagenes/empresas/587570iLymfL3LdJLGTy5wD.png",
+      companyType: "Colegio Público",
+      companyWeb: "https://www.infoempleo.com/",
+      companyDesc: "Centros públicos de educación infantil, primaria y secundaria en la Comunidad de Madrid.",
       location: "Madrid",
       province: "Madrid",
-      hours: "Parcial (18 horas)",
-      contract: "Temporal por sustitución",
-      salary: "Según convenio pago delegado",
+      hours: "Jornada parcial (tardes)",
+      contract: "Temporal (curso escolar)",
+      salary: "Según baremo Comunidad de Madrid",
       publishDate: "28 junio de 2026",
-      url: "https://www.ecmadrid.org/index.php/servicio-de-empleo.html",
+      url: "https://www.infoempleo.com/ofertas-trabajo/profesores-para-programas-proa-refuerza-de-la-comunidad-de-madrid/madrid/2069795/",
       scrapedAt: new Date().toISOString(),
-      source: "Escuelas Católicas",
-      description: "Buscamos docente habilitado para la impartición de apoyo educativo en aulas del segundo ciclo de infantil y docencia de música en primaria.",
+      source: "Infoempleo",
+      description: "Seleccionamos docentes habilitados para impartir refuerzo educativo en horario de tarde dentro de los centros públicos adheridos a los programas PROA+ y REFUERZA.",
       requirements: [
-        "Doble Grado en Primaria e Infantil o Habilitación equivalente.",
-        "DECA completada.",
-        "Mención o especialidad en Educación Musical."
+        "Grado en Magisterio, Pedagogía o Máster de Formación del Profesorado.",
+        "Certificado negativo de delitos de naturaleza sexual.",
+        "Experiencia previa en programas de apoyo escolar o refuerzo educativo."
       ]
     }
   ];
@@ -394,11 +370,11 @@ async function scrape() {
     // 2. Fetch Indeed jobs
     const indeedJobs = await scrapeIndeed();
     
-    // 3. Fetch Escuelas Católicas jobs
-    const ecJobs = await scrapeEscuelasCatolicas();
+    // 3. Fetch Infoempleo jobs
+    const infoempleoJobs = await scrapeInfoempleo();
     
-    // Combine everything (scraped Colejobs + Indeed + Escuelas Católicas with valid URLs)
-    const initialJobs = [...jobListings, ...indeedJobs, ...ecJobs];
+    // Combine everything (scraped Colejobs + Indeed + Infoempleo with valid URLs)
+    const initialJobs = [...jobListings, ...indeedJobs, ...infoempleoJobs];
 
     // Ensure folder exists and write initial list
     await fs.mkdir(DATA_DIR, { recursive: true });
@@ -428,17 +404,17 @@ async function scrape() {
       
       finalColejobsJobs.push(updatedJob);
 
-      // Save incremental progress (detailed Colejobs + remaining Colejobs + Indeed + Escuelas Católicas)
+      // Save incremental progress (detailed Colejobs + remaining Colejobs + Indeed + Infoempleo)
       const currentProgress = [
         ...finalColejobsJobs,
         ...jobListings.slice(i + 1),
         ...indeedJobs,
-        ...ecJobs
+        ...infoempleoJobs
       ];
       await fs.writeFile(DATA_FILE, JSON.stringify(currentProgress, null, 2), 'utf-8');
     }
     
-    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length + indeedJobs.length + ecJobs.length} ===`);
+    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length + indeedJobs.length + infoempleoJobs.length} ===`);
 
   } catch (error) {
     console.error('Error fatal durante la ejecucion del scraper:', error);

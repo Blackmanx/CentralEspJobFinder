@@ -11,6 +11,10 @@ import path from 'path';
 
 dotenv.config();
 
+const STATES_FILE = path.join(process.cwd(), 'public/data/user_states.json');
+const GLOBAL_CV_PATH = path.join(process.cwd(), 'public/data/global_cv.bin');
+const GLOBAL_CV_META_PATH = path.join(process.cwd(), 'public/data/global_cv_meta.json');
+
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -82,11 +86,9 @@ app.post('/api/analyze-cv', upload.single('cv'), async (req, res) => {
       originalName = req.file.originalname;
     } else {
       try {
-        const metaPath = 'public/data/global_cv_meta.json';
-        const cvPath = 'public/data/global_cv.bin';
-        const metaData = await fs.readFile(metaPath, 'utf-8');
+        const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
         const meta = JSON.parse(metaData);
-        fileBuffer = await fs.readFile(cvPath);
+        fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
         originalName = meta.originalname;
       } catch (err) {
         return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
@@ -198,8 +200,6 @@ app.get('/api/scrape/status', (req, res) => {
   });
 });
 
-const STATES_FILE = path.join(process.cwd(), 'public/data/user_states.json');
-
 app.get('/api/user-states', async (req, res) => {
   try {
     await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });
@@ -240,11 +240,9 @@ app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => 
       originalName = req.file.originalname;
     } else {
       try {
-        const metaPath = 'public/data/global_cv_meta.json';
-        const cvPath = 'public/data/global_cv.bin';
-        const metaData = await fs.readFile(metaPath, 'utf-8');
+        const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
         const meta = JSON.parse(metaData);
-        fileBuffer = await fs.readFile(cvPath);
+        fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
         originalName = meta.originalname;
       } catch (err) {
         return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
@@ -335,9 +333,9 @@ app.post('/api/global-cv', upload.single('cv'), async (req, res) => {
       return res.status(400).json({ error: 'No se ha subido ningún archivo.' });
     }
 
-    await fs.mkdir('public/data', { recursive: true });
-    await fs.writeFile('public/data/global_cv.bin', file.buffer);
-    await fs.writeFile('public/data/global_cv_meta.json', JSON.stringify({
+    await fs.mkdir(path.dirname(GLOBAL_CV_PATH), { recursive: true });
+    await fs.writeFile(GLOBAL_CV_PATH, file.buffer);
+    await fs.writeFile(GLOBAL_CV_META_PATH, JSON.stringify({
       originalname: file.originalname,
       mimetype: file.mimetype
     }, null, 2));
@@ -351,9 +349,8 @@ app.post('/api/global-cv', upload.single('cv'), async (req, res) => {
 
 app.get('/api/global-cv', async (req, res) => {
   try {
-    const metaPath = 'public/data/global_cv_meta.json';
-    await fs.access(metaPath);
-    const metaData = await fs.readFile(metaPath, 'utf-8');
+    await fs.access(GLOBAL_CV_META_PATH);
+    const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
     return res.json({ exists: true, ...JSON.parse(metaData) });
   } catch {
     return res.json({ exists: false });
@@ -362,11 +359,9 @@ app.get('/api/global-cv', async (req, res) => {
 
 app.get('/api/global-cv/download', async (req, res) => {
   try {
-    const cvPath = 'public/data/global_cv.bin';
-    const metaPath = 'public/data/global_cv_meta.json';
-    const metaData = await fs.readFile(metaPath, 'utf-8');
+    const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
     const meta = JSON.parse(metaData);
-    const fileBuffer = await fs.readFile(cvPath);
+    const fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
     
     res.setHeader('Content-Type', meta.mimetype);
     res.setHeader('Content-Disposition', `inline; filename="${meta.originalname}"`);

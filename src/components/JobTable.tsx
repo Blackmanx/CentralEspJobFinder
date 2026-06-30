@@ -19,7 +19,7 @@ interface JobTableProps {
   userStates: { [jobId: string]: UserJobState };
   onSelectJob: (job: Job) => void;
   onUpdateStatus: (jobId: string, status: ApplicationStatus) => void;
-  isInfantilFilter: boolean;
+  selectedScope: 'infantil' | 'docente_otros' | 'apoyo_otros' | 'all';
   selectedJobId?: string;
 }
 
@@ -28,7 +28,7 @@ export const JobTable: React.FC<JobTableProps> = ({
   userStates,
   onSelectJob,
   onUpdateStatus,
-  isInfantilFilter,
+  selectedScope,
   selectedJobId
 }) => {
   
@@ -39,9 +39,9 @@ export const JobTable: React.FC<JobTableProps> = ({
         <p className="text-secondary" style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>
           No se encontraron ofertas con los filtros seleccionados.
         </p>
-        {isInfantilFilter && (
+        {selectedScope === 'infantil' && (
           <p className="text-muted" style={{ fontSize: '0.9rem' }}>
-            Prueba a desactivar el filtro de "Educación Infantil" para ver más puestos docentes.
+            Prueba a cambiar el filtro de "Ámbito" o buscar "Todos los ámbitos" para ver más puestos docentes o de apoyo.
           </p>
         )}
       </div>

@@ -204,7 +204,7 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const [isInfantilFilter, setIsInfantilFilter] = useState(true);
+  const [selectedScope, setSelectedScope] = useState<'infantil' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
 
   // Fetch Jobs Data
   const loadJobs = async () => {
@@ -467,6 +467,34 @@ export default function App() {
     return false;
   };
 
+  const getJobScope = (job: Job): 'infantil' | 'docente_otros' | 'apoyo_otros' => {
+    if (isInfantilJob(job)) {
+      return 'infantil';
+    }
+    
+    const title = job.title.toLowerCase();
+    const description = (job.description || '').toLowerCase();
+    const requirements = job.requirements.map(r => r.toLowerCase()).join(' ');
+    const text = `${title} ${description} ${requirements}`.toLowerCase();
+
+    // Teaching keywords
+    const teachingKeywords = [
+      'maestro', 'maestra', 'profesor', 'profesora', 'docente', 'teacher', 
+      'educador', 'educadora', 'tutor', 'tutora', 'enseñanza', 'clases de',
+      'bilingual', 'bilingüe', 'secundaria', 'bachillerato', 'primaria', 'eso',
+      'peco', 'colegio', 'escuela', 'clases', 'ingles', 'inglés', 'geografia', 'historia',
+      'biologia', 'quimica', 'fisica', 'filosofia', 'economia', 'matematicas', 'aula'
+    ];
+
+    const isTeaching = teachingKeywords.some(kw => text.includes(kw));
+
+    if (isTeaching) {
+      return 'docente_otros';
+    } else {
+      return 'apoyo_otros';
+    }
+  };
+
   // Filter Logic
   // Advanced Fuzzy Search logic
   const fuzzyMatch = (text: string, query: string): boolean => {
@@ -495,10 +523,17 @@ export default function App() {
     const jobState = userStates[job.id] || { status: 'not_applied' };
     const matchesStatus = selectedStatus === 'all' || jobState.status === selectedStatus;
 
-    // 5. Infantil Filter
-    const matchesInfantil = !isInfantilFilter || isInfantilJob(job);
+    // 5. Scope Filter
+    let matchesScope = true;
+    if (selectedScope === 'infantil') {
+      matchesScope = isInfantilJob(job);
+    } else if (selectedScope === 'docente_otros') {
+      matchesScope = getJobScope(job) === 'docente_otros';
+    } else if (selectedScope === 'apoyo_otros') {
+      matchesScope = getJobScope(job) === 'apoyo_otros';
+    }
 
-    return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesInfantil;
+    return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
   });
 
   // Extract unique locations for filter dropdown
@@ -613,24 +648,18 @@ export default function App() {
             </select>
           </div>
 
-          {/* Toggle Infantil Filter */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px', padding: '12px', backgroundColor: 'var(--bg-app)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={isInfantilFilter}
-                onChange={(e) => setIsInfantilFilter(e.target.checked)}
-              />
-              <span className="slider"></span>
-            </label>
-            <div>
-              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
-                Solo Infantil
-              </span>
-              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', lineHeight: 1.2 }}>
-                Filtra maestras, educadoras y auxiliares.
-              </span>
-            </div>
+          {/* Scope Select Filter */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Ámbito / Especialidad</label>
+            <select
+              value={selectedScope}
+              onChange={(e) => setSelectedScope(e.target.value as any)}
+            >
+              <option value="infantil">Educación Infantil (Defecto)</option>
+              <option value="docente_otros">Otros Puestos Docentes (Primaria, Secundaria...)</option>
+              <option value="apoyo_otros">Apoyo / Administración (Limpieza, Conserjería...)</option>
+              <option value="all">Todos los Ámbitos</option>
+            </select>
           </div>
 
           {/* Global CV Upload and Auto-Scan Section */}
@@ -989,7 +1018,7 @@ export default function App() {
                   userStates={userStates}
                   onSelectJob={setSelectedJob}
                   onUpdateStatus={handleUpdateStatusOnly}
-                  isInfantilFilter={isInfantilFilter}
+                  selectedScope={selectedScope}
                   selectedJobId={selectedJob?.id}
                 />
               )

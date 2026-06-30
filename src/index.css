@@ -457,7 +457,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
 }
 
 /* Responsive Styles for Mobile Adaptability */
-@media (max-width: 1023px) {
+@media (max-width: 768px) {
   .app-container {
     flex-direction: column;
     overflow-y: auto;
@@ -491,14 +491,43 @@ input[type="text"]:focus, select:focus, textarea:focus {
   .detail-pane {
     display: none !important;
   }
-}
 
-@media (max-width: 550px) {
   .drawer-container {
     width: 100vw;
     height: 100vh;
     border-radius: 0;
     border: none;
+  }
+}
+
+/* Medium Screens: Keep sidebar on the left but make it slightly narrower to optimize workspace */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+    padding: 16px;
+    gap: 12px;
+  }
+  .sidebar h2 {
+    font-size: 1.15rem;
+  }
+  .sidebar p {
+    font-size: 0.75rem;
+  }
+  .stats-bar {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .stat-card {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .stat-card strong {
+    font-size: 0.95rem;
+  }
+  .stat-card-icon {
+    width: 26px;
+    height: 26px;
   }
 }
 
@@ -627,4 +656,194 @@ input[type="text"]:focus, select:focus, textarea:focus {
 
 .toast-info {
   border-left: 4px solid var(--accent-gold);
+}
+
+/* ==========================================
+   COMPACT MODE OVERRIDES
+   ========================================== */
+.compact {
+  font-size: 13px;
+}
+
+.compact .sidebar {
+  width: 260px;
+  padding: 16px;
+  gap: 12px;
+}
+
+.compact .sidebar h2 {
+  font-size: 1.1rem;
+}
+
+.compact .sidebar p {
+  font-size: 0.75rem;
+  margin-top: 8px !important;
+}
+
+.compact .sidebar .btn-primary,
+.compact .sidebar .btn-secondary,
+.compact .sidebar input,
+.compact .sidebar select,
+.compact .sidebar textarea {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+}
+
+.compact .sidebar div[style*="dashed"] {
+  padding: 8px !important;
+}
+
+.compact .sidebar div[style*="dashed"] span {
+  font-size: 0.7rem !important;
+}
+
+.compact .sidebar button[class*="btn-primary"] {
+  padding: 6px !important;
+  font-size: 0.7rem !important;
+}
+
+.compact .stats-bar {
+  padding: 10px 16px;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.compact .stat-card {
+  padding: 8px 12px;
+  gap: 8px;
+}
+
+.compact .stat-card-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.compact .stat-card-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.compact .stat-card strong {
+  font-size: 0.95rem;
+}
+
+.compact .stat-card span {
+  font-size: 0.65rem !important;
+}
+
+.compact .main-content header {
+  padding: 10px 16px !important;
+}
+
+.compact .main-content header h2 {
+  font-size: 0.95rem !important;
+}
+
+.compact .list-pane {
+  padding: 16px 20px;
+  gap: 10px;
+}
+
+.compact .list-pane > div[style*="flex"] button {
+  padding: 6px 4px 8px !important;
+  font-size: 0.78rem !important;
+}
+
+.compact th {
+  padding: 8px 12px;
+  font-size: 0.68rem;
+}
+
+.compact td {
+  padding: 8px 12px;
+  font-size: 0.78rem;
+}
+
+.compact .map-container {
+  height: 130px;
+}
+
+.compact .drawer-container {
+  height: 94vh;
+  width: min(850px, 95vw);
+}
+
+.compact .drawer-container > div {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.compact .drawer-container h2 {
+  font-size: 1.15rem !important;
+}
+
+.compact .drawer-container h3 {
+  font-size: 0.95rem !important;
+}
+
+.compact .drawer-container img {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.compact .drawer-container div[style*="grid"] {
+  gap: 10px !important;
+  padding: 10px !important;
+  margin-bottom: 16px !important;
+}
+
+.compact .drawer-container div[style*="grid"] svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.compact .drawer-container div[style*="grid"] span {
+  font-size: 0.7rem !important;
+}
+
+.compact .drawer-container div[style*="grid"] span[style*="font-size"] {
+  font-size: 0.8rem !important;
+}
+
+/* Automatic viewport height adaptation: if height is short, trigger compact styles automatically */
+@media (max-height: 820px) {
+  .sidebar {
+    width: 270px;
+    padding: 16px;
+    gap: 12px;
+  }
+  .sidebar h2 {
+    font-size: 1.15rem;
+  }
+  .sidebar p {
+    font-size: 0.75rem;
+  }
+  .stats-bar {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+  .stat-card {
+    padding: 8px 12px;
+  }
+  .stat-card strong {
+    font-size: 1rem;
+  }
+  .list-pane {
+    padding: 16px 20px;
+    gap: 12px;
+  }
+  td {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  th {
+    padding: 8px 12px;
+    font-size: 0.7rem;
+  }
+  .map-container {
+    height: 140px;
+  }
+  .drawer-container {
+    height: 94vh;
+  }
 }

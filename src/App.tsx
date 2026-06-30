@@ -57,6 +57,16 @@ export default function App() {
   // Scraping State
   const [scraping, setScraping] = useState(false);
 
+  // Global CV File state
+  const [globalCVFile, setGlobalCVFile] = useState<File | null>(null);
+  
+  // Background Auto-Scanning States
+  const [isAutoScanning, setIsAutoScanning] = useState(false);
+  const [scanQueue, setScanQueue] = useState<string[]>([]);
+  const [scanTotal, setScanTotal] = useState(0);
+  const [scanCurrentIndex, setScanCurrentIndex] = useState(0);
+  const [scanTimeRemaining, setScanTimeRemaining] = useState(0);
+
   const loadJobsQuietly = async () => {
     try {
       const response = await fetch('/data/jobs.json');
@@ -195,14 +205,103 @@ export default function App() {
     const interval = setInterval(checkScrapingStatus, 5000);
     return () => clearInterval(interval);
   }, [jobs.length]);
+  // Background scanner countdown and job execution
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+    
+    if (isAutoScanning && scanQueue.length > 0) {
+      if (scanTimeRemaining > 0) {
+        timer = setTimeout(() => {
+          setScanTimeRemaining(prev => prev - 1);
+        }, 1000);
+      } else {
+        const processNextJob = async () => {
+          const nextJobId = scanQueue[0];
+          const jobToScan = jobs.find(j => j.id === nextJobId);
+          
+          if (jobToScan && globalCVFile) {
+            const formData = new FormData();
+            formData.append('cv', globalCVFile);
+            formData.append('jobTitle', jobToScan.title);
+            formData.append('jobDescription', jobToScan.description || '');
+            formData.append('jobRequirements', jobToScan.requirements ? jobToScan.requirements.join('\n') : '');
 
+            try {
+              const res = await fetch('http://localhost:3001/api/analyze-cv', {
+                method: 'POST',
+                body: formData
+              });
+              
+              if (res.ok) {
+                const data = await res.json();
+                const currentState = userStates[nextJobId] || { status: 'not_applied', notes: '', updatedAt: '' };
+                
+                await handleUpdateJobState(nextJobId, currentState.status, currentState.notes, currentState.interviewDate, {
+                  summary: data.summary,
+                  annotatedCV: data.annotatedCV
+                });
+              } else {
+                console.error(`Error al auto-analizar vacante ${nextJobId}:`, res.statusText);
+              }
+            } catch (err) {
+              console.error(`Error al procesar auto-análisis para ${nextJobId}:`, err);
+            }
+          }
+          
+          setScanQueue(prev => prev.slice(1));
+          setScanCurrentIndex(prev => prev + 1);
+          setScanTimeRemaining(60);
+        };
+        
+        processNextJob();
+      }
+    } else if (isAutoScanning && scanQueue.length === 0) {
+      setIsAutoScanning(false);
+      alert('¡El escáner automático de currículum ha completado todas las ofertas de Infantil!');
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isAutoScanning, scanQueue, scanTimeRemaining, jobs, globalCVFile, userStates]);
+
+  const startAutoScan = () => {
+    if (!globalCVFile) {
+      alert('Por favor, sube primero tu currículum (PDF/DOCX) en el cargador global.');
+      return;
+    }
+    
+    const infantilJobs = jobs.filter(isInfantilJob);
+    const jobsToScan = infantilJobs.filter(j => !userStates[j.id]?.cvAnalysis);
+    
+    if (jobsToScan.length === 0) {
+      alert('Todas las ofertas de Educación Infantil ya han sido analizadas.');
+      return;
+    }
+    
+    const confirmScan = window.confirm(
+      `Se iniciará un análisis en segundo plano de ${jobsToScan.length} ofertas de Educación Infantil.\n` +
+      `Se aplicará una espera de 60 segundos por cada vacante para respetar los límites de la API de Gemini.\n\n` +
+      `¿Deseas continuar?`
+    );
+    
+    if (!confirmScan) return;
+    
+    setScanQueue(jobsToScan.map(j => j.id));
+    setScanTotal(jobsToScan.length);
+    setScanCurrentIndex(0);
+    setScanTimeRemaining(0);
+    setIsAutoScanning(true);
+  };
   // Update Application Status & Notes with database sync
-  const handleUpdateJobState = async (jobId: string, status: ApplicationStatus, notes: string = '', interviewDate?: string) => {
+  const handleUpdateJobState = async (jobId: string, status: ApplicationStatus, notes: string = '', interviewDate?: string, cvAnalysis?: { summary: string; annotatedCV: string; }) => {
+    const existing = userStates[jobId];
     const newState: UserJobState = {
       status,
       notes,
       updatedAt: new Date().toISOString(),
-      interviewDate
+      interviewDate,
+      cvAnalysis: cvAnalysis || existing?.cvAnalysis
     };
 
     const updatedStates = {
@@ -480,6 +579,97 @@ export default function App() {
                 Filtra maestras, educadoras y auxiliares.
               </span>
             </div>
+          </div>
+
+          {/* Global CV Upload and Auto-Scan Section */}
+          <div style={{
+            marginTop: '20px',
+            padding: '16px',
+            backgroundColor: 'var(--bg-element)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
+          }}>
+            <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
+              Currículum Global (Auto-análisis)
+            </h4>
+            
+            <div style={{
+              border: '2px dashed var(--border-color)',
+              borderRadius: '6px',
+              padding: '12px',
+              textAlign: 'center',
+              backgroundColor: 'var(--bg-app)',
+              cursor: 'pointer',
+              position: 'relative'
+            }}>
+              <input
+                type="file"
+                accept=".pdf,.docx"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    setGlobalCVFile(e.target.files[0]);
+                  }
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  opacity: 0,
+                  cursor: 'pointer'
+                }}
+              />
+              <span style={{ fontSize: '0.75rem', color: globalCVFile ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                {globalCVFile ? globalCVFile.name : 'Subir CV (PDF/DOCX)'}
+              </span>
+            </div>
+
+            {globalCVFile && (
+              <button
+                onClick={startAutoScan}
+                disabled={isAutoScanning}
+                className="btn-primary"
+                style={{ width: '100%', justifyContent: 'center', fontSize: '0.75rem', padding: '8px' }}
+              >
+                <Sparkles size={12} />
+                {isAutoScanning ? 'Escaneando...' : 'Auto-analizar Infantil'}
+              </button>
+            )}
+
+            {isAutoScanning && (
+              <div style={{
+                padding: '10px',
+                backgroundColor: 'var(--bg-app)',
+                borderRadius: '6px',
+                border: '1px solid var(--border-color)',
+                fontSize: '0.75rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 600 }}>
+                  <span>Progreso:</span>
+                  <span>{scanCurrentIndex} / {scanTotal}</span>
+                </div>
+                <div style={{ width: '100%', height: '4px', backgroundColor: 'var(--bg-tertiary)', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{
+                    width: `${(scanCurrentIndex / scanTotal) * 100}%`,
+                    height: '100%',
+                    backgroundColor: 'var(--accent-primary)',
+                    transition: 'width 0.3s ease'
+                  }} />
+                </div>
+                {scanQueue.length > 0 && (
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                    Siguiente análisis en: <strong style={{ color: 'var(--accent-gold)' }}>{scanTimeRemaining}s</strong>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 

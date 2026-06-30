@@ -196,8 +196,8 @@ h1, h2, h3, h4, h5, h6 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: min(850px, 95vw);
-  height: 85vh;
+  width: min(1000px, 95vw);
+  height: 90vh;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: 12px;

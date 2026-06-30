@@ -56,7 +56,7 @@ interface JobDrawerProps {
   job: Job | null;
   onClose: () => void;
   userState: UserJobState;
-  onUpdateState: (jobId: string, status: ApplicationStatus, notes: string, interviewDate?: string) => void;
+  onUpdateState: (jobId: string, status: ApplicationStatus, notes: string, interviewDate?: string, cvAnalysis?: { summary: string; annotatedCV: string; }) => void;
 }
 
 // Helper component to center Leaflet map on coordinate changes
@@ -119,8 +119,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setNotes(userState.notes);
       setIsSaved(false);
       setCvFile(null);
-      setSummary(null);
-      setAnnotatedCV(null);
+      setSummary(userState.cvAnalysis?.summary || null);
+      setAnnotatedCV(userState.cvAnalysis?.annotatedCV || null);
       setAnalysisError(null);
       setAnalyzing(false);
       setShowCVModal(false);
@@ -199,6 +199,12 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       const data = await response.json();
       setSummary(data.summary || null);
       setAnnotatedCV(data.annotatedCV || null);
+      if (data.summary && data.annotatedCV) {
+        onUpdateState(job.id, status, notes, status === 'interviewing' ? interviewDate : undefined, {
+          summary: data.summary,
+          annotatedCV: data.annotatedCV
+        });
+      }
     } catch (err: any) {
       console.error(err);
       setAnalysisError(err.message || 'No se pudo completar el análisis del CV.');
@@ -773,8 +779,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
             backgroundColor: 'var(--bg-surface)',
             border: '1px solid var(--border-color)',
             borderRadius: '8px',
-            width: 'min(1200px, 95vw)',
-            height: '85vh',
+            width: '98vw',
+            height: '96vh',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 'var(--shadow-lg)',

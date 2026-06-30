@@ -26,6 +26,10 @@ export interface UserJobState {
   notes: string;
   updatedAt: string;
   interviewDate?: string;
+  cvAnalysis?: {
+    summary: string;
+    annotatedCV: string;
+  };
 }
 
 export interface LocalStorageAppState {

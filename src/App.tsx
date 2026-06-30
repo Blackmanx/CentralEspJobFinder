@@ -13,7 +13,9 @@ import {
   Moon,
   Bell,
   AlertCircle,
-  Info
+  Info,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -63,6 +65,23 @@ export default function App() {
     }
     localStorage.setItem('jobfinder_theme', theme);
   }, [theme]);
+
+  // Compact Mode State
+  const [compact, setCompact] = useState<boolean>(() => {
+    const saved = localStorage.getItem('jobfinder_compact');
+    return saved === 'true';
+  });
+
+  // Apply compact mode to document element
+  useEffect(() => {
+    const root = document.documentElement;
+    if (compact) {
+      root.classList.add('compact');
+    } else {
+      root.classList.remove('compact');
+    }
+    localStorage.setItem('jobfinder_compact', String(compact));
+  }, [compact]);
 
   // Selected Job for Drawer
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -902,6 +921,16 @@ export default function App() {
                 </div>
               )}
             </div>
+
+            {/* Compact Mode Switcher */}
+            <button 
+              onClick={() => setCompact(!compact)}
+              className="btn-secondary"
+              style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
+              title={compact ? 'Desactivar modo compacto' : 'Activar modo compacto'}
+            >
+              {compact ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
+            </button>
 
             {/* Theme Switcher */}
             <button 

@@ -167,6 +167,7 @@ Devuelve exclusivamente un objeto JSON válido, sin envolverlo en bloques de có
 let isScraping = false;
 let lastScrapeError: string | null = null;
 let lastScrapeSuccessTime: string | null = null;
+let scrapeProgress = '';
 
 app.post('/api/scrape', (req, res) => {
   if (isScraping) {
@@ -175,17 +176,38 @@ app.post('/api/scrape', (req, res) => {
 
   isScraping = true;
   lastScrapeError = null;
+  scrapeProgress = 'Iniciando...';
 
   console.log('Iniciando scraper en segundo plano...');
   
-  exec('npx tsx scripts/scrape.ts', (error, stdout, stderr) => {
+  const child = spawn('npx', ['tsx', 'scripts/scrape.ts'], { shell: true });
+
+  child.stdout.on('data', (data) => {
+    const output = data.toString().trim();
+    const lines = output.split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && trimmed.length < 120) {
+        scrapeProgress = trimmed;
+      }
+    }
+  });
+
+  child.stderr.on('data', (data) => {
+    const output = data.toString().trim();
+    console.error(`[Scraper Error] ${output}`);
+  });
+
+  child.on('close', (code) => {
     isScraping = false;
-    if (error) {
-      console.error('Error al ejecutar el scraper:', error);
-      lastScrapeError = error.message;
+    if (code !== 0) {
+      console.error(`El scraper falló con código de salida ${code}`);
+      lastScrapeError = `El scraper falló con código de salida ${code}`;
+      scrapeProgress = 'Error';
     } else {
       console.log('Scraper ejecutado correctamente.');
       lastScrapeSuccessTime = new Date().toISOString();
+      scrapeProgress = 'Completado';
     }
   });
 
@@ -196,7 +218,8 @@ app.get('/api/scrape/status', (req, res) => {
   return res.json({
     isScraping,
     error: lastScrapeError,
-    lastSuccess: lastScrapeSuccessTime
+    lastSuccess: lastScrapeSuccessTime,
+    progress: scrapeProgress
   });
 });
 

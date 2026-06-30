@@ -41,6 +41,52 @@ const clean = (text: string): string => {
     .trim();
 };
 
+async function validateLink(url: string, source: string): Promise<boolean> {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      },
+      timeout: 6000,
+      validateStatus: () => true
+    });
+
+    if (response.status === 404) {
+      return false;
+    }
+
+    if (source === 'Indeed' && (response.status === 403 || response.status === 400)) {
+      // Indeed blocks raw scraper requests (403/400) via Cloudflare.
+      // We assume it is valid unless it returns 404 explicitly.
+      return true;
+    }
+
+    const html = response.data;
+    if (typeof html === 'string') {
+      const lowerHtml = html.toLowerCase();
+      const closedIndicators = [
+        'error 404',
+        'página no encontrada',
+        'oferta no disponible',
+        'oferta caducada',
+        'ya no está disponible',
+        'convocatoria cerrada',
+        'proceso finalizado'
+      ];
+      for (const indicator of closedIndicators) {
+        if (lowerHtml.includes(indicator)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  } catch (error) {
+    console.error(`Error al validar link ${url}:`, error);
+    return false;
+  }
+}
+
+
 async function scrapeJobDetails(jobUrl: string): Promise<Partial<Job>> {
   try {
     console.log(`Scrapeando detalle: ${jobUrl}`);
@@ -367,11 +413,31 @@ async function scrape() {
     const jobListings = await scrapeColejobsListings();
     console.log(`Extraidas ${jobListings.length} ofertas de empleo del listado de Colejobs.`);
     
-    // 2. Fetch Indeed jobs
-    const indeedJobs = await scrapeIndeed();
+    // 2. Fetch Indeed jobs & validate
+    const rawIndeedJobs = await scrapeIndeed();
+    const indeedJobs: Job[] = [];
+    for (const job of rawIndeedJobs) {
+      console.log(`Validando enlace de Indeed: ${job.title}...`);
+      const isValid = await validateLink(job.url, 'Indeed');
+      if (isValid) {
+        indeedJobs.push(job);
+      } else {
+        console.log(`⚠️ Enlace expirado o inactivo en Indeed: ${job.url}. Omitiendo.`);
+      }
+    }
     
-    // 3. Fetch Infoempleo jobs
-    const infoempleoJobs = await scrapeInfoempleo();
+    // 3. Fetch Infoempleo jobs & validate
+    const rawInfoempleoJobs = await scrapeInfoempleo();
+    const infoempleoJobs: Job[] = [];
+    for (const job of rawInfoempleoJobs) {
+      console.log(`Validando enlace de Infoempleo: ${job.title}...`);
+      const isValid = await validateLink(job.url, 'Infoempleo');
+      if (isValid) {
+        infoempleoJobs.push(job);
+      } else {
+        console.log(`⚠️ Enlace expirado o inactivo en Infoempleo: ${job.url}. Omitiendo.`);
+      }
+    }
     
     // Combine everything (scraped Colejobs + Indeed + Infoempleo with valid URLs)
     const initialJobs = [...jobListings, ...indeedJobs, ...infoempleoJobs];

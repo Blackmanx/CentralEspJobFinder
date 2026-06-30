@@ -45,6 +45,44 @@ export default function App() {
   // Selected Job for Drawer
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
+  // Scraping State
+  const [scraping, setScraping] = useState(false);
+
+  const checkScrapingStatus = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/scrape/status');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.isScraping) {
+          setScraping(true);
+          setTimeout(checkScrapingStatus, 3000);
+        } else {
+          setScraping(false);
+          loadJobs();
+        }
+      }
+    } catch (err) {
+      console.error('Error al comprobar estado del scraper:', err);
+      setScraping(false);
+    }
+  };
+
+  const triggerScrape = async () => {
+    if (scraping) return;
+    setScraping(true);
+    try {
+      const res = await fetch('http://localhost:3001/api/scrape', { method: 'POST' });
+      if (res.ok) {
+        setTimeout(checkScrapingStatus, 2000);
+      } else {
+        setScraping(false);
+      }
+    } catch (err) {
+      console.error('Error al iniciar scraping:', err);
+      setScraping(false);
+    }
+  };
+
   // Filters State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('all');
@@ -76,6 +114,7 @@ export default function App() {
   // Load jobs and localStorage on mount
   useEffect(() => {
     loadJobs();
+    checkScrapingStatus();
     
     // Load LocalStorage
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -408,11 +447,16 @@ export default function App() {
           )}
           <button 
             className="btn-secondary"
-            onClick={loadJobs}
+            onClick={triggerScrape}
+            disabled={scraping}
             style={{ width: '100%', justifyContent: 'center' }}
           >
-            <RefreshCw size={12} />
-            Actualizar ofertas
+            <RefreshCw 
+              size={12} 
+              className={scraping ? 'animate-spin' : ''} 
+              style={scraping ? { animation: 'spin 2s linear infinite' } : undefined} 
+            />
+            {scraping ? 'Actualizando...' : 'Actualizar ofertas'}
           </button>
         </div>
       </aside>

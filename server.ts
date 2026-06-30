@@ -5,6 +5,7 @@ import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { exec } from 'child_process';
 
 dotenv.config();
 
@@ -80,6 +81,42 @@ Redacta el informe completo en español, utilizando un tono directo, profesional
     console.error('Error durante el análisis del CV:', err);
     return res.status(500).json({ error: 'Error interno en el servidor al analizar el CV: ' + err.message });
   }
+});
+
+let isScraping = false;
+let lastScrapeError: string | null = null;
+let lastScrapeSuccessTime: string | null = null;
+
+app.post('/api/scrape', (req, res) => {
+  if (isScraping) {
+    return res.status(409).json({ error: 'Ya hay una actualización de ofertas en curso.' });
+  }
+
+  isScraping = true;
+  lastScrapeError = null;
+
+  console.log('Iniciando scraper en segundo plano...');
+  
+  exec('npx tsx scripts/scrape.ts', (error, stdout, stderr) => {
+    isScraping = false;
+    if (error) {
+      console.error('Error al ejecutar el scraper:', error);
+      lastScrapeError = error.message;
+    } else {
+      console.log('Scraper ejecutado correctamente.');
+      lastScrapeSuccessTime = new Date().toISOString();
+    }
+  });
+
+  return res.json({ message: 'Actualización iniciada en segundo plano.' });
+});
+
+app.get('/api/scrape/status', (req, res) => {
+  return res.json({
+    isScraping,
+    error: lastScrapeError,
+    lastSuccess: lastScrapeSuccessTime
+  });
 });
 
 app.listen(port, () => {

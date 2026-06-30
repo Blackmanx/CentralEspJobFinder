@@ -82,9 +82,11 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
 
   // AI CV Optimizer state
   const [cvFile, setCvFile] = useState<File | null>(null);
-  const [analysis, setAnalysis] = useState<string | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
+  const [annotatedCV, setAnnotatedCV] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [showCVModal, setShowCVModal] = useState(false);
 
   // Sync state with selected job
   useEffect(() => {
@@ -93,9 +95,11 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setNotes(userState.notes);
       setIsSaved(false);
       setCvFile(null);
-      setAnalysis(null);
+      setSummary(null);
+      setAnnotatedCV(null);
       setAnalysisError(null);
       setAnalyzing(false);
+      setShowCVModal(false);
 
       // Fetch geocoding for Leaflet Map
       if (job.location) {
@@ -143,7 +147,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
     if (!cvFile || !job) return;
     setAnalyzing(true);
     setAnalysisError(null);
-    setAnalysis(null);
+    setSummary(null);
+    setAnnotatedCV(null);
 
     const formData = new FormData();
     formData.append('cv', cvFile);
@@ -163,7 +168,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       }
 
       const data = await response.json();
-      setAnalysis(data.analysis);
+      setSummary(data.summary || null);
+      setAnnotatedCV(data.annotatedCV || null);
     } catch (err: any) {
       console.error(err);
       setAnalysisError(err.message || 'No se pudo completar el análisis del CV.');
@@ -562,7 +568,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                       setCvFile(e.target.files[0]);
-                      setAnalysis(null);
+                      setSummary(null);
+                      setAnnotatedCV(null);
                       setAnalysisError(null);
                     }
                   }}
@@ -617,18 +624,32 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                 </div>
               )}
 
-              {analysis && (
-                <div style={{ 
-                  marginTop: '16px',
-                  backgroundColor: 'var(--bg-app)', 
-                  border: '1px solid var(--border-color)', 
-                  borderRadius: '6px', 
-                  padding: '16px',
-                  fontSize: '0.825rem',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.6
-                }}>
-                  <div dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(analysis) }} />
+              {summary && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+                  <div style={{ 
+                    backgroundColor: 'var(--bg-app)', 
+                    border: '1px solid var(--border-color)', 
+                    borderRadius: '6px', 
+                    padding: '16px',
+                    fontSize: '0.8rem',
+                    color: 'var(--text-secondary)',
+                    lineHeight: 1.5
+                  }}>
+                    <h5 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '8px' }}>
+                      Análisis Completado
+                    </h5>
+                    <p style={{ marginBottom: '12px' }}>
+                      Gemini ha revisado tu currículum frente a las necesidades de este colegio. Se han generado sugerencias de mejora directamente sobre el texto de tu currículum.
+                    </p>
+                    <button
+                      className="btn-primary"
+                      onClick={() => setShowCVModal(true)}
+                      style={{ width: '100%', justifyContent: 'center' }}
+                    >
+                      <Sparkles size={14} />
+                      Ver mejoras sobre el documento original
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -636,6 +657,181 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
 
         </div>
       </div>
+
+      {/* Fullscreen CV Optimization Modal */}
+      {showCVModal && annotatedCV && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          backdropFilter: 'blur(4px)',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px'
+        }}>
+          <div style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '8px',
+            width: 'min(1100px, 95vw)',
+            height: '85vh',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: 'var(--shadow-lg)',
+            overflow: 'hidden'
+          }}>
+            {/* Modal Header */}
+            <div style={{
+              padding: '16px 24px',
+              borderBottom: '1px solid var(--border-color)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'var(--bg-app)'
+            }}>
+              <div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  Visualizador de Mejoras de CV
+                </h3>
+                <span className="text-muted" style={{ fontSize: '0.75rem' }}>
+                  {job.title} | {job.companyName}
+                </span>
+              </div>
+              <button 
+                onClick={() => setShowCVModal(false)}
+                className="btn-secondary"
+                style={{ padding: '6px 12px', minWidth: 'auto' }}
+              >
+                Cerrar
+              </button>
+            </div>
+
+            {/* Modal Content Split */}
+            <div style={{
+              flex: 1,
+              display: 'flex',
+              overflow: 'hidden'
+            }}>
+              {/* Left Side: Summary / HR report */}
+              {summary && (
+                <div style={{
+                  width: '350px',
+                  borderRight: '1px solid var(--border-color)',
+                  padding: '24px',
+                  overflowY: 'auto',
+                  backgroundColor: 'var(--bg-app)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px'
+                }}>
+                  <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)' }}>
+                    Informe de Ajuste
+                  </h4>
+                  <div 
+                    className="text-secondary" 
+                    style={{ fontSize: '0.8rem', lineHeight: 1.5 }}
+                    dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(summary) }} 
+                  />
+                </div>
+              )}
+
+              {/* Right Side: Original CV with inline highlighted annotations */}
+              <div style={{
+                flex: 1,
+                padding: '32px',
+                overflowY: 'auto',
+                backgroundColor: 'var(--bg-element)',
+                display: 'flex',
+                justifyContent: 'center'
+              }}>
+                <div style={{
+                  backgroundColor: '#ffffff',
+                  color: '#1e293b',
+                  width: '100%',
+                  maxWidth: '700px',
+                  minHeight: '100%',
+                  borderRadius: '4px',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  padding: '40px',
+                  fontFamily: 'Georgia, serif',
+                  fontSize: '0.875rem',
+                  lineHeight: 1.7,
+                  whiteSpace: 'pre-wrap',
+                  position: 'relative'
+                }}>
+                  {/* Title of document sheet */}
+                  <div style={{ 
+                    borderBottom: '2px solid #e2e8f0', 
+                    paddingBottom: '8px', 
+                    marginBottom: '20px', 
+                    fontSize: '0.75rem', 
+                    color: '#64748b', 
+                    fontFamily: 'var(--font-sans)',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}>
+                    <span>CURRICULUM VITAE ANALIZADO</span>
+                    <span>Pasa el cursor por las zonas subrayadas</span>
+                  </div>
+                  
+                  {/* Dynamic parsed nodes */}
+                  <div style={{ color: '#334155' }}>
+                    {(() => {
+                      const parser = new DOMParser();
+                      const doc = parser.parseFromString(`<div>${annotatedCV}</div>`, 'text/html');
+                      
+                      const renderNodes = (node: Node): React.ReactNode => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                          return node.textContent;
+                        }
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                          const el = node as HTMLElement;
+                          if (el.tagName.toLowerCase() === 'annotation') {
+                            const type = el.getAttribute('type') || 'improvement';
+                            const comment = el.getAttribute('comment') || '';
+                            return (
+                              <span 
+                                key={Math.random()}
+                                className={`cv-annotation cv-annotation-${type}`}
+                                style={{
+                                  position: 'relative',
+                                  cursor: 'help',
+                                  borderRadius: '3px',
+                                  padding: '2px 4px',
+                                  margin: '0 2px'
+                                }}
+                              >
+                                {Array.from(el.childNodes).map((child) => renderNodes(child))}
+                                <span className="cv-annotation-tooltip">{comment}</span>
+                              </span>
+                            );
+                          }
+                          if (el.tagName.toLowerCase() === 'br') {
+                            return <br />;
+                          }
+                          return (
+                            <span key={Math.random()}>
+                              {Array.from(el.childNodes).map((child) => renderNodes(child))}
+                            </span>
+                          );
+                        }
+                        return null;
+                      };
+                      
+                      return renderNodes(doc.body.firstChild || doc.body);
+                    })()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Styles for responsive drawer sizing */}
       <style dangerouslySetInnerHTML={{__html: `

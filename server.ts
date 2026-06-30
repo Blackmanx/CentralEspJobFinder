@@ -104,19 +104,34 @@ Requisitos: ${jobRequirements || 'No especificados'}
 ${anonymizedCV}
 
 == TAREA ==
-Proporciona un informe detallado con las siguientes secciones:
-1. COMPATIBILIDAD GENERAL: Clasifica el ajuste del currículum con la oferta en porcentaje (0-100%) y nivel (Alto, Medio, Bajo). Justifica brevemente.
-2. FORTALEZAS: Puntos fuertes detectados en el CV para esta oferta específica.
-3. CARENCIAS CRÍTICAS: Brechas importantes entre el perfil del CV y los requisitos del puesto (por ejemplo, falta de mención de certificaciones específicas de inglés, titulaciones requeridas, experiencia necesaria).
-4. MEJORAS RECOMENDADAS: Sugerencias específicas de redacción y contenido paso a paso para optimizar y enriquecer el CV para este puesto concreto (qué secciones ampliar, qué destacar, vocabulario sugerido).
+Tu tarea es analizar el currículum del candidato y devolver un objeto JSON con dos claves:
+1. "summary": Un resumen en Markdown con el ajuste general del CV, fortalezas generales y carencias críticas frente a los requisitos.
+2. "annotatedCV": El texto completo del currículum original (anonimizado), conservando sus saltos de línea y estructura, pero envolviendo los fragmentos de texto específicos que deseas comentar o proponer mejoras con la siguiente etiqueta HTML:
+   <annotation type="strength|improvement|correction" comment="comentario de mejora o fortaleza">texto original del CV</annotation>
 
-Redacta el informe completo en español, utilizando un tono directo, profesional, estructurado en Markdown y sin emojis de ningún tipo.`;
+   Donde:
+   - "strength" se usa para resaltar puntos fuertes.
+   - "improvement" se usa para sugerir cambios en redacción, añadir detalles u optimizar perfil.
+   - "correction" se usa para señalar omisiones graves de requisitos indispensables.
+
+Devuelve exclusivamente un objeto JSON válido, sin envolverlo en bloques de código markdown (\`\`\`json).`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    const responseText = response.text();
+    const responseText = response.text().trim();
 
-    return res.json({ analysis: responseText });
+    // Parse JSON
+    try {
+      const cleanJson = responseText.replace(/^```json/i, '').replace(/```$/, '').trim();
+      const parsed = JSON.parse(cleanJson);
+      return res.json(parsed);
+    } catch (parseError) {
+      console.warn('Fallo al parsear JSON devuelto por Gemini, devolviendo texto plano:', responseText);
+      return res.json({
+        summary: responseText,
+        annotatedCV: anonymizedCV
+      });
+    }
 
   } catch (err: any) {
     console.error('Error durante el análisis del CV:', err);

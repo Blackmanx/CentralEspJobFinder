@@ -976,13 +976,22 @@
     "companyName": "Logos International School",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/664649q7FJac8NddtarqBQk.png",
     "companyType": "Colegio",
-    "location": "Rozas de Madrid, Las, Madrid",
+    "location": "Rozas de Madrid, Las",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-para-la-etapa-de-secundaria-y-bachillerato-n4004MKFm2H4s3pXVbiZB/",
     "publishDate": "27 junio de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-06-30T15:51:21.706Z"
+    "requirements": [
+      "Grado que habilite para impartir la asignatura comentada así como master del profesorado terminado",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-06-30T15:51:21.706Z",
+    "companyWeb": "https://logosinternationalschool.es",
+    "companyDesc": "Somos un colegio bilingüe, privado y mixto de sistema de educación español en Las Rozas de Madrid desde los primeros meses hasta la Universidad.",
+    "dates": "27-06-2026 a 12-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Somos un colegio bilingüe, privado y mixto de sistema de educación español en Las Rozas de Madrid desde los primeros meses hasta la Universidad.",
+    "salary": "Según convenio ed. Privada"
   },
   {
     "id": "profesor-secundaria-matematicas-n4003ZJcer5Mx3JqZBPj4",
@@ -995,8 +1004,16 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-secundaria-matematicas-n4003ZJcer5Mx3JqZBPj4/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-06-30T15:51:21.706Z"
+    "requirements": [
+      "Habilitación lingüistica o C1 en vigor",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-06-30T15:51:21.706Z",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-a-de-matematicas-y-tecnologia-n40024FiNcKEHEyJYxsEc",

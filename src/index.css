@@ -510,3 +510,76 @@ input[type="text"]:focus, select:focus, textarea:focus {
     animation: none;
   }
 }
+
+/* CV Annotations Styles */
+.cv-annotation {
+  position: relative;
+  display: inline;
+  transition: background-color 0.2s ease;
+}
+
+.cv-annotation-strength {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-bottom: 2px solid #10b981 !important;
+  color: #065f46 !important;
+}
+
+.cv-annotation-improvement {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+  border-bottom: 2px solid #f59e0b !important;
+  color: #78350f !important;
+}
+
+.cv-annotation-correction {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  border-bottom: 2px solid #ef4444 !important;
+  color: #991b1b !important;
+}
+
+/* Hover annotation styles */
+.cv-annotation:hover {
+  filter: brightness(0.95);
+}
+
+/* Tooltip bubble styling */
+.cv-annotation .cv-annotation-tooltip {
+  visibility: hidden;
+  width: 280px;
+  background-color: #1e293b; /* Dark slate */
+  color: #f8fafc;
+  border: 1px solid #334155;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 10000;
+  bottom: 125%; /* Display above the word */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  pointer-events: none;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.cv-annotation:hover .cv-annotation-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Little arrow for tooltip */
+.cv-annotation .cv-annotation-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1e293b transparent transparent transparent;
+}

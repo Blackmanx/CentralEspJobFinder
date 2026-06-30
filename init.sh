@@ -2,7 +2,7 @@
 # Previene fallos silenciosos
 set -e
 
-echo "=== Inicializando proyecto JobFinder (UNIX) ==="
+echo "=== Inicializando proyecto CentralEspJobFinder (UNIX) ==="
 
 # Crear directorios del proyecto
 echo "Creando estructura de directorios..."

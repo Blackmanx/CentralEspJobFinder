@@ -1,5 +1,5 @@
 @echo off
-echo === Inicializando proyecto JobFinder (Windows) ===
+echo === Inicializando proyecto CentralEspJobFinder (Windows) ===
 
 echo Creando estructura de directorios...
 if not exist src\components mkdir src\components

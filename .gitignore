@@ -13,3 +13,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# local database and uploaded curriculum files
+user_states.json
+public/data/global_cv.bin
+public/data/global_cv_meta.json

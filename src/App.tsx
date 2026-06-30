@@ -6,7 +6,6 @@ import {
   Search, 
   Briefcase, 
   RefreshCw, 
-  Filter,
   CheckCircle,
   Clock,
   Sparkles
@@ -182,101 +181,41 @@ export default function App() {
   const lastScrapedTime = jobs.length > 0 ? new Date(jobs[0].scrapedAt).toLocaleString('es-ES') : '';
 
   return (
-    <div style={{ padding: '2rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="app-container">
       
-      {/* Header Panel */}
-      <header className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div>
-            <h1 style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
-              <span>👶</span> JobFinder <span style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: 600, padding: '2px 8px', borderRadius: '4px', backgroundColor: 'var(--accent-primary-light)', border: '1px solid var(--accent-primary)' }}>Madrid & Alrededores</span>
-            </h1>
-            <p className="text-secondary" style={{ marginTop: '4px', fontSize: '0.9rem' }}>
-              Bolsa de trabajo docente en Educacion Infantil, Colegios Privados y Concertados.
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            {lastScrapedTime && (
-              <span>Ultimo scrapeo: <strong>{lastScrapedTime}</strong></span>
-            )}
-            <button 
-              onClick={loadJobs}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
-                padding: '6px 12px',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: 600
-              }}
-              title="Recargar ofertas de empleo"
-            >
-              <RefreshCw size={12} />
-              Actualizar
-            </button>
-          </div>
+      {/* Left Sidebar: Logo, Metadata and Filters */}
+      <aside className="sidebar">
+        <div>
+          <h2>
+            JobFinder
+          </h2>
+          <span style={{ 
+            color: 'var(--accent-primary)', 
+            fontSize: '0.7rem', 
+            fontWeight: 600, 
+            padding: '2px 8px', 
+            borderRadius: '4px', 
+            backgroundColor: 'var(--accent-primary-light)', 
+            border: '1px solid var(--accent-primary)',
+            display: 'inline-block',
+            marginTop: '6px'
+          }}>
+            Madrid y Alrededores
+          </span>
+          <p style={{ marginTop: '12px' }}>
+            Gestión local de ofertas de empleo docente en centros privados y concertados.
+          </p>
         </div>
 
-        {/* Dashboard Stat Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginTop: '8px' }}>
-          <div className="glass-card" style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'var(--bg-tertiary)', width: '38px', height: '38px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Briefcase size={18} className="text-secondary" />
-            </div>
-            <div>
-              <span className="text-muted" style={{ fontSize: '0.75rem', display: 'block' }}>Total Ofertas</span>
-              <strong style={{ fontSize: '1.25rem' }}>{stats.total}</strong>
-              <span className="text-muted" style={{ fontSize: '0.7rem', display: 'block' }}>{stats.infantil} Infantil</span>
-            </div>
-          </div>
+        {/* Filters Form */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '10px' }}>
+          <h3 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
+            Filtros
+          </h3>
 
-          <div className="glass-card" style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'var(--accent-blue-light)', width: '38px', height: '38px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle size={18} style={{ color: 'var(--accent-blue)' }} />
-            </div>
-            <div>
-              <span className="text-muted" style={{ fontSize: '0.75rem', display: 'block' }}>Postulados</span>
-              <strong style={{ fontSize: '1.25rem', color: 'var(--accent-blue)' }}>{stats.applied}</strong>
-            </div>
-          </div>
-
-          <div className="glass-card" style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'var(--accent-gold-light)', width: '38px', height: '38px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Clock size={18} style={{ color: 'var(--accent-gold)' }} />
-            </div>
-            <div>
-              <span className="text-muted" style={{ fontSize: '0.75rem', display: 'block' }}>Entrevistas</span>
-              <strong style={{ fontSize: '1.25rem', color: 'var(--accent-gold)' }}>{stats.interviewing}</strong>
-            </div>
-          </div>
-
-          <div className="glass-card" style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ backgroundColor: 'var(--accent-primary-light)', width: '38px', height: '38px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Sparkles size={18} style={{ color: 'var(--accent-primary)' }} />
-            </div>
-            <div>
-              <span className="text-muted" style={{ fontSize: '0.75rem', display: 'block' }}>Ofrecidos</span>
-              <strong style={{ fontSize: '1.25rem', color: 'var(--accent-primary)' }}>{stats.offered}</strong>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Filter and Control Panel */}
-      <section className="glass-panel" style={{ padding: '20px 24px' }}>
-        <h3 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.95rem', color: 'var(--text-primary)', marginBottom: '16px' }}>
-          <Filter size={16} className="text-secondary" />
-          Filtros de Busqueda
-        </h3>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', alignItems: 'flex-end' }}>
           {/* Text Search */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Palabra Clave</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Palabra clave</label>
             <div style={{ position: 'relative' }}>
               <Search size={14} style={{ position: 'absolute', left: '10px', top: '10px', color: 'var(--text-muted)' }} />
               <input
@@ -284,36 +223,17 @@ export default function App() {
                 placeholder="Ej: Maestra, Ingles, Colegio..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width: '100%',
-                  backgroundColor: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '8px',
-                  padding: '8px 10px 8px 32px',
-                  color: 'var(--text-primary)',
-                  fontSize: '0.85rem',
-                  outline: 'none'
-                }}
+                style={{ paddingLeft: '32px' }}
               />
             </div>
           </div>
 
           {/* Location Dropdown */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Poblacion / Municipio</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Población / Municipio</label>
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              style={{
-                width: '100%',
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-                padding: '8px 10px',
-                color: 'var(--text-primary)',
-                fontSize: '0.85rem',
-                outline: 'none'
-              }}
             >
               <option value="all">Todas las poblaciones ({uniqueLocations.length})</option>
               {uniqueLocations.map((loc) => (
@@ -324,44 +244,24 @@ export default function App() {
 
           {/* Center Type Dropdown */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Tipo de Centro</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Tipo de centro</label>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              style={{
-                width: '100%',
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-                padding: '8px 10px',
-                color: 'var(--text-primary)',
-                fontSize: '0.85rem',
-                outline: 'none'
-              }}
             >
               <option value="all">Todos los centros</option>
               <option value="concertado">Colegios Concertados</option>
               <option value="privado">Colegios Privados</option>
-              <option value="catolico">Colegios Catolicos</option>
+              <option value="catolico">Colegios Católicos</option>
             </select>
           </div>
 
           {/* Application Status Dropdown */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Estado Candidatura</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Estado candidatura</label>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              style={{
-                width: '100%',
-                backgroundColor: 'var(--bg-secondary)',
-                border: '1px solid var(--border-color)',
-                borderRadius: '8px',
-                padding: '8px 10px',
-                color: 'var(--text-primary)',
-                fontSize: '0.85rem',
-                outline: 'none'
-              }}
             >
               <option value="all">Todos los estados</option>
               <option value="not_applied">Sin aplicar</option>
@@ -371,11 +271,9 @@ export default function App() {
               <option value="rejected">Rechazado</option>
             </select>
           </div>
-        </div>
 
-        {/* Toggle Infantil Filter */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Toggle Infantil Filter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '8px', padding: '12px', backgroundColor: 'var(--bg-app)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
             <label className="switch">
               <input
                 type="checkbox"
@@ -385,53 +283,143 @@ export default function App() {
               <span className="slider"></span>
             </label>
             <div>
-              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
-                Solo Educacion Infantil
+              <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', display: 'block' }}>
+                Solo Infantil
               </span>
-              <span className="text-muted" style={{ fontSize: '0.75rem' }}>
-                Filtra por maestras, educadoras, preescolar y tecnicos infantiles.
+              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block', lineHeight: 1.2 }}>
+                Filtra maestras, educadoras y auxiliares.
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Sync Info / Trigger Scraper Info */}
+        <div style={{ 
+          fontSize: '0.75rem', 
+          color: 'var(--text-muted)', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '8px', 
+          borderTop: '1px solid var(--border-color)', 
+          paddingTop: '16px', 
+          marginTop: 'auto' 
+        }}>
+          {lastScrapedTime && (
+            <span>Último scrapeo: <strong style={{ color: 'var(--text-secondary)' }}>{lastScrapedTime}</strong></span>
+          )}
+          <button 
+            className="btn-secondary"
+            onClick={loadJobs}
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
+            <RefreshCw size={12} />
+            Actualizar ofertas
+          </button>
+        </div>
+      </aside>
+
+      {/* Right Main Panel */}
+      <main className="main-content">
+        
+        {/* Statistics top bar */}
+        <header className="stats-bar">
+          <div className="stat-card">
+            <div className="stat-card-icon" style={{ backgroundColor: 'var(--bg-element)' }}>
+              <Briefcase size={16} className="text-secondary" />
+            </div>
+            <div>
+              <span className="text-muted" style={{ fontSize: '0.7rem', display: 'block' }}>Total vacantes</span>
+              <strong style={{ fontSize: '1.1rem' }}>{stats.total}</strong>
+              <span className="text-muted" style={{ fontSize: '0.65rem', display: 'block' }}>{stats.infantil} de Infantil</span>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-card-icon" style={{ backgroundColor: 'var(--accent-blue-light)' }}>
+              <CheckCircle size={16} style={{ color: 'var(--accent-blue)' }} />
+            </div>
+            <div>
+              <span className="text-muted" style={{ fontSize: '0.7rem', display: 'block' }}>Postulados</span>
+              <strong style={{ fontSize: '1.1rem', color: 'var(--accent-blue)' }}>{stats.applied}</strong>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-card-icon" style={{ backgroundColor: 'var(--accent-gold-light)' }}>
+              <Clock size={16} style={{ color: 'var(--accent-gold)' }} />
+            </div>
+            <div>
+              <span className="text-muted" style={{ fontSize: '0.7rem', display: 'block' }}>En entrevista</span>
+              <strong style={{ fontSize: '1.1rem', color: 'var(--accent-gold)' }}>{stats.interviewing}</strong>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-card-icon" style={{ backgroundColor: 'var(--accent-primary-light)' }}>
+              <Sparkles size={16} style={{ color: 'var(--accent-primary)' }} />
+            </div>
+            <div>
+              <span className="text-muted" style={{ fontSize: '0.7rem', display: 'block' }}>Ofrecidos</span>
+              <strong style={{ fontSize: '1.1rem', color: 'var(--accent-primary)' }}>{stats.offered}</strong>
+            </div>
+          </div>
+        </header>
+
+        {/* Content Split: Left (List) & Right (Details) */}
+        <div className="content-split">
           
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            Mostrando <strong>{filteredJobs.length}</strong> de <strong>{jobs.length}</strong> vacantes
+          {/* Left Pane (Table) */}
+          <div className="list-pane">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Listado de Ofertas</h3>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                Mostrando {filteredJobs.length} de {jobs.length} ofertas
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="table-container" style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                <RefreshCw size={20} className="text-secondary" style={{ animation: 'spin 2s linear infinite' }} />
+                <span className="text-muted">Cargando base de datos...</span>
+                {errorMsg && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>{errorMsg}</span>}
+              </div>
+            ) : (
+              <JobTable
+                jobs={filteredJobs}
+                userStates={userStates}
+                onSelectJob={setSelectedJob}
+                onUpdateStatus={handleUpdateStatusOnly}
+                isInfantilFilter={isInfantilFilter}
+                selectedJobId={selectedJob?.id}
+              />
+            )}
           </div>
+
+          {/* Right Pane (Embedded Job Details on desktop, overlay drawer on mobile) */}
+          {selectedJob && (
+            <div className="detail-pane animate-fade-in">
+              <JobDrawer
+                job={selectedJob}
+                onClose={() => setSelectedJob(null)}
+                userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
+                onUpdateState={handleUpdateJobState}
+              />
+            </div>
+          )}
+
         </div>
-      </section>
 
-      {/* Main Content Area */}
-      {loading ? (
-        <div className="glass-panel text-center p-12 animate-fade-in" style={{ marginTop: '2rem', padding: '3rem' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-            <RefreshCw size={24} className="text-secondary" style={{ animation: 'spin 2s linear infinite' }} />
-            <p className="text-secondary">Cargando base de datos de ofertas de empleo...</p>
-            {errorMsg && <p className="text-muted" style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>{errorMsg}</p>}
-          </div>
-        </div>
-      ) : (
-        <JobTable
-          jobs={filteredJobs}
-          userStates={userStates}
-          onSelectJob={setSelectedJob}
-          onUpdateStatus={handleUpdateStatusOnly}
-          isInfantilFilter={isInfantilFilter}
-        />
-      )}
+      </main>
 
-      {/* Detail Drawer Panel */}
-      <JobDrawer
-        job={selectedJob}
-        onClose={() => setSelectedJob(null)}
-        userState={selectedJob ? (userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }) : { status: 'not_applied', notes: '', updatedAt: '' }}
-        onUpdateState={handleUpdateJobState}
-      />
-
-      {/* Custom spin animation inline CSS */}
+      {/* CSS definitions for spin animation */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}} />
 

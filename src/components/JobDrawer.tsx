@@ -114,37 +114,10 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       <div 
         className="drawer-backdrop" 
         onClick={onClose}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(4px)',
-          zIndex: 998,
-          animation: 'fadeIn 0.2s ease-out'
-        }}
       />
 
       {/* Drawer */}
-      <div 
-        className="glass-panel drawer-container"
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: 'min(550px, 100vw)',
-          backgroundColor: 'var(--bg-secondary)',
-          borderLeft: '1px solid var(--glass-border)',
-          zIndex: 999,
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '-10px 0 30px rgba(0,0,0,0.5)',
-          animation: 'slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-        }}
-      >
+      <div className="drawer-container">
         {/* Header */}
         <div 
           style={{

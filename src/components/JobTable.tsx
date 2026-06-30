@@ -16,6 +16,7 @@ interface JobTableProps {
   onSelectJob: (job: Job) => void;
   onUpdateStatus: (jobId: string, status: ApplicationStatus) => void;
   isInfantilFilter: boolean;
+  selectedJobId?: string;
 }
 
 export const JobTable: React.FC<JobTableProps> = ({
@@ -23,7 +24,8 @@ export const JobTable: React.FC<JobTableProps> = ({
   userStates,
   onSelectJob,
   onUpdateStatus,
-  isInfantilFilter
+  isInfantilFilter,
+  selectedJobId
 }) => {
   
   const getStatusBadge = (status: ApplicationStatus) => {
@@ -89,10 +91,11 @@ export const JobTable: React.FC<JobTableProps> = ({
           </thead>
           <tbody>
             {jobs.map((job) => {
-              const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
-              
-              return (
-                <tr key={job.id}>
+            const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
+            const isSelected = selectedJobId === job.id;
+            
+            return (
+              <tr key={job.id} className={isSelected ? 'selected' : ''}>
                   {/* Job Title */}
                   <td>
                     <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>

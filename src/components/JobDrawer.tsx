@@ -57,6 +57,7 @@ interface JobDrawerProps {
   onClose: () => void;
   userState: UserJobState;
   onUpdateState: (jobId: string, status: ApplicationStatus, notes: string, interviewDate?: string, cvAnalysis?: { summary: string; annotatedCV: string; }) => void;
+  showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
 }
 
 // Helper component to center Leaflet map on coordinate changes
@@ -72,7 +73,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   job,
   onClose,
   userState,
-  onUpdateState
+  onUpdateState,
+  showToast
 }) => {
   const [status, setStatus] = useState<ApplicationStatus>('not_applied');
   const [notes, setNotes] = useState('');
@@ -1089,8 +1091,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                           <button
                             className="btn-secondary"
                             onClick={() => {
-                              navigator.clipboard.writeText(coverLetter);
-                              alert('¡Carta de presentación copiada al portapapeles!');
+                              navigator.clipboard.writeText(coverLetter || '');
+                              showToast('Carta de presentación copiada al portapapeles.', 'success');
                             }}
                             style={{ fontSize: '0.75rem', justifyContent: 'center' }}
                           >

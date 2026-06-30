@@ -11,7 +11,9 @@ import {
   Sparkles,
   Sun,
   Moon,
-  Bell
+  Bell,
+  AlertCircle,
+  Info
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -19,6 +21,17 @@ const LOCAL_STORAGE_KEY = 'jobfinder_states';
 
 export default function App() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  
+  // Toast notifications state
+  const [toasts, setToasts] = useState<{ id: string; type: 'success' | 'error' | 'info'; message: string }[]>([]);
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    const id = Date.now().toString() + Math.random().toString();
+    setToasts(prev => [...prev, { id, type, message }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 4500);
+  };
   const [userStates, setUserStates] = useState<LocalStorageAppState>({});
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -95,13 +108,13 @@ export default function App() {
           originalname: data.originalname,
           mimetype: file.type
         });
-        alert('¡Currículum subido y guardado de forma persistente en el servidor!');
+        showToast('Currículum subido y guardado en el servidor.', 'success');
       } else {
-        alert('Error al subir el currículum al servidor.');
+        showToast('Error al subir el currículum al servidor.', 'error');
       }
     } catch (err) {
       console.error(err);
-      alert('Error de red al subir el currículum.');
+      showToast('Error de red al subir el currículum.', 'error');
     }
   };
 
@@ -295,7 +308,7 @@ export default function App() {
       }
     } else if (isAutoScanning && scanQueue.length === 0) {
       setIsAutoScanning(false);
-      alert('¡El escáner automático de currículum ha completado todas las ofertas de Infantil!');
+      showToast('El escáner automático de currículum ha completado todas las ofertas de Infantil.', 'success');
     }
     
     return () => {
@@ -305,7 +318,7 @@ export default function App() {
 
   const startAutoScan = () => {
     if (!globalCVStatus?.exists) {
-      alert('Por favor, sube primero tu currículum (PDF/DOCX) en el cargador global.');
+      showToast('Por favor, sube primero tu currículum en el cargador global.', 'info');
       return;
     }
     
@@ -313,7 +326,7 @@ export default function App() {
     const jobsToScan = infantilJobs.filter(j => !userStates[j.id]?.cvAnalysis);
     
     if (jobsToScan.length === 0) {
-      alert('Todas las ofertas de Educación Infantil ya han sido analizadas.');
+      showToast('Todas las ofertas de Educación Infantil ya han sido analizadas.', 'success');
       return;
     }
     
@@ -1109,8 +1122,21 @@ export default function App() {
           onClose={() => setSelectedJob(null)}
           userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
           onUpdateState={handleUpdateJobState}
+          showToast={showToast}
         />
       )}
+
+      {/* Toast Notification Container */}
+      <div className="toast-container">
+        {toasts.map(toast => (
+          <div key={toast.id} className={`toast toast-${toast.type}`}>
+            {toast.type === 'success' && <CheckCircle size={16} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />}
+            {toast.type === 'error' && <AlertCircle size={16} style={{ color: 'var(--accent-red)', flexShrink: 0 }} />}
+            {toast.type === 'info' && <Info size={16} style={{ color: 'var(--accent-gold)', flexShrink: 0 }} />}
+            <span>{toast.message}</span>
+          </div>
+        ))}
+      </div>
 
       {/* CSS definitions for spin animation */}
       <style dangerouslySetInnerHTML={{__html: `

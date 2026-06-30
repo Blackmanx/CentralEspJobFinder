@@ -8,7 +8,10 @@ import {
   Calendar, 
   Eye, 
   CheckCircle,
-  Sparkles
+  Sparkles,
+  CalendarCheck,
+  XCircle,
+  Award
 } from 'lucide-react';
 
 interface JobTableProps {
@@ -230,6 +233,101 @@ export const JobTable: React.FC<JobTableProps> = ({
                           Postularse
                         </button>
                       )}
+
+                      {/* State transitions shortcuts */}
+                      {state.status === 'applied' && (
+                        <>
+                          <button
+                            onClick={() => onUpdateStatus(job.id, 'interviewing')}
+                            className="btn-icon"
+                            style={{
+                              background: 'rgba(245, 158, 11, 0.1)',
+                              border: '1px solid rgba(245, 158, 11, 0.2)',
+                              color: '#d97706',
+                              padding: '6px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: 600
+                            }}
+                            title="Mover a entrevista"
+                          >
+                            <CalendarCheck size={12} />
+                            Entrevista
+                          </button>
+                          <button
+                            onClick={() => onUpdateStatus(job.id, 'rejected')}
+                            className="btn-icon"
+                            style={{
+                              background: 'rgba(239, 68, 68, 0.1)',
+                              border: '1px solid rgba(239, 68, 68, 0.2)',
+                              color: 'var(--accent-red)',
+                              padding: '6px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: 600
+                            }}
+                            title="Marcar como rechazado"
+                          >
+                            <XCircle size={12} />
+                            Rechazar
+                          </button>
+                        </>
+                      )}
+
+                      {state.status === 'interviewing' && (
+                        <>
+                          <button
+                            onClick={() => onUpdateStatus(job.id, 'offered')}
+                            className="btn-icon"
+                            style={{
+                              background: 'rgba(139, 92, 246, 0.1)',
+                              border: '1px solid rgba(139, 92, 246, 0.2)',
+                              color: '#7c3aed',
+                              padding: '6px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: 600
+                            }}
+                            title="Marcar como ofrecido"
+                          >
+                            <Award size={12} />
+                            Ofrecido
+                          </button>
+                          <button
+                            onClick={() => onUpdateStatus(job.id, 'rejected')}
+                            className="btn-icon"
+                            style={{
+                              background: 'rgba(239, 68, 68, 0.1)',
+                              border: '1px solid rgba(239, 68, 68, 0.2)',
+                              color: 'var(--accent-red)',
+                              padding: '6px 10px',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontSize: '0.75rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontWeight: 600
+                            }}
+                            title="Marcar como rechazado"
+                          >
+                            <XCircle size={12} />
+                            Rechazar
+                          </button>
+                        </>
+                      )}
                       
                       {/* View Details */}
                       <button
@@ -438,6 +536,100 @@ export const JobTable: React.FC<JobTableProps> = ({
                     <CheckCircle size={14} />
                     Postularse
                   </button>
+                )}
+                
+                {state.status === 'applied' && (
+                  <>
+                    <button
+                      onClick={() => onUpdateStatus(job.id, 'interviewing')}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(245, 158, 11, 0.1)',
+                        border: '1px solid rgba(245, 158, 11, 0.2)',
+                        color: '#d97706',
+                        padding: '8px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <CalendarCheck size={14} />
+                      Entrevista
+                    </button>
+                    <button
+                      onClick={() => onUpdateStatus(job.id, 'rejected')}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                        color: 'var(--accent-red)',
+                        padding: '8px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <XCircle size={14} />
+                      Rechazar
+                    </button>
+                  </>
+                )}
+
+                {state.status === 'interviewing' && (
+                  <>
+                    <button
+                      onClick={() => onUpdateStatus(job.id, 'offered')}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(139, 92, 246, 0.1)',
+                        border: '1px solid rgba(139, 92, 246, 0.2)',
+                        color: '#7c3aed',
+                        padding: '8px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <Award size={14} />
+                      Ofrecido
+                    </button>
+                    <button
+                      onClick={() => onUpdateStatus(job.id, 'rejected')}
+                      style={{
+                        flex: 1,
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                        color: 'var(--accent-red)',
+                        padding: '8px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '4px'
+                      }}
+                    >
+                      <XCircle size={14} />
+                      Rechazar
+                    </button>
+                  </>
                 )}
               </div>
             </div>

@@ -973,15 +973,22 @@
   {
     "id": "profesor-de-ingles-para-la-etapa-de-primaria-n4005NUQhBYfIhVy2pL8D",
     "title": "PROFESOR DE INGLÉS PARA LA ETAPA DE PRIMARIA",
-    "companyName": "Colegio Privado",
+    "companyName": "Colegio Concertado",
     "companyType": "Colegio Privado",
-    "location": "Rozas de Madrid, Las, Madrid",
+    "location": "Rozas de Madrid, Las",
     "hours": "Parcial",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-para-la-etapa-de-primaria-n4005NUQhBYfIhVy2pL8D/",
     "publishDate": "27 junio de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-06-30T16:15:46.120Z"
+    "requirements": [
+      "C1 en inglés Cambridge o EOI"
+    ],
+    "scrapedAt": "2026-06-30T16:15:46.120Z",
+    "companyDesc": "",
+    "dates": "27-06-2026 a 12-07-2026",
+    "province": "Madrid",
+    "description": "Profesor de primaria para impartir inglés, y asignaturas en inglés en colegio privado.<br>\nImprescindible C1, preferentemente por Cambridge o Escuela oficial de idiomas.<br>\nMedia jornada, contrato indefinido y comienzo en septiembre de 2026",
+    "salary": "Según convenio ed. Privada"
   },
   {
     "id": "profesor-de-ingles-para-la-etapa-de-secundaria-y-bachillerato-n4004MKFm2H4s3pXVbiZB",

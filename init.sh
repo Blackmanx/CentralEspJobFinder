@@ -20,3 +20,7 @@ echo "Instalando dependencias de Node.js..."
 npm install
 
 echo "=== Proyecto inicializado con exito ==="
+
+# Iniciar la plataforma
+echo "Iniciando servidores frontend y backend..."
+npm run dev

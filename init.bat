@@ -17,3 +17,6 @@ echo Instalando dependencias de Node.js...
 call npm install
 
 echo === Proyecto inicializado con exito ===
+
+echo Iniciando servidores frontend y backend...
+call npm run dev

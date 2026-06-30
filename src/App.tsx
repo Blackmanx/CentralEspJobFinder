@@ -152,6 +152,21 @@ export default function App() {
     const title = job.title.toLowerCase();
     const description = (job.description || '').toLowerCase();
     const requirements = job.requirements.map(r => r.toLowerCase()).join(' ');
+    const text = `${title} ${description} ${requirements}`.toLowerCase();
+
+    // Exclude jobs requiring strict C2 English (allow if C1/B2 is offered as an alternative)
+    if (/\b(c2|proficiency|cpe)\b/.test(text)) {
+      const isAlternative = 
+        /\b(c1|b2|cae)\b/.test(text) && 
+        (text.includes('c1/c2') || 
+         text.includes('c1-c2') || 
+         text.includes('c1 o c2') || 
+         text.includes('b2 y c1-c2') ||
+         text.includes('c1–c2'));
+      if (!isAlternative) {
+        return false;
+      }
+    }
 
     // 1. Exclude titles that explicitly target older ages/subjects or other fields
     const negativeTitleKeywords = [

@@ -147,15 +147,67 @@ export default function App() {
     handleUpdateJobState(jobId, status, currentState.notes);
   };
 
-  // Helper to determine if a job matches "Educación Infantil"
+  // Helper to determine if a job matches strictly "Educación Infantil"
   const isInfantilJob = (job: Job): boolean => {
-    const textToSearch = `${job.title} ${job.description || ''} ${job.requirements.join(' ')}`.toLowerCase();
-    const keywords = [
-      'infantil', 'maestra', 'maestro', 'guarderia', 'guardería', 'preescolar', 
-      '0-3', '0-6', 'educador', 'educadora', 'párvulo', 'parvulo', 
-      'auxiliar infantil', 'kids', 'preschool', 'nursery', 'early years', 'kindergarten'
+    const title = job.title.toLowerCase();
+    const description = (job.description || '').toLowerCase();
+    const requirements = job.requirements.map(r => r.toLowerCase()).join(' ');
+
+    // 1. Exclude titles that explicitly target older ages/subjects or other fields
+    const negativeTitleKeywords = [
+      'secundaria', 'eso', 'bachillerato', 'bach', 'bto', 'primaria', 'fp', 
+      'ciclo formativo', 'judo', 'limpieza', 'mantenimiento', 'orientador', 
+      'tecnico informatico', 'relaciones laborales', 'geografia', 'historia',
+      'biologia', 'quimica', 'fisica', 'filosofia', 'economia', 'matematicas',
+      'dibujo', 'plastica', 'musica primaria', 'secondary', 'primary', 'limpiador'
     ];
-    return keywords.some(keyword => textToSearch.includes(keyword));
+    
+    if (negativeTitleKeywords.some(keyword => title.includes(keyword))) {
+      return false;
+    }
+
+    // 2. Title has explicit early years indicators
+    const positiveTitleKeywords = [
+      'infantil', 'preescolar', 'guarderia', 'guardería', 'educador', 
+      'educadora', '0-3', '3-6', '0-6', 'preschool', 'nursery', 
+      'kindergarten', 'primer ciclo', 'segundo ciclo'
+    ];
+
+    const titleHasPositive = positiveTitleKeywords.some(keyword => title.includes(keyword));
+
+    // 3. Description must strictly indicate an early years classroom/role (not just context)
+    const strictDescKeywords = [
+      'educacion infantil', 'educación infantil', 
+      'maestro de infantil', 'maestro/a de infantil', 'maestra de infantil',
+      'maestro infantil', 'maestra infantil',
+      'educador infantil', 'educadora infantil', 'educador/a infantil',
+      'tecnico infantil', 'técnico infantil',
+      'auxiliar de infantil', 'auxiliar infantil',
+      'aula de 2', 'aula de dos', 'primer ciclo', '0 a 3', '0-3', '3-6',
+      'preschool teacher', 'nursery teacher', 'kindergarten teacher',
+      'early years teacher'
+    ];
+
+    const descHasStrict = strictDescKeywords.some(keyword => description.includes(keyword) || requirements.includes(keyword));
+    const isGenericTitle = title.includes('maestro') || title.includes('maestra') || title.includes('auxiliar') || title.includes('teacher') || title.includes('profesor') || title.includes('profesora') || title.includes('docente');
+    
+    if (titleHasPositive) {
+      return true;
+    }
+
+    if (isGenericTitle && descHasStrict) {
+      // Exclude if description mentions primary/secondary as the active duty
+      const negativeDescKeywords = [
+        'clases de primaria', 'impartir en primaria', 'etapa de primaria',
+        'impartir en secundaria', 'clases de secundaria', 'etapa de secundaria'
+      ];
+      if (negativeDescKeywords.some(keyword => description.includes(keyword))) {
+        return false;
+      }
+      return true;
+    }
+
+    return false;
   };
 
   // Filter Logic

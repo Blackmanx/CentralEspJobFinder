@@ -88,6 +88,11 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [showCVModal, setShowCVModal] = useState(false);
 
+  // AI Cover Letter Generator state
+  const [coverLetter, setCoverLetter] = useState<string | null>(null);
+  const [generatingLetter, setGeneratingLetter] = useState(false);
+  const [letterError, setLetterError] = useState<string | null>(null);
+
   // Sync state with selected job
   useEffect(() => {
     if (job) {
@@ -100,6 +105,9 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setAnalysisError(null);
       setAnalyzing(false);
       setShowCVModal(false);
+      setCoverLetter(null);
+      setGeneratingLetter(false);
+      setLetterError(null);
 
       // Fetch geocoding for Leaflet Map
       if (job.location) {
@@ -175,6 +183,39 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setAnalysisError(err.message || 'No se pudo completar el análisis del CV.');
     } finally {
       setAnalyzing(false);
+    }
+  };
+
+  const handleGenerateCoverLetter = async () => {
+    if (!cvFile || !job) return;
+    setGeneratingLetter(true);
+    setLetterError(null);
+    setCoverLetter(null);
+
+    const formData = new FormData();
+    formData.append('cv', cvFile);
+    formData.append('jobTitle', job.title);
+    formData.append('jobDescription', job.description || '');
+    formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/generate-cover-letter', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Error al comunicar con el servidor.');
+      }
+
+      const data = await response.json();
+      setCoverLetter(data.coverLetter || null);
+    } catch (err: any) {
+      console.error(err);
+      setLetterError(err.message || 'No se pudo generar la carta de presentación.');
+    } finally {
+      setGeneratingLetter(false);
     }
   };
 
@@ -717,26 +758,82 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               display: 'flex',
               overflow: 'hidden'
             }}>
-              {/* Left Side: Summary / HR report */}
+              {/* Left Side: Summary / HR report & Cover Letter */}
               {summary && (
                 <div style={{
-                  width: '350px',
+                  width: '380px',
                   borderRight: '1px solid var(--border-color)',
                   padding: '24px',
                   overflowY: 'auto',
                   backgroundColor: 'var(--bg-app)',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '16px'
+                  gap: '24px'
                 }}>
-                  <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)' }}>
-                    Informe de Ajuste
-                  </h4>
-                  <div 
-                    className="text-secondary" 
-                    style={{ fontSize: '0.8rem', lineHeight: 1.5 }}
-                    dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(summary) }} 
-                  />
+                  <div>
+                    <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '12px' }}>
+                      Informe de Ajuste
+                    </h4>
+                    <div 
+                      className="text-secondary" 
+                      style={{ fontSize: '0.8rem', lineHeight: 1.5 }}
+                      dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(summary) }} 
+                    />
+                  </div>
+
+                  <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
+                    <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '12px' }}>
+                      Carta de Presentación AI
+                    </h4>
+                    {coverLetter ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <textarea
+                          readOnly
+                          value={coverLetter}
+                          style={{
+                            width: '100%',
+                            height: '220px',
+                            fontSize: '0.75rem',
+                            padding: '8px',
+                            backgroundColor: 'var(--bg-element)',
+                            border: '1px solid var(--border-color)',
+                            borderRadius: '4px',
+                            color: 'var(--text-primary)',
+                            resize: 'none',
+                            fontFamily: 'monospace',
+                            lineHeight: 1.4
+                          }}
+                        />
+                        <button
+                          className="btn-secondary"
+                          onClick={() => {
+                            navigator.clipboard.writeText(coverLetter);
+                            alert('¡Carta de presentación copiada al portapapeles!');
+                          }}
+                          style={{ fontSize: '0.75rem', justifyContent: 'center' }}
+                        >
+                          Copiar al portapapeles
+                        </button>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                          Genera una carta formal adaptada al perfil del colegio usando tus datos anonimizados.
+                        </p>
+                        <button
+                          className="btn-primary"
+                          onClick={handleGenerateCoverLetter}
+                          disabled={generatingLetter}
+                          style={{ width: '100%', justifyContent: 'center', fontSize: '0.75rem' }}
+                        >
+                          {generatingLetter ? 'Generando...' : 'Generar Carta con AI'}
+                        </button>
+                        {letterError && (
+                          <span style={{ fontSize: '0.7rem', color: 'var(--accent-red)' }}>{letterError}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 

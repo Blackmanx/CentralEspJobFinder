@@ -10,7 +10,8 @@ import {
   Clock,
   Sparkles,
   Sun,
-  Moon
+  Moon,
+  Bell
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -21,6 +22,14 @@ export default function App() {
   const [userStates, setUserStates] = useState<LocalStorageAppState>({});
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Active view tab (List or Agenda)
+  const [activeTab, setActiveTab] = useState<'list' | 'agenda'>('list');
+
+  // Notifications State
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
 
   // Theme State
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -57,6 +66,39 @@ export default function App() {
       }
     } catch (error) {
       console.warn('Fallo al recargar silenciosamente:', error);
+    }
+  };
+
+  const loadUserStates = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/user-states');
+      if (res.ok) {
+        const data = await res.json();
+        setUserStates(data);
+      }
+    } catch (e) {
+      console.error('Error loading states from server:', e);
+      const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (stored) {
+        try {
+          setUserStates(JSON.parse(stored));
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+  };
+
+  const loadNotifications = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/notifications');
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data);
+        setUnreadNotificationsCount(data.filter((n: any) => !n.read).length);
+      }
+    } catch (e) {
+      console.error('Error loading notifications:', e);
     }
   };
 
@@ -124,20 +166,12 @@ export default function App() {
     }
   };
 
-  // Load jobs and localStorage on mount
+  // Load jobs and userStates/notifications on mount
   useEffect(() => {
     loadJobs();
     checkScrapingStatus();
-    
-    // Load LocalStorage
-    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (stored) {
-      try {
-        setUserStates(JSON.parse(stored));
-      } catch (e) {
-        console.error('Error parsing LocalStorage:', e);
-      }
-    }
+    loadUserStates();
+    loadNotifications();
   }, []);
 
   // Check if scraper is running in background by checking folder/file status
@@ -162,8 +196,8 @@ export default function App() {
     return () => clearInterval(interval);
   }, [jobs.length]);
 
-  // Update Application Status & Notes
-  const handleUpdateJobState = (jobId: string, status: ApplicationStatus, notes: string = '') => {
+  // Update Application Status & Notes with database sync
+  const handleUpdateJobState = async (jobId: string, status: ApplicationStatus, notes: string = '') => {
     const newState: UserJobState = {
       status,
       notes,
@@ -178,6 +212,16 @@ export default function App() {
     setUserStates(updatedStates);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedStates));
 
+    try {
+      await fetch('http://localhost:3001/api/user-states', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedStates)
+      });
+    } catch (e) {
+      console.error('Error saving states to server:', e);
+    }
+
     // Confetti triggers!
     if (status === 'applied' || status === 'offered') {
       confetti({
@@ -186,11 +230,6 @@ export default function App() {
         origin: { y: 0.6 },
         colors: status === 'offered' ? ['#8b5cf6', '#10b981', '#f59e0b'] : ['#10b981', '#3b82f6']
       });
-    }
-
-    // Keep drawer in sync
-    if (selectedJob && selectedJob.id === jobId) {
-      // No-op, react handles props update
     }
   };
 
@@ -278,12 +317,19 @@ export default function App() {
   };
 
   // Filter Logic
+  // Advanced Fuzzy Search logic
+  const fuzzyMatch = (text: string, query: string): boolean => {
+    if (!query) return true;
+    const cleanText = text.toLowerCase();
+    const queryWords = query.toLowerCase().split(/[ \t,.-]+/).filter(Boolean);
+    return queryWords.every(word => cleanText.includes(word));
+  };
+
+  // Filter Logic
   const filteredJobs = jobs.filter((job) => {
-    // 1. Text Search (title, company, description)
-    const matchesSearch = 
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (job.description && job.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    // 1. Text Search (title, company, description, requirements) using Advanced Fuzzy Search
+    const jobText = `${job.title} ${job.companyName} ${job.description || ''} ${job.requirements ? job.requirements.join(' ') : ''}`;
+    const matchesSearch = fuzzyMatch(jobText, searchQuery);
 
     // 2. Location
     const matchesLocation = selectedLocation === 'all' || job.location === selectedLocation;
@@ -331,14 +377,102 @@ export default function App() {
             <h2>
               JobFinder
             </h2>
-            <button 
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="btn-secondary"
-              style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
-              title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-            >
-              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              {/* Notification Bell */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="btn-secondary"
+                  style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto', position: 'relative' }}
+                  title="Notificaciones"
+                >
+                  <Bell size={14} />
+                  {unreadNotificationsCount > 0 && (
+                    <span style={{
+                      position: 'absolute',
+                      top: '-2px',
+                      right: '-2px',
+                      backgroundColor: 'var(--accent-red)',
+                      color: '#ffffff',
+                      fontSize: '0.6rem',
+                      fontWeight: 'bold',
+                      borderRadius: '50%',
+                      width: '12px',
+                      height: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      {unreadNotificationsCount}
+                    </span>
+                  )}
+                </button>
+
+                {/* Notifications Dropdown */}
+                {showNotifications && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '32px',
+                    right: '0',
+                    width: '280px',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                    boxShadow: 'var(--shadow-lg)',
+                    zIndex: 1000,
+                    padding: '8px 0',
+                    maxHeight: '300px',
+                    overflowY: 'auto'
+                  }}>
+                    <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>Notificaciones</span>
+                      <button 
+                        onClick={() => {
+                          setUnreadNotificationsCount(0);
+                          setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+                        }} 
+                        style={{ fontSize: '0.65rem', color: 'var(--accent-primary)', border: 'none', background: 'none', cursor: 'pointer' }}
+                      >
+                        Marcar todo leído
+                      </button>
+                    </div>
+                    {notifications.length === 0 ? (
+                      <div style={{ padding: '16px', fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+                        No hay notificaciones
+                      </div>
+                    ) : (
+                      notifications.map(n => (
+                        <div 
+                          key={n.id} 
+                          style={{
+                            padding: '10px 12px',
+                            borderBottom: '1px solid var(--border-color)',
+                            backgroundColor: n.read ? 'transparent' : 'rgba(59, 130, 246, 0.04)',
+                            transition: 'background-color 0.2s'
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2px' }}>
+                            <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>{n.title}</span>
+                            <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>{new Date(n.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                          </div>
+                          <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.3 }}>{n.message}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Theme Switcher */}
+              <button 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="btn-secondary"
+                style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
+                title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+              >
+                {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+              </button>
+            </div>
           </div>
           <span style={{ 
             color: 'var(--accent-primary)', 
@@ -526,28 +660,136 @@ export default function App() {
           
           {/* Left Pane (Table) */}
           <div className="list-pane">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Listado de Ofertas</h3>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Mostrando {filteredJobs.length} de {jobs.length} ofertas
-              </span>
+            {/* View Tabs Selector */}
+            <div style={{ 
+              display: 'flex', 
+              borderBottom: '1px solid var(--border-color)', 
+              marginBottom: '16px',
+              gap: '24px'
+            }}>
+              <button
+                onClick={() => setActiveTab('list')}
+                style={{
+                  padding: '8px 4px 12px',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  border: 'none',
+                  background: 'none',
+                  color: activeTab === 'list' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                  borderBottom: activeTab === 'list' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s, border-bottom-color 0.2s'
+                }}
+              >
+                Listado de Ofertas ({filteredJobs.length})
+              </button>
+              <button
+                onClick={() => setActiveTab('agenda')}
+                style={{
+                  padding: '8px 4px 12px',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  border: 'none',
+                  background: 'none',
+                  color: activeTab === 'agenda' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                  borderBottom: activeTab === 'agenda' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'color 0.2s, border-bottom-color 0.2s'
+                }}
+              >
+                Agenda de Entrevistas
+              </button>
             </div>
 
-            {loading ? (
-              <div className="table-container" style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                <RefreshCw size={20} className="text-secondary" style={{ animation: 'spin 2s linear infinite' }} />
-                <span className="text-muted">Cargando base de datos...</span>
-                {errorMsg && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>{errorMsg}</span>}
-              </div>
+            {activeTab === 'list' ? (
+              loading ? (
+                <div className="table-container" style={{ padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                  <RefreshCw size={20} className="text-secondary" style={{ animation: 'spin 2s linear infinite' }} />
+                  <span className="text-muted">Cargando base de datos...</span>
+                  {errorMsg && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>{errorMsg}</span>}
+                </div>
+              ) : (
+                <JobTable
+                  jobs={filteredJobs}
+                  userStates={userStates}
+                  onSelectJob={setSelectedJob}
+                  onUpdateStatus={handleUpdateStatusOnly}
+                  isInfantilFilter={isInfantilFilter}
+                  selectedJobId={selectedJob?.id}
+                />
+              )
             ) : (
-              <JobTable
-                jobs={filteredJobs}
-                userStates={userStates}
-                onSelectJob={setSelectedJob}
-                onUpdateStatus={handleUpdateStatusOnly}
-                isInfantilFilter={isInfantilFilter}
-                selectedJobId={selectedJob?.id}
-              />
+              /* Agenda Timeline View */
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {(() => {
+                  const agendaJobs = jobs.filter(j => {
+                    const state = userStates[j.id];
+                    return state && (state.status === 'applied' || state.status === 'interviewing' || state.status === 'offered');
+                  });
+
+                  if (agendaJobs.length === 0) {
+                    return (
+                      <div style={{ padding: '40px', textAlign: 'center', backgroundColor: 'var(--bg-app)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                        <Clock size={32} className="text-muted" style={{ margin: '0 auto 12px' }} />
+                        <h4 style={{ fontSize: '0.9rem', color: 'var(--text-primary)', marginBottom: '4px' }}>Agenda vacía</h4>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Cambia el estado de una oferta a "Postulado" o "En Entrevista" para registrarla aquí.</p>
+                      </div>
+                    );
+                  }
+
+                  return agendaJobs.map(job => {
+                    const state = userStates[job.id];
+                    return (
+                      <div 
+                        key={job.id} 
+                        onClick={() => setSelectedJob(job)}
+                        style={{
+                          padding: '16px',
+                          backgroundColor: 'var(--bg-element)',
+                          border: '1px solid var(--border-color)',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          transition: 'transform 0.2s, box-shadow 0.2s',
+                          borderLeft: state.status === 'interviewing' ? '4px solid var(--accent-gold)' : state.status === 'offered' ? '4px solid var(--accent-primary)' : '4px solid var(--accent-blue)'
+                        }}
+                      >
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                          <span style={{
+                            fontSize: '0.65rem',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            color: state.status === 'interviewing' ? 'var(--accent-gold)' : state.status === 'offered' ? 'var(--accent-primary)' : 'var(--accent-blue)'
+                          }}>
+                            {state.status === 'interviewing' ? 'Entrevista Programada' : state.status === 'offered' ? 'Oferta Recibida' : 'Postulado / En Espera'}
+                          </span>
+                          <h4 style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{job.companyName} — {job.location}</span>
+                          {state.notes && (
+                            <p style={{
+                              margin: '6px 0 0',
+                              padding: '8px',
+                              backgroundColor: 'var(--bg-app)',
+                              borderRadius: '4px',
+                              fontSize: '0.75rem',
+                              color: 'var(--text-secondary)',
+                              borderLeft: '2px solid var(--border-color)',
+                              lineHeight: 1.4
+                            }}>
+                              {state.notes}
+                            </p>
+                          )}
+                        </div>
+                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                          Modificado: {new Date(state.updatedAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
             )}
           </div>
 

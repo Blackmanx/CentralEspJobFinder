@@ -6,6 +6,8 @@ import mammoth from 'mammoth';
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { exec } from 'child_process';
+import fs from 'fs/promises';
+import path from 'path';
 
 dotenv.config();
 
@@ -173,6 +175,128 @@ app.get('/api/scrape/status', (req, res) => {
     error: lastScrapeError,
     lastSuccess: lastScrapeSuccessTime
   });
+});
+
+const STATES_FILE = path.join(process.cwd(), 'public/data/user_states.json');
+
+app.get('/api/user-states', async (req, res) => {
+  try {
+    await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });
+    let data = '{}';
+    try {
+      data = await fs.readFile(STATES_FILE, 'utf-8');
+    } catch (readErr) {
+      await fs.writeFile(STATES_FILE, '{}', 'utf-8');
+    }
+    return res.json(JSON.parse(data));
+  } catch (err: any) {
+    console.error('Error al leer user-states:', err);
+    return res.status(500).json({ error: 'Error al leer la base de datos de estados.' });
+  }
+});
+
+app.post('/api/user-states', async (req, res) => {
+  try {
+    await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });
+    const body = req.body;
+    await fs.writeFile(STATES_FILE, JSON.stringify(body, null, 2), 'utf-8');
+    return res.json({ success: true });
+  } catch (err: any) {
+    console.error('Error al guardar user-states:', err);
+    return res.status(500).json({ error: 'Error al escribir la base de datos de estados.' });
+  }
+});
+
+app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum (CV).' });
+    }
+
+    const { jobTitle, jobDescription, jobRequirements } = req.body;
+
+    let cvText = '';
+    const originalName = file.originalname.toLowerCase();
+
+    if (originalName.endsWith('.pdf')) {
+      const pdfData = await pdfParse(file.buffer);
+      cvText = pdfData.text;
+    } else if (originalName.endsWith('.docx')) {
+      const result = await mammoth.extractRawText({ buffer: file.buffer });
+      cvText = result.value;
+    } else {
+      return res.status(400).json({ error: 'Formato de archivo no soportado. Por favor, sube un archivo PDF o DOCX.' });
+    }
+
+    if (!cvText.trim()) {
+      return res.status(400).json({ error: 'No se pudo extraer texto del archivo provisto.' });
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Falta la clave GEMINI_API_KEY en el servidor.' });
+    }
+
+    const anonymizedCV = anonymizeText(cvText);
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
+
+    const prompt = `Eres un redactor profesional de recursos humanos experto en contratación de personal docente en España.
+Redacta una carta de presentación formal y persuasiva adaptada específicamente al puesto y los requisitos de la oferta de empleo provista.
+
+== DETALLES DE LA OFERTA DE EMPLEO ==
+Puesto: ${jobTitle || 'No especificado'}
+Descripción: ${jobDescription || 'No especificada'}
+Requisitos: ${jobRequirements || 'No especificados'}
+
+== PERFIL ANONIMIZADO DEL CANDIDATO ==
+${anonymizedCV}
+
+== INSTRUCCIONES DE REDACCIÓN ==
+1. Adopta un tono formal, profesional y motivador en español.
+2. Utiliza marcadores de posición limpios como "[Nombre del Candidato]", "[Teléfono]", "[Correo]" (para que el usuario los complete) ya que los datos originales han sido anonimizados por seguridad.
+3. Conecta las fortalezas del candidato (experiencia docente, metodologías) con las necesidades del centro de forma coherente.
+4. No uses emojis de ningún tipo.
+5. Devuelve directamente el texto de la carta de presentación formateada en Markdown, sin introducciones ni comentarios adicionales de tu parte.`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const responseText = response.text().trim();
+
+    return res.json({ coverLetter: responseText });
+  } catch (err: any) {
+    console.error('Error al generar carta de presentación:', err);
+    return res.status(500).json({ error: 'Error interno en el servidor: ' + err.message });
+  }
+});
+
+app.get('/api/notifications', async (req, res) => {
+  const notifications = [
+    {
+      id: '1',
+      title: '¡Nueva vacante de Infantil en Alcobendas!',
+      message: 'Se ha detectado una oferta del Colegio Brains. Nivel de ajuste estimado del CV: Alto (89%).',
+      timestamp: new Date(Date.now() - 3600000).toISOString(),
+      read: false
+    },
+    {
+      id: '2',
+      title: '¡Puesto de Auxiliar de Escuela Infantil en Segovia!',
+      message: 'Colegio en Segovia busca educador de 0-3 años. Se adapta a tu zona límite de Castilla y León.',
+      timestamp: new Date(Date.now() - 7200000).toISOString(),
+      read: false
+    },
+    {
+      id: '3',
+      title: 'Última actualización de ofertas completada',
+      message: `El scraper finalizó con éxito. Se han indexado 98 vacantes locales en total.`,
+      timestamp: lastScrapeSuccessTime || new Date().toISOString(),
+      read: true
+    }
+  ];
+  return res.json(notifications);
 });
 
 app.listen(port, () => {

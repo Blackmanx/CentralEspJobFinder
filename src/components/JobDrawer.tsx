@@ -13,7 +13,10 @@ import {
   StickyNote,
   ExternalLink,
   Save,
-  Check
+  Check,
+  UploadCloud,
+  Sparkles,
+  RefreshCw
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
@@ -30,6 +33,24 @@ const DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
+
+// Helper function to parse basic markdown to styled HTML for CV analysis results
+const parseMarkdownToHtml = (markdown: string): string => {
+  let html = markdown;
+  // Headers
+  html = html.replace(/^### (.*$)/gim, '<h5 style="font-size:0.9rem;font-weight:600;margin-top:12px;margin-bottom:6px;color:var(--text-primary)">$1</h5>');
+  html = html.replace(/^## (.*$)/gim, '<h4 style="font-size:1rem;font-weight:600;margin-top:16px;margin-bottom:8px;color:var(--text-primary);border-bottom:1px solid var(--border-color);padding-bottom:4px">$1</h4>');
+  html = html.replace(/^# (.*$)/gim, '<h3 style="font-size:1.15rem;font-weight:700;margin-top:20px;margin-bottom:10px;color:var(--text-primary)">$1</h3>');
+  // Bold
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-primary);font-weight:600">$1</strong>');
+  // Lists
+  html = html.replace(/^\s*-\s*(.*$)/gim, '<li style="margin-left:14px;margin-bottom:4px;list-style-type:disc">$1</li>');
+  // Numbered lists
+  html = html.replace(/^\s*\d+\.\s*(.*$)/gim, '<li style="margin-left:14px;margin-bottom:4px;list-style-type:decimal">$1</li>');
+  // Line breaks
+  html = html.replace(/\n/g, '<br />');
+  return html;
+};
 
 interface JobDrawerProps {
   job: Job | null;
@@ -59,12 +80,22 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   const [coords, setCoords] = useState<[number, number] | null>(null);
   const [mapLoading, setMapLoading] = useState(false);
 
+  // AI CV Optimizer state
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [analysis, setAnalysis] = useState<string | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
+
   // Sync state with selected job
   useEffect(() => {
     if (job) {
       setStatus(userState.status);
       setNotes(userState.notes);
       setIsSaved(false);
+      setCvFile(null);
+      setAnalysis(null);
+      setAnalysisError(null);
+      setAnalyzing(false);
 
       // Fetch geocoding for Leaflet Map
       if (job.location) {
@@ -106,6 +137,39 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   const handleStatusChange = (newStatus: ApplicationStatus) => {
     setStatus(newStatus);
     onUpdateState(job.id, newStatus, notes);
+  };
+
+  const handleAnalyzeCV = async () => {
+    if (!cvFile || !job) return;
+    setAnalyzing(true);
+    setAnalysisError(null);
+    setAnalysis(null);
+
+    const formData = new FormData();
+    formData.append('cv', cvFile);
+    formData.append('jobTitle', job.title);
+    formData.append('jobDescription', job.description || '');
+    formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/analyze-cv', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Error al comunicar con el servidor.');
+      }
+
+      const data = await response.json();
+      setAnalysis(data.analysis);
+    } catch (err: any) {
+      console.error(err);
+      setAnalysisError(err.message || 'No se pudo completar el análisis del CV.');
+    } finally {
+      setAnalyzing(false);
+    }
   };
 
   return (
@@ -465,6 +529,109 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               Ver Oferta Original en Colejobs
               <ExternalLink size={14} />
             </a>
+          </div>
+
+          {/* AI CV Optimizer Section */}
+          <div style={{ 
+            marginTop: '32px', 
+            paddingTop: '24px', 
+            borderTop: '1px solid var(--border-color)',
+            marginBottom: '24px' 
+          }}>
+            <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.95rem', marginBottom: '12px', color: 'var(--text-primary)' }}>
+              <Sparkles size={16} className="text-secondary" style={{ color: 'var(--accent-primary)' }} />
+              Optimizar CV con IA (gemini-3.1-flash-lite)
+            </h4>
+            <p className="text-secondary" style={{ fontSize: '0.8rem', marginBottom: '16px', lineHeight: 1.4 }}>
+              Sube tu currículum (PDF o DOCX) para recibir un análisis y sugerencias de mejora "en vivo" adaptadas a los requisitos exactos de esta oferta.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ 
+                border: '2px dashed var(--border-color)', 
+                borderRadius: '6px', 
+                padding: '16px', 
+                textAlign: 'center',
+                backgroundColor: 'var(--bg-app)',
+                cursor: 'pointer',
+                position: 'relative'
+              }}>
+                <input
+                  type="file"
+                  accept=".pdf,.docx"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setCvFile(e.target.files[0]);
+                      setAnalysis(null);
+                      setAnalysisError(null);
+                    }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    opacity: 0,
+                    cursor: 'pointer'
+                  }}
+                />
+                <UploadCloud size={24} className="text-muted" style={{ margin: '0 auto 8px' }} />
+                <span style={{ fontSize: '0.8rem', display: 'block', color: cvFile ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                  {cvFile ? cvFile.name : 'Haz clic o arrastra un archivo PDF o DOCX'}
+                </span>
+              </div>
+
+              {cvFile && (
+                <button
+                  className="btn-primary"
+                  onClick={handleAnalyzeCV}
+                  disabled={analyzing}
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  {analyzing ? (
+                    <>
+                      <RefreshCw size={14} className="animate-spin" style={{ animation: 'spin 2s linear infinite' }} />
+                      Analizando currículum...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles size={14} />
+                      Analizar currículum
+                    </>
+                  )}
+                </button>
+              )}
+
+              {analysisError && (
+                <div style={{ 
+                  backgroundColor: 'var(--accent-red-light)', 
+                  color: 'var(--accent-red)', 
+                  padding: '10px 12px', 
+                  borderRadius: '6px', 
+                  fontSize: '0.8rem',
+                  border: '1px solid rgba(239, 68, 68, 0.15)',
+                  lineHeight: 1.4
+                }}>
+                  {analysisError}
+                </div>
+              )}
+
+              {analysis && (
+                <div style={{ 
+                  marginTop: '16px',
+                  backgroundColor: 'var(--bg-app)', 
+                  border: '1px solid var(--border-color)', 
+                  borderRadius: '6px', 
+                  padding: '16px',
+                  fontSize: '0.825rem',
+                  color: 'var(--text-secondary)',
+                  lineHeight: 1.6
+                }}>
+                  <div dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(analysis) }} />
+                </div>
+              )}
+            </div>
           </div>
 
         </div>

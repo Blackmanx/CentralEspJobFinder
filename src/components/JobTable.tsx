@@ -28,33 +28,6 @@ export const JobTable: React.FC<JobTableProps> = ({
   selectedJobId
 }) => {
   
-  const getStatusBadge = (status: ApplicationStatus) => {
-    const labels: Record<ApplicationStatus, string> = {
-      not_applied: 'Sin aplicar',
-      applied: 'Postulado',
-      interviewing: 'En Entrevista',
-      offered: 'Ofrecido',
-      rejected: 'Rechazado'
-    };
-
-    return (
-      <span className={`badge badge-${status}`}>
-        <span className="dot" />
-        {labels[status]}
-      </span>
-    );
-  };
-
-  const getNextStatus = (current: ApplicationStatus): ApplicationStatus => {
-    switch (current) {
-      case 'not_applied': return 'applied';
-      case 'applied': return 'interviewing';
-      case 'interviewing': return 'offered';
-      case 'offered': return 'rejected';
-      case 'rejected': return 'not_applied';
-      default: return 'not_applied';
-    }
-  };
 
   if (jobs.length === 0) {
     return (
@@ -160,13 +133,32 @@ export const JobTable: React.FC<JobTableProps> = ({
                   
                   {/* Application Status Badge */}
                   <td>
-                    <button 
-                      onClick={() => onUpdateStatus(job.id, getNextStatus(state.status))}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
-                      title="Haz clic para cambiar el estado rápido"
+                    <select
+                      value={state.status}
+                      onChange={(e) => onUpdateStatus(job.id, e.target.value as any)}
+                      className={`badge badge-${state.status}`}
+                      style={{ 
+                        border: '1px solid currentColor',
+                        background: 'transparent',
+                        padding: '4px 20px 4px 8px',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        fontSize: '0.7rem',
+                        appearance: 'none',
+                        outline: 'none',
+                        backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'right 6px center',
+                        backgroundSize: '10px',
+                        minWidth: '105px'
+                      }}
                     >
-                      {getStatusBadge(state.status)}
-                    </button>
+                      <option value="not_applied" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Sin aplicar</option>
+                      <option value="applied" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Postulado</option>
+                      <option value="interviewing" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Entrevista</option>
+                      <option value="offered" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Ofrecido</option>
+                      <option value="rejected" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Rechazado</option>
+                    </select>
                   </td>
                   
                   {/* Actions */}
@@ -252,12 +244,32 @@ export const JobTable: React.FC<JobTableProps> = ({
                     {job.companyType || 'Docente'}
                   </span>
                 </div>
-                <button 
-                  onClick={() => onUpdateStatus(job.id, getNextStatus(state.status))}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                <select
+                  value={state.status}
+                  onChange={(e) => onUpdateStatus(job.id, e.target.value as any)}
+                  className={`badge badge-${state.status}`}
+                  style={{ 
+                    border: '1px solid currentColor',
+                    background: 'transparent',
+                    padding: '4px 20px 4px 8px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.7rem',
+                    appearance: 'none',
+                    outline: 'none',
+                    backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 6px center',
+                    backgroundSize: '10px',
+                    minWidth: '105px'
+                  }}
                 >
-                  {getStatusBadge(state.status)}
-                </button>
+                  <option value="not_applied" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Sin aplicar</option>
+                  <option value="applied" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Postulado</option>
+                  <option value="interviewing" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Entrevista</option>
+                  <option value="offered" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Ofrecido</option>
+                  <option value="rejected" style={{ backgroundColor: 'var(--bg-surface)', color: 'var(--text-primary)' }}>Rechazado</option>
+                </select>
               </div>
 
               {/* Company Info */}

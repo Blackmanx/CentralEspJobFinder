@@ -57,30 +57,51 @@ const anonymizeText = (text: string): string => {
   return anonymized;
 };
 
+async function extractCVText(buffer: Buffer, originalName: string): Promise<string> {
+  const nameLower = originalName.toLowerCase();
+  if (nameLower.endsWith('.pdf')) {
+    const pdfData = await pdfParse(buffer);
+    return pdfData.text;
+  } else if (nameLower.endsWith('.docx')) {
+    const result = await mammoth.extractRawText({ buffer });
+    return result.value;
+  } else {
+    throw new Error('Formato de archivo no soportado. Por favor, sube un archivo PDF o DOCX.');
+  }
+}
+
 app.post('/api/analyze-cv', upload.single('cv'), async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) {
-      return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum (CV).' });
+    const { jobTitle, jobDescription, jobRequirements } = req.body;
+    
+    let fileBuffer: Buffer;
+    let originalName = '';
+
+    if (req.file) {
+      fileBuffer = req.file.buffer;
+      originalName = req.file.originalname;
+    } else {
+      try {
+        const metaPath = 'public/data/global_cv_meta.json';
+        const cvPath = 'public/data/global_cv.bin';
+        const metaData = await fs.readFile(metaPath, 'utf-8');
+        const meta = JSON.parse(metaData);
+        fileBuffer = await fs.readFile(cvPath);
+        originalName = meta.originalname;
+      } catch (err) {
+        return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
+      }
     }
 
-    const { jobTitle, jobDescription, jobRequirements } = req.body;
-
     let cvText = '';
-    const originalName = file.originalname.toLowerCase();
-
-    if (originalName.endsWith('.pdf')) {
-      const pdfData = await pdfParse(file.buffer);
-      cvText = pdfData.text;
-    } else if (originalName.endsWith('.docx')) {
-      const result = await mammoth.extractRawText({ buffer: file.buffer });
-      cvText = result.value;
-    } else {
-      return res.status(400).json({ error: 'Formato de archivo no soportado. Por favor, sube un archivo PDF o DOCX.' });
+    try {
+      cvText = await extractCVText(fileBuffer, originalName);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
     }
 
     if (!cvText.trim()) {
-      return res.status(400).json({ error: 'No se pudo extraer texto del archivo provisto.' });
+      return res.status(400).json({ error: 'No se pudo extraer texto del archivo de currículum.' });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -209,28 +230,36 @@ app.post('/api/user-states', async (req, res) => {
 
 app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => {
   try {
-    const file = req.file;
-    if (!file) {
-      return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum (CV).' });
+    const { jobTitle, jobDescription, jobRequirements } = req.body;
+    
+    let fileBuffer: Buffer;
+    let originalName = '';
+
+    if (req.file) {
+      fileBuffer = req.file.buffer;
+      originalName = req.file.originalname;
+    } else {
+      try {
+        const metaPath = 'public/data/global_cv_meta.json';
+        const cvPath = 'public/data/global_cv.bin';
+        const metaData = await fs.readFile(metaPath, 'utf-8');
+        const meta = JSON.parse(metaData);
+        fileBuffer = await fs.readFile(cvPath);
+        originalName = meta.originalname;
+      } catch (err) {
+        return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
+      }
     }
 
-    const { jobTitle, jobDescription, jobRequirements } = req.body;
-
     let cvText = '';
-    const originalName = file.originalname.toLowerCase();
-
-    if (originalName.endsWith('.pdf')) {
-      const pdfData = await pdfParse(file.buffer);
-      cvText = pdfData.text;
-    } else if (originalName.endsWith('.docx')) {
-      const result = await mammoth.extractRawText({ buffer: file.buffer });
-      cvText = result.value;
-    } else {
-      return res.status(400).json({ error: 'Formato de archivo no soportado. Por favor, sube un archivo PDF o DOCX.' });
+    try {
+      cvText = await extractCVText(fileBuffer, originalName);
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
     }
 
     if (!cvText.trim()) {
-      return res.status(400).json({ error: 'No se pudo extraer texto del archivo provisto.' });
+      return res.status(400).json({ error: 'No se pudo extraer texto del archivo de currículum.' });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -297,6 +326,54 @@ app.get('/api/notifications', async (req, res) => {
     }
   ];
   return res.json(notifications);
+});
+
+app.post('/api/global-cv', upload.single('cv'), async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'No se ha subido ningún archivo.' });
+    }
+
+    await fs.mkdir('public/data', { recursive: true });
+    await fs.writeFile('public/data/global_cv.bin', file.buffer);
+    await fs.writeFile('public/data/global_cv_meta.json', JSON.stringify({
+      originalname: file.originalname,
+      mimetype: file.mimetype
+    }, null, 2));
+
+    return res.json({ success: true, originalname: file.originalname });
+  } catch (err: any) {
+    console.error('Error al guardar el currículum global:', err);
+    return res.status(500).json({ error: 'Error al guardar el currículum: ' + err.message });
+  }
+});
+
+app.get('/api/global-cv', async (req, res) => {
+  try {
+    const metaPath = 'public/data/global_cv_meta.json';
+    await fs.access(metaPath);
+    const metaData = await fs.readFile(metaPath, 'utf-8');
+    return res.json({ exists: true, ...JSON.parse(metaData) });
+  } catch {
+    return res.json({ exists: false });
+  }
+});
+
+app.get('/api/global-cv/download', async (req, res) => {
+  try {
+    const cvPath = 'public/data/global_cv.bin';
+    const metaPath = 'public/data/global_cv_meta.json';
+    const metaData = await fs.readFile(metaPath, 'utf-8');
+    const meta = JSON.parse(metaData);
+    const fileBuffer = await fs.readFile(cvPath);
+    
+    res.setHeader('Content-Type', meta.mimetype);
+    res.setHeader('Content-Disposition', `inline; filename="${meta.originalname}"`);
+    return res.send(fileBuffer);
+  } catch (err) {
+    return res.status(404).json({ error: 'Currículum no encontrado' });
+  }
 });
 
 app.listen(port, () => {

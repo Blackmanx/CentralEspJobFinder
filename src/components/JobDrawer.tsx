@@ -102,62 +102,87 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   // Object URL for live PDF previsualization
   const [pdfUrl, setPdfUrl] = useState<string>('');
 
+  const [globalCVStatus, setGlobalCVStatus] = useState<{ exists: boolean; originalname?: string; mimetype?: string } | null>(null);
+
+  useEffect(() => {
+    const checkGlobal = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/global-cv');
+        if (res.ok) {
+          const data = await res.json();
+          setGlobalCVStatus(data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    checkGlobal();
+  }, [job]);
+
   useEffect(() => {
     if (cvFile && cvFile.type === 'application/pdf') {
       const url = URL.createObjectURL(cvFile);
       setPdfUrl(url);
       return () => URL.revokeObjectURL(url);
+    } else if (globalCVStatus?.exists && globalCVStatus.mimetype === 'application/pdf') {
+      setPdfUrl('http://localhost:3001/api/global-cv/download');
     } else {
       setPdfUrl('');
     }
-  }, [cvFile]);
+  }, [cvFile, globalCVStatus]);
+
+  // Keep track of the last loaded job ID
+  const [lastJobId, setLastJobId] = useState<string | null>(null);
 
   // Sync state with selected job
   useEffect(() => {
     if (job) {
       setStatus(userState.status);
       setNotes(userState.notes);
-      setIsSaved(false);
-      setCvFile(null);
+      setInterviewDate(userState.interviewDate || '');
+      
+      // Update analysis results in real-time as background scanner finishes
       setSummary(userState.cvAnalysis?.summary || null);
       setAnnotatedCV(userState.cvAnalysis?.annotatedCV || null);
-      setAnalysisError(null);
-      setAnalyzing(false);
-      setShowCVModal(false);
-      setCoverLetter(null);
-      setGeneratingLetter(false);
-      setLetterError(null);
-      setInterviewDate(userState.interviewDate || '');
-      setActiveCVTab('summary');
 
-      // Fetch geocoding for Leaflet Map
-      if (job.location) {
-        setMapLoading(true);
-        // Geocode municipality in Madrid, Spain
-        const query = `${job.location}, Madrid, Espana`;
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.length > 0) {
-              const lat = parseFloat(data[0].lat);
-              const lon = parseFloat(data[0].lon);
-              setCoords([lat, lon]);
-            } else {
-              // Fallback to Madrid center
+      if (job.id !== lastJobId) {
+        setLastJobId(job.id);
+        setIsSaved(false);
+        setCvFile(null);
+        setAnalysisError(null);
+        setAnalyzing(false);
+        setShowCVModal(false);
+        setCoverLetter(null);
+        setGeneratingLetter(false);
+        setLetterError(null);
+        setActiveCVTab('summary');
+
+        // Fetch geocoding for Leaflet Map
+        if (job.location) {
+          setMapLoading(true);
+          const query = `${job.location}, Madrid, Espana`;
+          fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lon = parseFloat(data[0].lon);
+                setCoords([lat, lon]);
+              } else {
+                setCoords([40.416775, -3.703790]);
+              }
+              setMapLoading(false);
+            })
+            .catch(() => {
               setCoords([40.416775, -3.703790]);
-            }
-            setMapLoading(false);
-          })
-          .catch(() => {
-            // Fallback to Madrid center
-            setCoords([40.416775, -3.703790]);
-            setMapLoading(false);
-          });
-      } else {
-        setCoords([40.416775, -3.703790]);
+              setMapLoading(false);
+            });
+        } else {
+          setCoords([40.416775, -3.703790]);
+        }
       }
     }
-  }, [job, userState]);
+  }, [job, userState, lastJobId]);
 
   if (!job) return null;
 
@@ -649,7 +674,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           }}>
             <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.95rem', marginBottom: '12px', color: 'var(--text-primary)' }}>
               <Sparkles size={16} className="text-secondary" style={{ color: 'var(--accent-primary)' }} />
-              Optimizar CV con IA (gemini-3.1-flash-lite)
+              Optimizar CV con IA
             </h4>
             <p className="text-secondary" style={{ fontSize: '0.8rem', marginBottom: '16px', lineHeight: 1.4 }}>
               Sube tu currículum (PDF o DOCX) para recibir un análisis y sugerencias de mejora "en vivo" adaptadas a los requisitos exactos de esta oferta.

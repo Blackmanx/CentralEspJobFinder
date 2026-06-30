@@ -57,8 +57,8 @@ export default function App() {
   // Scraping State
   const [scraping, setScraping] = useState(false);
 
-  // Global CV File state
-  const [globalCVFile, setGlobalCVFile] = useState<File | null>(null);
+  // Global CV Status (loaded and synchronized with backend server)
+  const [globalCVStatus, setGlobalCVStatus] = useState<{ exists: boolean; originalname?: string; mimetype?: string } | null>(null);
   
   // Background Auto-Scanning States
   const [isAutoScanning, setIsAutoScanning] = useState(false);
@@ -66,6 +66,44 @@ export default function App() {
   const [scanTotal, setScanTotal] = useState(0);
   const [scanCurrentIndex, setScanCurrentIndex] = useState(0);
   const [scanTimeRemaining, setScanTimeRemaining] = useState(0);
+
+  const checkGlobalCV = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/global-cv');
+      if (res.ok) {
+        const data = await res.json();
+        setGlobalCVStatus(data);
+      }
+    } catch (err) {
+      console.error('Error checking global CV status:', err);
+    }
+  };
+
+  const handleUploadGlobalCV = async (file: File) => {
+    const formData = new FormData();
+    formData.append('cv', file);
+
+    try {
+      const res = await fetch('http://localhost:3001/api/global-cv', {
+        method: 'POST',
+        body: formData
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setGlobalCVStatus({
+          exists: true,
+          originalname: data.originalname,
+          mimetype: file.type
+        });
+        alert('¡Currículum subido y guardado de forma persistente en el servidor!');
+      } else {
+        alert('Error al subir el currículum al servidor.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error de red al subir el currículum.');
+    }
+  };
 
   const loadJobsQuietly = async () => {
     try {
@@ -182,6 +220,7 @@ export default function App() {
     checkScrapingStatus();
     loadUserStates();
     loadNotifications();
+    checkGlobalCV();
   }, []);
 
   // Check if scraper is running in background by checking folder/file status
@@ -219,9 +258,8 @@ export default function App() {
           const nextJobId = scanQueue[0];
           const jobToScan = jobs.find(j => j.id === nextJobId);
           
-          if (jobToScan && globalCVFile) {
+          if (jobToScan && globalCVStatus?.exists) {
             const formData = new FormData();
-            formData.append('cv', globalCVFile);
             formData.append('jobTitle', jobToScan.title);
             formData.append('jobDescription', jobToScan.description || '');
             formData.append('jobRequirements', jobToScan.requirements ? jobToScan.requirements.join('\n') : '');
@@ -263,10 +301,10 @@ export default function App() {
     return () => {
       if (timer) clearTimeout(timer);
     };
-  }, [isAutoScanning, scanQueue, scanTimeRemaining, jobs, globalCVFile, userStates]);
+  }, [isAutoScanning, scanQueue, scanTimeRemaining, jobs, globalCVStatus, userStates]);
 
   const startAutoScan = () => {
-    if (!globalCVFile) {
+    if (!globalCVStatus?.exists) {
       alert('Por favor, sube primero tu currículum (PDF/DOCX) en el cargador global.');
       return;
     }
@@ -524,7 +562,7 @@ export default function App() {
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
             >
-              <option value="all">Todas las poblaciones ({uniqueLocations.length})</option>
+              <option value="all">Todas las poblaciones</option>
               {uniqueLocations.map((loc) => (
                 <option key={loc} value={loc}>{loc}</option>
               ))}
@@ -593,7 +631,7 @@ export default function App() {
             gap: '12px'
           }}>
             <h4 style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
-              Currículum Global (Auto-análisis)
+              Currículum
             </h4>
             
             <div style={{
@@ -610,7 +648,7 @@ export default function App() {
                 accept=".pdf,.docx"
                 onChange={(e) => {
                   if (e.target.files && e.target.files[0]) {
-                    setGlobalCVFile(e.target.files[0]);
+                    handleUploadGlobalCV(e.target.files[0]);
                   }
                 }}
                 style={{
@@ -623,12 +661,12 @@ export default function App() {
                   cursor: 'pointer'
                 }}
               />
-              <span style={{ fontSize: '0.75rem', color: globalCVFile ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                {globalCVFile ? globalCVFile.name : 'Subir CV (PDF/DOCX)'}
+              <span style={{ fontSize: '0.75rem', color: globalCVStatus?.exists ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                {globalCVStatus?.exists ? `CV: ${globalCVStatus.originalname}` : 'Subir currículum'}
               </span>
             </div>
 
-            {globalCVFile && (
+            {globalCVStatus?.exists && (
               <button
                 onClick={startAutoScan}
                 disabled={isAutoScanning}

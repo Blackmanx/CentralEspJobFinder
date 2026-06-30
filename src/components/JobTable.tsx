@@ -118,6 +118,24 @@ export const JobTable: React.FC<JobTableProps> = ({
                           Analizado
                         </span>
                       )}
+                      {job.source && (
+                        <span style={{
+                          backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
+                                           job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
+                                           'rgba(139, 92, 246, 0.12)',
+                          color: job.source === 'Colejobs' ? '#3b82f6' :
+                                 job.source === 'Indeed' ? '#10b981' :
+                                 '#8b5cf6',
+                          fontSize: '0.65rem',
+                          fontWeight: 'bold',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em'
+                        }}>
+                          {job.source}
+                        </span>
+                      )}
                     </div>
                     {job.companyType && (
                       <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
@@ -418,6 +436,24 @@ export const JobTable: React.FC<JobTableProps> = ({
                       }}>
                         <Sparkles size={8} />
                         Analizado
+                      </span>
+                    )}
+                    {job.source && (
+                      <span style={{
+                        backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
+                                         job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
+                                         'rgba(139, 92, 246, 0.12)',
+                        color: job.source === 'Colejobs' ? '#3b82f6' :
+                               job.source === 'Indeed' ? '#10b981' :
+                               '#8b5cf6',
+                        fontSize: '0.6rem',
+                        fontWeight: 'bold',
+                        padding: '1px 5px',
+                        borderRadius: '3px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em'
+                      }}>
+                        {job.source}
                       </span>
                     )}
                   </div>

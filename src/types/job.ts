@@ -17,6 +17,7 @@ export interface Job {
   publishDate?: string;
   url: string;
   scrapedAt: string;
+  source?: string;
 }
 
 export type ApplicationStatus = 'not_applied' | 'applied' | 'interviewing' | 'offered' | 'rejected';

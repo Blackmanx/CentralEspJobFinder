@@ -5,7 +5,7 @@ import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
 

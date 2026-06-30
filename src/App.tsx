@@ -562,7 +562,7 @@ export default function App() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>
-              JobFinder
+              CentralEspJobFinder
             </h2>
           </div>
           <span style={{ 

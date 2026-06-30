@@ -238,7 +238,11 @@ async function scrape() {
       await delay(500);
     }
 
-    console.log(`Extraidas ${jobListings.length} ofertas de empleo del listado. Iniciando extraccion de detalles...`);
+    console.log(`Extraidas ${jobListings.length} ofertas de empleo del listado. Guardando listado inicial...`);
+    
+    // Ensure folder exists and write initial list
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    await fs.writeFile(DATA_FILE, JSON.stringify(jobListings, null, 2), 'utf-8');
 
     // 4. Scrape details for each job with throttling
     const finalJobs: Job[] = [];
@@ -252,21 +256,25 @@ async function scrape() {
       const details = await scrapeJobDetails(job.url);
       
       // Merge details
-      finalJobs.push({
+      const updatedJob = {
         ...job,
         ...details,
-        // Fallback to listing values if detail page fails or does not have it
         companyName: details.companyName || job.companyName,
         location: details.location || job.location,
         hours: details.hours || job.hours,
         contract: details.contract || job.contract,
         requirements: details.requirements || []
-      });
-    }
+      };
+      
+      finalJobs.push(updatedJob);
 
-    // 5. Ensure folder exists and save to JSON
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    await fs.writeFile(DATA_FILE, JSON.stringify(finalJobs, null, 2), 'utf-8');
+      // Save incremental progress (detailed jobs + remaining listing jobs)
+      const currentProgress = [
+        ...finalJobs,
+        ...jobListings.slice(i + 1)
+      ];
+      await fs.writeFile(DATA_FILE, JSON.stringify(currentProgress, null, 2), 'utf-8');
+    }
     
     console.log(`=== Scraper completado con exito. Guardadas ${finalJobs.length} ofertas en ${DATA_FILE} ===`);
 

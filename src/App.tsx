@@ -48,6 +48,18 @@ export default function App() {
   // Scraping State
   const [scraping, setScraping] = useState(false);
 
+  const loadJobsQuietly = async () => {
+    try {
+      const response = await fetch('/data/jobs.json');
+      if (response.ok) {
+        const data: Job[] = await response.json();
+        setJobs(data);
+      }
+    } catch (error) {
+      console.warn('Fallo al recargar silenciosamente:', error);
+    }
+  };
+
   const checkScrapingStatus = async () => {
     try {
       const res = await fetch('http://localhost:3001/api/scrape/status');
@@ -55,6 +67,7 @@ export default function App() {
         const data = await res.json();
         if (data.isScraping) {
           setScraping(true);
+          loadJobsQuietly();
           setTimeout(checkScrapingStatus, 3000);
         } else {
           setScraping(false);

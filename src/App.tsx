@@ -8,7 +8,9 @@ import {
   RefreshCw, 
   CheckCircle,
   Clock,
-  Sparkles
+  Sparkles,
+  Sun,
+  Moon
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -19,6 +21,26 @@ export default function App() {
   const [userStates, setUserStates] = useState<LocalStorageAppState>({});
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Theme State
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('jobfinder_theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  });
+
+  // Apply theme to document element
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'light') {
+      root.classList.remove('dark');
+      root.classList.add('light');
+    } else {
+      root.classList.remove('light');
+      root.classList.add('dark');
+    }
+    localStorage.setItem('jobfinder_theme', theme);
+  }, [theme]);
 
   // Selected Job for Drawer
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -186,9 +208,19 @@ export default function App() {
       {/* Left Sidebar: Logo, Metadata and Filters */}
       <aside className="sidebar">
         <div>
-          <h2>
-            JobFinder
-          </h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2>
+              JobFinder
+            </h2>
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="btn-secondary"
+              style={{ padding: '6px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
+              title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            >
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+          </div>
           <span style={{ 
             color: 'var(--accent-primary)', 
             fontSize: '0.7rem', 

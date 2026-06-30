@@ -3,18 +3,12 @@
 
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-  /* Theme Colors: Refined Slate/Zinc Corporate Palette */
-  --bg-app: #0b0f19;          /* Dark canvas background */
-  --bg-surface: #111827;      /* Panels & cards background */
-  --bg-element: #1f2937;      /* Hover states & dropdowns */
-  --border-color: #374151;    /* Subtle grey borders */
-
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-
-  /* Accent Colors (Clean, professional, not oversaturated) */
+  /* Common Accent Colors (Semantically defined) */
   --accent-primary: #10b981;        /* Emerald Green for success/hired */
   --accent-primary-hover: #059669;
   --accent-primary-light: rgba(16, 185, 129, 0.08);
@@ -30,16 +24,37 @@
 
   --accent-purple: #8b5cf6;         /* Purple for offered */
   --accent-purple-light: rgba(139, 92, 246, 0.08);
+}
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+/* Dark Mode Tokens (Default) */
+:root, .dark {
+  --bg-app: #0b0f19;          /* Rich midnight canvas */
+  --bg-surface: #161f30;      /* Slate card background */
+  --bg-element: #222f47;      /* Hover states & fields */
+  --border-color: #2e3d56;    /* Dark grey borders */
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
+/* Light Mode Tokens (Activated via class on html/body) */
+.light {
+  --bg-app: #f8fafc;          /* Slate 50 canvas */
+  --bg-surface: #ffffff;      /* Pure white card background */
+  --bg-element: #f1f5f9;      /* Slate 100 fields */
+  --border-color: #e2e8f0;    /* Slate 200 borders */
+
+  --text-primary: #0f172a;    /* Slate 900 */
+  --text-secondary: #475569;  /* Slate 600 */
+  --text-muted: #94a3b8;      /* Slate 400 */
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.15s ease;
 }
 
 body {
@@ -49,7 +64,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -119,10 +134,11 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
   padding: 20px 24px;
   border-bottom: 1px solid var(--border-color);
-  background-color: rgba(17, 24, 39, 0.3);
+  background-color: rgba(17, 24, 39, 0.15);
   flex-shrink: 0;
 }
 
+/* Stat Card */
 .stat-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -182,8 +198,8 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
   z-index: 998;
   animation: fadeIn 0.2s ease-out;
 }
@@ -212,7 +228,7 @@ table {
 }
 
 th {
-  background-color: rgba(31, 41, 55, 0.4);
+  background-color: rgba(120, 130, 150, 0.08);
   padding: 12px 16px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -235,15 +251,15 @@ tr:last-child td {
 }
 
 tr:hover td {
-  background-color: rgba(255, 255, 255, 0.015);
+  background-color: rgba(120, 130, 150, 0.03);
 }
 
 tr.selected td {
-  background-color: rgba(59, 130, 246, 0.06);
+  background-color: rgba(59, 130, 246, 0.07);
 }
 
 tr.selected:hover td {
-  background-color: rgba(59, 130, 246, 0.08);
+  background-color: rgba(59, 130, 246, 0.09);
 }
 
 /* Badges for Job Status */
@@ -320,6 +336,11 @@ tr.selected:hover td {
   box-shadow: var(--shadow-md);
 }
 
+/* Premium Dark Map Filter: Inverts tile colors natively to match the slate background */
+.dark .leaflet-tile-container {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
 /* Custom switch toggle */
 .switch {
   position: relative;
@@ -381,7 +402,7 @@ input[type="text"], select, textarea {
   font-family: var(--font-sans);
   font-size: 0.85rem;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.25s ease;
 }
 
 input[type="text"]:focus, select:focus, textarea:focus {
@@ -420,11 +441,11 @@ input[type="text"]:focus, select:focus, textarea:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(120, 130, 150, 0.1);
 }
 
 /* Responsive Styles for Mobile Adaptability */
@@ -470,7 +491,7 @@ input[type="text"]:focus, select:focus, textarea:focus {
     bottom: 0;
     width: 100vw;
     z-index: 999;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
     animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
@@ -484,7 +505,6 @@ input[type="text"]:focus, select:focus, textarea:focus {
     display: none !important;
   }
   .drawer-container {
-    /* Normal static layout in split pane */
     position: relative;
     box-shadow: none;
     animation: none;

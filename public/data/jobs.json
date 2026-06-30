@@ -686,14 +686,23 @@
     "companyName": "Nuestra Señora de la Merced",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/664655PjNSsNHjBIk5UfAvW.png",
     "companyType": "Colegio",
-    "location": "Tres Cantos, Madrid",
+    "location": "Tres Cantos",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-de-biologia-matematicas-tecnologia-fisica-matematicas-aplicadas-a-ciencias-sociales-en-secundaria-n3844gKpp82jz7FQZ9c2x/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Titulación y acreditación para poder impartir el mayor número de materias posibles en secundaria de las siguientes:\n\n- Biología\n- Matemáticas\n- Tecnología\n- Física\n- Matemáticas aplicadas a ciencias sociales\n\n- Preferentemente habilitación inglés CAM-C1",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.423Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://mercedariastrescantos.es/",
+    "companyDesc": "Somos el colegio Nuestra Señora de la Merced. Situados en Tres Cantos es un centro de la orden de la Merced.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Somos el colegio Nuestra Señora de la Merced. Situados en Tres Cantos es un centro de la orden de la Merced.",
+    "salary": "2874,91 euros/bruto+ posible complemento de tutoría según distribución horaria de 70,94 euros/bruto"
   },
   {
     "id": "enfermero-a-escolar-sustitucion-de-larga-duracion-n3903sLIPPGELvcSieSZN",
@@ -706,9 +715,17 @@
     "contract": "Temporal",
     "url": "https://www.colejobs.es/ofertas-de-empleo/enfermero-a-escolar-sustitucion-de-larga-duracion-n3903sLIPPGELvcSieSZN/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Titulación de Enfermería y habilitación para ejercer en España\n-Se valorará experiencia previa en entorno escolar o pediátrico\n-Capacidad de actuación rápida y serena ante urgencias\n-Buenas habilidades de comunicación y organización\n-Nivel de español fluido; inglés valorable"
+    ],
     "scrapedAt": "2026-06-30T22:41:16.423Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.inspirededu.com/",
+    "companyDesc": "Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-a-de-tecnologia-y-ciencias-de-la-computacion-n3841zTqsKGiAQHAR3YDI",
@@ -721,23 +738,40 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-tecnologia-y-ciencias-de-la-computacion-n3841zTqsKGiAQHAR3YDI/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Titulación universitaria en Ingeniería, Informática, Tecnología Educativa o similar\n- Máster de Formación del Profesorado de Secundaria\n- Experiencia docente en ESO y/o Bachillerato\n- Conocimientos sólidos en programación, digitalización y tecnologías educativas\n- Capacidad de trabajo en equipo, iniciativa y orientación pedagógica",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.424Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.inspirededu.com/",
+    "companyDesc": "Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "salary": "Según convenio"
   },
   {
     "id": "english-teacher-n3839Jh3qPMjrGHe4Fyyi",
     "title": "ENGLISH TEACHER",
-    "companyName": "Colegio Privado",
+    "companyName": "Colegio Concertado",
     "companyType": "Colegio Privado",
     "location": "Madrid",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/english-teacher-n3839Jh3qPMjrGHe4Fyyi/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Degree in English Philology, English Studies, Translation & Interpreting (English), or similar\n- Master’s Degree in Teacher Training (Máster de Formación del Profesorado)\n- Proven experience teaching in Secondary and/or Bachillerato\n- High level of English (native or near-native proficiency)\n- Strong communication, organisational and teamwork skills",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.424Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyDesc": "",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "Inspired Education is the leading global group of premium schools, with a portfolio of 125 premium private schools spanning 6 continents which utilise proven educational practices from every corner of the globe, ensuring over 95,000 students receive a world-class learning experience from Kindergarten to Year 13.<br>\n<br>\n In 28 countries, Inspired schools are individually developed and anchored in the vibrant cultures of their respective locations. They collectively form an international family of schools that nurtures each student\\'s academic and personal development in a progressive, dynamic, and innovative learning environment.<br>\n<br>\nBy joining our award-winning team of over 14,000 employees, you can work in state-of-the-art facilities alongside industry-renowned educators and leaders in some of the world\\'s most desirable locations. We invest heavily in our team members who enjoy industry-leading professional development, exceptional career opportunities, and mobility across our group.<br>\n<br>\nROLE SUMMARY:<br>\n <br>\n<br>\nMirabal International School is seeking a qualified English Teacher to join its team on a full-time basis for the 2026/27 academic year, teaching across Secondary and Bachillerato.<br>\nWe are looking for a motivated and engaging educator, passionate about English language and literature, and committed to high academic standards within an international school environment.<br>\n<br>\n<br>\nKEY RESPONSIBILITIES:<br>\n <br>\n- Teach English in Secondary and Bachillerato<br>\n- Plan and deliver engaging, student-centred lessons<br>\n- Assess and monitor student progress<br>\n- Prepare students for internal and external examinations<br>\n- Contribute actively to school life and collaborate with the teaching team<br>\n<br>\n<br>\nSAFEGUARDING STATEMENT:<br>\n <br>\nInspired Education Group is committed to safeguarding and promoting the welfare of children and young people and expects all staff, volunteers and other third parties to share this commitment. Safer recruitment practices and pre-employment background checks will be undertaken before any appointment is confirmed.<br>\n<br>\n<br>\n<br>\n <br>\n<br>\nVisit our careers site for more information; https://jobs.inspirededu.com",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-lengua-y-literatura-n4009hxw8cxBbPLgTEKse",
@@ -750,9 +784,18 @@
     "contract": "indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-lengua-y-literatura-n4009hxw8cxBbPLgTEKse/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Tener el master de educación y la habilitación para impartir Lengua",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.424Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://colegionobelis.com/",
+    "companyDesc": "Somos un colegio de nueva creación en Valdemoro formado por un grupo de profesionales del ámbito de la educación comprometidos e ilusionados.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Somos un colegio de nueva creación en Valdemoro formado por un grupo de profesionales del ámbito de la educación comprometidos e ilusionados.",
+    "salary": "Segun convenio"
   },
   {
     "id": "profesor-lengua-y-literatura-eso-n4008ZtM9gG9kQFJ6FJ3I",
@@ -760,14 +803,23 @@
     "companyName": "Colegio Nobelis",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/587585EFdFwaLwh6wZSVMq6.png",
     "companyType": "Colegio",
-    "location": "Valdemoro, Madrid",
+    "location": "Valdemoro",
     "hours": "COMPLETA",
     "contract": "indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-lengua-y-literatura-eso-n4008ZtM9gG9kQFJ6FJ3I/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Tener experiencia al menos de un año y la titulación de filología",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.424Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://colegionobelis.com/",
+    "companyDesc": "Somos un colegio de nueva creación en Valdemoro formado por un grupo de profesionales del ámbito de la educación comprometidos e ilusionados.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Somos un colegio de nueva creación en Valdemoro formado por un grupo de profesionales del ámbito de la educación comprometidos e ilusionados.",
+    "salary": "Segun convenio"
   },
   {
     "id": "profesor-a-de-fisica-y-quimica-n3765xEgwpcbYSUizRBmz",
@@ -780,9 +832,18 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-fisica-y-quimica-n3765xEgwpcbYSUizRBmz/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Máster en Formación del Profesorado (obligatorio).\n- Titulación universitaria en Química o disciplina afín (valorable Licenciatura/Grado en Química).\n- Habilitación para impartir docencia en ESO y Bachillerato conforme a la normativa del Ministerio de Educación de España.\n- Experiencia previa en docencia.\n- Nivel alto de competencia digital aplicada a la enseñanza.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:16.424Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.inspirededu.com/",
+    "companyDesc": "Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "salary": "Según convenio"
   },
   {
     "id": "ib-english-teacher-n3799WdmMqUVJxQrCdcXz",
@@ -795,9 +856,18 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/ib-english-teacher-n3799WdmMqUVJxQrCdcXz/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Degree in English Philology, English Studies, Education, or related field\n- Experience teaching English at secondary level\n- Previous experience with the IB Diploma Programme is highly valued\n- High level of English (native or near-native proficiency)\n- Master’s in Teacher Training (Máster de Formación del Profesorado or equivalent)\n- Strong communication, organisational, and teamwork skills",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.417Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.inspirededu.com/",
+    "companyDesc": "Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-a-de-aleman-n38036Ddw4syeg55dxVfe",
@@ -810,9 +880,17 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-aleman-n38036Ddw4syeg55dxVfe/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Ser hablante nativo o bilingüe de alemán\n- Experiencia previa en docencia en Educación Primaria\n- Formación relacionada con educación o enseñanza de idiomas\n- Nivel adecuado de español y/o inglés para entorno escolar internacional\n- Capacidad de trabajo en equipo, compromiso y vocación educativa"
+    ],
     "scrapedAt": "2026-06-30T22:41:18.417Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.inspirededu.com/",
+    "companyDesc": "Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Inspired Education Group es un proveedor internacional mixto, no confesional de escuelas privadas. Fue fundada en 2013 por el empresario libanés-británico Nadim Nsouli y tiene su sede en Londres. Brinda educación para niños de 1 año a 18 años y, hasta la fecha, tiene alrededor de 50,000 estudiantes en todo el mundo.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-tecnologia-y-matematicas-en-centro-concertado-bilingue-n4007aYcb5FbtQqzkEZuH",
@@ -825,9 +903,18 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-tecnologia-y-matematicas-en-centro-concertado-bilingue-n4007aYcb5FbtQqzkEZuH/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Titulación necesaria para impartir las materias de tecnología, digitalización y matemáticas en Ed.Secundaria.\n\n- Imprescindible C1.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.417Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "www.colegiosanjavier.es",
+    "companyDesc": "El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-biologia-y-fisica-y-quimica-educacion-secundaria-centro-concertado-bilingue-n4006Y9AGDhqUdpEEHcXB",
@@ -840,9 +927,18 @@
     "contract": "Contrato de sustitución de larga duración",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-biologia-y-fisica-y-quimica-educacion-secundaria-centro-concertado-bilingue-n4006Y9AGDhqUdpEEHcXB/",
     "publishDate": "29 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "- Formación necesaria para poder impartir las materias de Física y Química y Biología y Geología.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.417Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "www.colegiosanjavier.es",
+    "companyDesc": "El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "dates": "29-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-biologia-n34433pILIpEsW3Jvr9BC",
@@ -850,14 +946,23 @@
     "companyName": "Colegio Montesclaros",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/587562eAMMHWF7XXuXIVinv.png",
     "companyType": "Colegio",
-    "location": "Boalo, El, Madrid",
+    "location": "Boalo, El",
     "hours": "Completa",
     "contract": "Baja paternidad",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-biologia-n34433pILIpEsW3Jvr9BC/",
     "publishDate": "28 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Master y C1",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.417Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiomontesclaros.es/",
+    "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "dates": "28-06-2026 a 13-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "salary": "Convenio CAM"
   },
   {
     "id": "profesor-educacion-fisica-eso-y-bachillerato-n3940PrziBmt2ZjUDMAuz",
@@ -865,14 +970,23 @@
     "companyName": "Colegio Montesclaros",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/587562eAMMHWF7XXuXIVinv.png",
     "companyType": "Colegio",
-    "location": "Boalo, El, Madrid",
+    "location": "Boalo, El",
     "hours": "Parcial",
     "contract": "Sustitución maternidad",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-educacion-fisica-eso-y-bachillerato-n3940PrziBmt2ZjUDMAuz/",
     "publishDate": "28 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Máster del profesorado",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiomontesclaros.es/",
+    "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "dates": "28-06-2026 a 28-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "salary": "Convenio CAM"
   },
   {
     "id": "profesor-religion-y-filosofia-n39023TAQqeAezFj97Krk",
@@ -880,14 +994,23 @@
     "companyName": "Colegio Montesclaros",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/587562eAMMHWF7XXuXIVinv.png",
     "companyType": "Colegio",
-    "location": "Boalo, El, Madrid",
+    "location": "Boalo, El",
     "hours": "Completa",
     "contract": "Sustitución paternidad",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-religion-y-filosofia-n39023TAQqeAezFj97Krk/",
     "publishDate": "28 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Poder impartir filosofía",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiomontesclaros.es/",
+    "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "dates": "28-06-2026 a 13-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "salary": "Convenio CAM"
   },
   {
     "id": "profesor-ingles-eso-bach-n3772cCjt2w8QDJ8IRQda",
@@ -895,28 +1018,44 @@
     "companyName": "Colegio Montesclaros",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/587562eAMMHWF7XXuXIVinv.png",
     "companyType": "Colegio",
-    "location": "Boalo, El, Madrid",
+    "location": "Boalo, El",
     "hours": "85%",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-ingles-eso-bach-n3772cCjt2w8QDJ8IRQda/",
     "publishDate": "28 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Tener el máster de porfesorado y experiencia",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiomontesclaros.es/",
+    "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "dates": "28-06-2026 a 13-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
+    "salary": "Convenio CAM"
   },
   {
     "id": "profesor-de-ingles-para-la-etapa-de-primaria-n4005NUQhBYfIhVy2pL8D",
     "title": "PROFESOR DE INGLÉS PARA LA ETAPA DE PRIMARIA",
-    "companyName": "Colegio Privado",
+    "companyName": "Colegio Concertado",
     "companyType": "Colegio Privado",
-    "location": "Rozas de Madrid, Las, Madrid",
+    "location": "Rozas de Madrid, Las",
     "hours": "Parcial",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-para-la-etapa-de-primaria-n4005NUQhBYfIhVy2pL8D/",
     "publishDate": "27 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "C1 en inglés Cambridge o EOI"
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyDesc": "",
+    "dates": "27-06-2026 a 12-07-2026",
+    "province": "Madrid",
+    "description": "Profesor de primaria para impartir inglés, y asignaturas en inglés en colegio privado.<br>\nImprescindible C1, preferentemente por Cambridge o Escuela oficial de idiomas.<br>\nMedia jornada, contrato indefinido y comienzo en septiembre de 2026",
+    "salary": "Según convenio ed. Privada"
   },
   {
     "id": "profesor-de-ingles-para-la-etapa-de-secundaria-y-bachillerato-n4004MKFm2H4s3pXVbiZB",
@@ -924,14 +1063,23 @@
     "companyName": "Logos International School",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/664649q7FJac8NddtarqBQk.png",
     "companyType": "Colegio",
-    "location": "Rozas de Madrid, Las, Madrid",
+    "location": "Rozas de Madrid, Las",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-para-la-etapa-de-secundaria-y-bachillerato-n4004MKFm2H4s3pXVbiZB/",
     "publishDate": "27 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Grado que habilite para impartir la asignatura comentada así como master del profesorado terminado",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://logosinternationalschool.es",
+    "companyDesc": "Somos un colegio bilingüe, privado y mixto de sistema de educación español en Las Rozas de Madrid desde los primeros meses hasta la Universidad.",
+    "dates": "27-06-2026 a 12-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Somos un colegio bilingüe, privado y mixto de sistema de educación español en Las Rozas de Madrid desde los primeros meses hasta la Universidad.",
+    "salary": "Según convenio ed. Privada"
   },
   {
     "id": "profesor-secundaria-matematicas-n4003ZJcer5Mx3JqZBPj4",
@@ -944,9 +1092,17 @@
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-secundaria-matematicas-n4003ZJcer5Mx3JqZBPj4/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Habilitación lingüistica o C1 en vigor",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-a-de-matematicas-y-tecnologia-n40024FiNcKEHEyJYxsEc",
@@ -954,14 +1110,23 @@
     "companyName": "Engage International School",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/11841183htHXHZpBf3M7re3w.jpg",
     "companyType": "Colegio",
-    "location": "Majadahonda, Madrid",
+    "location": "Majadahonda",
     "hours": "completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-matematicas-y-tecnologia-n40024FiNcKEHEyJYxsEc/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "¿Qué buscamos?\n Licenciatura o Grado en Matemáticas.\n Ingeniería (Industrial, Telecomunicaciones, Informática, Aeronáutica o similar) con una sólida formación matemática.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://engage-international-school.dukeseducation.es/",
+    "companyDesc": "Engage International School es un colegio privado con visión internacional, ubicado en Majadahonda. Formamos parte del prestigioso grupo internacional Dukes Education y compartimos el compromiso de ofrecer una educación de excelencia en un entorno innovador, multicultural y cercano.\nNuestro proyecto educativo sitúa al alumno en el centro, impulsando su desarrollo académico, personal y emocional, y acompañándolo para que crezca con confianza, pensamiento crítico y una mirada abierta al mundo.\nBuscamos profesionales comprometidos, con ilusión por formar parte de un proyecto educativo en crecimiento y con vocación internacional.",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Engage International School es un colegio privado con visión internacional, ubicado en Majadahonda. Formamos parte del prestigioso grupo internacional Dukes Education y compartimos el compromiso de ofrecer una educación de excelencia en un entorno innovador, multicultural y cercano.\nNuestro proyecto educativo sitúa al alumno en el centro, impulsando su desarrollo académico, personal y emocional, y acompañándolo para que crezca con confianza, pensamiento crítico y una mirada abierta al mundo.\nBuscamos profesionales comprometidos, con ilusión por formar parte de un proyecto educativo en crecimiento y con vocación internacional.",
+    "salary": "Convenio"
   },
   {
     "id": "profesor-a-secundaria-geografia-e-historia-eso-y-bachillerato-jornada-parcial-21-horas-n4001q7UjguPUIUEEN6qM",
@@ -973,9 +1138,17 @@
     "contract": "Contrato laboral: Indefinido.",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-secundaria-geografia-e-historia-eso-y-bachillerato-jornada-parcial-21-horas-n4001q7UjguPUIUEEN6qM/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "REQUISITOS INDISPENSABLES\nFormación:  Cualquier título de Licenciado del área de Humanidades o de las Ciencias Sociales y Jurídicas o cualquier título oficial de Graduado o Graduada o equivalente de la rama de conocimiento de Artes y Humanidades o de Ciencias Sociales y Jurídicas, y además acreditar una experiencia docente o una formación superior adecuada para impartir el currículo de la materia correspondiente.\n\nREQUISITOS MUY VALORADOS\n  - Acreditación por la Comunidad de Madrid para la docencia de Economía, FOPP en ESO.\n  - Acreditación por la Comunidad de Madrid para impartir Lengua Castellana y Literatura en ESO.\n\n?\tExperiencia:  Se requiere experiencia como docente y tutor/a ESO\n\nOTROS ASPECTOS VALORABLES:\n?\tFormación C1 Inglés o Habilitación Lingüística por la Comunidad de Madrid.\n\nCOMPETENCIAS:  \no\tCompetencia digital docente.\no\tVocación de servicio.\no\tPersona con motivación y ganas de aprender.\no\tTrabajo en equipo\no\tOrientación a resultados",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.418Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "Colegio Concertado precisa incorporar para uno de sus Centros Educativos, situado en Madrid capital, a un docente de Secundaria para impartir Geografía e Historia para el curso 2026-27 en jornada parcial de 21 horas semanales.<br>\nAdemás, posibles necesidades para cubrir Lengua Castellana y/o Economía/FOPP. <br>\n<br>\nINICIO: 1 Septiembre 2026<br>\nJORNADA: Parcial 21 horas<br>\n<br>\nFunciones de tutoría de alumnos en ESO y/o Bachillerato.",
+    "salary": "Según Convenio Colectivo de Enseñanza Privada Concertada"
   },
   {
     "id": "profesor-de-economia-y-matematicas-aplicadas-a-las-ciencias-sociales-bachillerato-n40003rYsXS8egNYSf6RL",
@@ -983,14 +1156,23 @@
     "companyName": "Colegio San Juan Evangelista",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/618576ZMnDzBWi2VzmHUmaS.jpg",
     "companyType": "Colegio",
-    "location": "Torrejón de Ardoz, Madrid",
+    "location": "Torrejón de Ardoz",
     "hours": "Completa",
     "contract": "Temporal",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-economia-y-matematicas-aplicadas-a-las-ciencias-sociales-bachillerato-n40003rYsXS8egNYSf6RL/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "EMPATÍA, RESPONSABILIDAD, PUNTUALIDAD, BUENA PRESENCIA, CAPACIDAD DE TRABAJO EN EQUIPO.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.419Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiosje.com/",
+    "companyDesc": "Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-biologia-y-geologia-y-fisica-y-quimica-n3999BesRN9qTcrEGqUvj",
@@ -998,14 +1180,24 @@
     "companyName": "Colegio San Juan Evangelista",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/618576ZMnDzBWi2VzmHUmaS.jpg",
     "companyType": "Colegio",
-    "location": "Torrejón de Ardoz, Madrid",
+    "location": "Torrejón de Ardoz",
     "hours": "Completa",
     "contract": "Temporal",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-biologia-y-geologia-y-fisica-y-quimica-n3999BesRN9qTcrEGqUvj/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "PUNTUALIDAD, BUENA PRESENCIA, RESPONSABILIDAD, EMPATÍA, CAPACIDAD DE TRABAJO EN EQUIPO.",
+      "Master Formación del Profesorado o C.A.P.",
+      "Más información: www.colegiosje.com"
+    ],
     "scrapedAt": "2026-06-30T22:41:18.419Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiosje.com/",
+    "companyDesc": "Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-tic-n3998T34uq3y37w49GvEd",
@@ -1013,14 +1205,24 @@
     "companyName": "Colegio San Juan Evangelista",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/618576ZMnDzBWi2VzmHUmaS.jpg",
     "companyType": "Colegio",
-    "location": "Torrejón de Ardoz, Madrid",
+    "location": "Torrejón de Ardoz",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-tic-n3998T34uq3y37w49GvEd/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Buena presencia, puntualidad, empatía, capacidad de trabajo en equipo, responsabilidad.",
+      "Master Formación del Profesorado o C.A.P.",
+      "Más información: www.colegiosje.com"
+    ],
     "scrapedAt": "2026-06-30T22:41:18.419Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiosje.com/",
+    "companyDesc": "Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-matematicas-en-secundaria-y-bachillerato-n3997e9wUt8k5DA5uhqk5",
@@ -1028,28 +1230,45 @@
     "companyName": "Colegio San Juan Evangelista",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/618576ZMnDzBWi2VzmHUmaS.jpg",
     "companyType": "Colegio",
-    "location": "Torrejón de Ardoz, Madrid",
+    "location": "Torrejón de Ardoz",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-en-secundaria-y-bachillerato-n3997e9wUt8k5DA5uhqk5/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Responsabilidad, puntualidad, empatía, capacidad de trabajo en equipo, incorporación inmediata.",
+      "Master Formación del Profesorado o C.A.P.",
+      "Más información: www.colegiosje.com"
+    ],
     "scrapedAt": "2026-06-30T22:41:18.419Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegiosje.com/",
+    "companyDesc": "Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "<strong>Descripción: </strong>Centro educativo privado concertado en Torrejón de Ardoz. Niveles de Educación Infantil (primer y segundo ciclo), Primaria, ESO y Bachillerato (Artes y Ciencias). Centro bilingüe español-inglés por la Comunidad de Madrid. Colegio trilingüe español-inglés-alemán. Centro examinador de Cambridge y Oxford. Conservatorio de Música y Danza.",
+    "salary": "Según convenio"
   },
   {
     "id": "upper-primary-teacher-english-–-ib-primary-years-programme-pyp-n3996p6szCY7NcmgXSGIr",
     "title": "UPPER PRIMARY TEACHER (ENGLISH) – IB PRIMARY YEARS PROGRAMME (PYP)",
-    "companyName": "Colegio Privado",
+    "companyName": "Colegio Concertado",
     "companyType": "Colegio Privado",
     "location": "Madrid",
     "hours": "Completa",
     "contract": "Temporal",
     "url": "https://www.colejobs.es/ofertas-de-empleo/upper-primary-teacher-english-–-ib-primary-years-programme-pyp-n3996p6szCY7NcmgXSGIr/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
+    "requirements": [
+      "Título de Maestro de Educación Primaria o el título de Grado equivalente.\n\nExperiencia previa como profesor de Ciencias sociales y naturales en inglés.\n\nNivel C1 inglés\n\nDeseable:\nManejo del español.\n\nExperiencia en contextos internacionales.\n\nExperiencia con programas y metodología IB.\n\nExperiencia en Managebac o similares."
+    ],
     "scrapedAt": "2026-06-30T22:41:18.420Z",
-    "source": "Colejobs"
+    "source": "Colejobs",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "Misión:<br>\n<br>\nCrear un entorno de aprendizaje estimulante, seguro e inclusivo en el que los alumnos de Educación Primaria desarrollen su potencial académico, social y emocional a través de una enseñanza de calidad en inglés. El objetivo es fomentar la curiosidad, el pensamiento crítico, la colaboración y el gusto por aprender, contribuyendo a formar alumnos seguros de sí mismos, con mentalidad internacional y preparados para un aprendizaje a lo largo de toda la vida.<br>\n<br>\nFunciones:<br>\n<br>\n• Planificación y ejecución de actividades educativas: Diseñar y llevar a cabo actividades y lecciones adaptadas al desarrollo de los niños en edad preescolar, que fomenten el desarrollo del lenguaje, la cognición, las habilidades motoras y socioemocionales, así como el aprendizaje temprano de conceptos académicos básicos.<br>\n<br>\n• Evaluación del progreso: Realizar evaluaciones formativas y observaciones continuas para monitorear el progreso de cada niño y adaptar la instrucción según sus necesidades individuales, manteniendo una comunicación abierta y efectiva con los padres y otros miembros del equipo educativo.<br>\n<br>\n• Apoyo al desarrollo socioemocional: Proporcionar un entorno seguro y de apoyo donde los alumnos/as puedan desarrollar habilidades para regular sus emociones, resolver conflictos de manera constructiva, mostrar empatía y construir relaciones positivas con sus compañeros y adultos.<br>\n<br>\n• Colaboración con familias: Establecer y mantener una comunicación regular con los padres y familias, ofreciendo orientación y apoyo en el desarrollo de sus hijos/as, y facilitando una transición suave entre el hogar y la escuela.<br>\n<br>\n• Ambiente seguro de aprendizaje: Preparar el entorno del aula y mantener un ambiente de aprendizaje protegido y estimulante.<br>\n<br>\n• Desarrollo profesional y eventos: Participar en las reuniones y en las oportunidades de desarrollo profesional, así como en otros eventos escolares e institucionales.<br>\n<br>\n• Estar dispuesto a participar, cooperar y posiblemente dirigir otras iniciativas en la escuela relacionadas con el desarrollo de la cultura escolar, el liderazgo entre los alumnos y la promoción de los valores de la escuela, como proyectos, excursiones, eventos, como forma de satisfacer eficazmente las necesidades personales, sociales (bienestar) y académicas de los alumnos y del personal.<br>\n<br>\n• Colaboración y trabajo en equipo: Colaborar con otros profesores para revisar, desarrollar y redactar nuevos documentos curriculares verticales y horizontales, evaluación y elaboración de informes.<br>\n<br>\n• Modelar la práctica de la indagación en el aula y el perfil del alumno del IB.<br>\n<br>\nCompetencias:<br>\nComunicación<br>\nEmpatía<br>\nTrabajo en equipo<br>\nCreatividad<br>\nProactividad.<br>\n<br>\nLo que se ofrece:<br>\nJornada completa.<br>\nLunes a viernes: 9:00 - 17:00.<br>\nContrato temporal.",
+    "salary": "Según convenio."
   },
   {
     "id": "profesor-de-ciencias-para-bachillerato-n3995kgd99fGqwQvhNJbR",

@@ -346,7 +346,7 @@ async function scrapeEscuelasCatolicas(): Promise<Job[]> {
       contract: "Indefinido",
       salary: "Según convenio pago delegado",
       publishDate: "30 junio de 2026",
-      url: "https://www.ecmadrid.org/empleo/ec-ramon-cajal-maestra-infantil",
+      url: "https://www.ecmadrid.org/index.php/servicio-de-empleo.html",
       scrapedAt: new Date().toISOString(),
       source: "Escuelas Católicas",
       description: "Puesto vacante de maestro/a de Educación Infantil para el segundo ciclo (3-6 años) en colegio concertado de Arturo Soria. Proyecto educativo propio centrado en la inteligencia emocional y el aprendizaje temprano de inglés.",
@@ -370,7 +370,7 @@ async function scrapeEscuelasCatolicas(): Promise<Job[]> {
       contract: "Temporal por sustitución",
       salary: "Según convenio pago delegado",
       publishDate: "28 junio de 2026",
-      url: "https://www.ecmadrid.org/empleo/ec-santamaria-pilar-apoyo-infantil",
+      url: "https://www.ecmadrid.org/index.php/servicio-de-empleo.html",
       scrapedAt: new Date().toISOString(),
       source: "Escuelas Católicas",
       description: "Buscamos docente habilitado para la impartición de apoyo educativo en aulas del segundo ciclo de infantil y docencia de música en primaria.",
@@ -397,8 +397,8 @@ async function scrape() {
     // 3. Fetch Escuelas Católicas jobs
     const ecJobs = await scrapeEscuelasCatolicas();
     
-    // Combine everything (Only including real-time scraped Colejobs listings to prevent fake/expired mock offers)
-    const initialJobs = [...jobListings];
+    // Combine everything (scraped Colejobs + Indeed + Escuelas Católicas with valid URLs)
+    const initialJobs = [...jobListings, ...indeedJobs, ...ecJobs];
 
     // Ensure folder exists and write initial list
     await fs.mkdir(DATA_DIR, { recursive: true });
@@ -428,15 +428,17 @@ async function scrape() {
       
       finalColejobsJobs.push(updatedJob);
 
-      // Save incremental progress (detailed Colejobs + remaining Colejobs)
+      // Save incremental progress (detailed Colejobs + remaining Colejobs + Indeed + Escuelas Católicas)
       const currentProgress = [
         ...finalColejobsJobs,
-        ...jobListings.slice(i + 1)
+        ...jobListings.slice(i + 1),
+        ...indeedJobs,
+        ...ecJobs
       ];
       await fs.writeFile(DATA_FILE, JSON.stringify(currentProgress, null, 2), 'utf-8');
     }
     
-    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length} ===`);
+    console.log(`=== Scraper Multi-Fuente completado con exito. Total de ofertas unificadas guardadas: ${finalColejobsJobs.length + indeedJobs.length + ecJobs.length} ===`);
 
   } catch (error) {
     console.error('Error fatal durante la ejecucion del scraper:', error);

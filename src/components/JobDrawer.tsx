@@ -52,6 +52,29 @@ const parseMarkdownToHtml = (markdown: string): string => {
   return html;
 };
 
+// Helper function to format job description to pretty styled HTML
+const formatDescriptionText = (text: string | null | undefined): string => {
+  if (!text) return '';
+  
+  let html = text.trim();
+  
+  // Replace raw description prefix if present
+  html = html.replace(/^<strong>Descripción:\s*<\/strong>/gi, '');
+  html = html.replace(/^Descripción:\s*/gi, '');
+  
+  // Convert bullet points (lines starting with - or * or •) to styled list-like divs
+  html = html.replace(/(?:^|<br\s*\/?>|\n)\s*[-*•]\s+(.+?)(?=(?:<br\s*\/?>|\n|$))/gi, (_, p1) => {
+    return `<div style="display:flex;align-items:flex-start;gap:6px;margin-left:12px;margin-top:6px;margin-bottom:6px;"><span style="color:var(--accent-primary);font-size:1rem;line-height:1.2;">•</span><span>${p1}</span></div>`;
+  });
+  
+  // Replace remaining newlines with line breaks if not already formatted
+  if (!html.includes('<br') && !html.includes('<p') && !html.includes('<div')) {
+    html = html.replace(/\n/g, '<br />');
+  }
+  
+  return html;
+};
+
 interface JobDrawerProps {
   job: Job | null;
   onClose: () => void;
@@ -612,29 +635,52 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           </div>
 
           {/* Requirements List */}
-          {job.requirements && job.requirements.length > 0 && (
-            <div style={{ marginBottom: '24px' }}>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--text-primary)' }}>
-                <CheckSquare size={16} className="text-secondary" />
-                Requisitos del puesto
-              </h4>
-              <ul style={{ paddingLeft: '20px', fontSize: '0.875rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {job.requirements.map((req, index) => (
-                  <li key={index} style={{ lineHeight: 1.4 }}>{req}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <div style={{ marginBottom: '24px' }}>
+            <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--text-primary)' }}>
+              <CheckSquare size={16} className="text-secondary" />
+              Requisitos del puesto
+            </h4>
+            {(() => {
+              const allRequirements: string[] = [];
+              if (job.requirements) {
+                job.requirements.forEach(req => {
+                  if (req) {
+                    req.split('\n').forEach(subReq => {
+                      const trimmed = subReq.trim().replace(/^[-*•]\s*/, '');
+                      if (trimmed) {
+                        allRequirements.push(trimmed);
+                      }
+                    });
+                  }
+                });
+              }
+              
+              if (allRequirements.length > 0) {
+                return (
+                  <ul style={{ paddingLeft: '20px', fontSize: '0.875rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {allRequirements.map((req, index) => (
+                      <li key={index} style={{ lineHeight: 1.4 }}>{req}</li>
+                    ))}
+                  </ul>
+                );
+              }
+              return (
+                <p style={{ fontStyle: 'italic', color: 'var(--text-muted)', fontSize: '0.85rem', margin: '4px 0 0 12px' }}>
+                  No se han especificado requisitos explícitos para este puesto.
+                </p>
+              );
+            })()}
+          </div>
 
           {/* Description */}
-          {job.description && (
-            <div style={{ marginBottom: '24px' }}>
-              <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--text-primary)' }}>
-                <FileText size={16} className="text-secondary" />
-                Descripción del Empleo
-              </h4>
+          <div style={{ marginBottom: '24px' }}>
+            <h4 style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.9rem', marginBottom: '10px', color: 'var(--text-primary)' }}>
+              <FileText size={16} className="text-secondary" />
+              Descripción del Empleo
+            </h4>
+            {job.description ? (
               <div 
-                dangerouslySetInnerHTML={{ __html: job.description }} 
+                dangerouslySetInnerHTML={{ __html: formatDescriptionText(job.description) }} 
                 style={{ 
                   fontSize: '0.875rem', 
                   color: 'var(--text-secondary)', 
@@ -642,8 +688,12 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                   wordBreak: 'break-word'
                 }}
               />
-            </div>
-          )}
+            ) : (
+              <p style={{ fontStyle: 'italic', color: 'var(--text-muted)', fontSize: '0.85rem', margin: '4px 0 0 12px' }}>
+                No se ha facilitado una descripción específica para esta vacante.
+              </p>
+            )}
+          </div>
 
           {/* Original Offer Link */}
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>

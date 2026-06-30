@@ -200,15 +200,18 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   };
 
   const handleAnalyzeCV = async () => {
-    if (!cvFile || !job) return;
+    if ((!cvFile && !globalCVStatus?.exists) || !job) return;
     setAnalyzing(true);
     setAnalysisError(null);
     setSummary(null);
     setAnnotatedCV(null);
 
     const formData = new FormData();
-    formData.append('cv', cvFile);
+    if (cvFile) {
+      formData.append('cv', cvFile);
+    }
     formData.append('jobTitle', job.title);
+    formData.append('jobCompany', job.companyName);
     formData.append('jobDescription', job.description || '');
     formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
 
@@ -241,14 +244,17 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   };
 
   const handleGenerateCoverLetter = async () => {
-    if (!cvFile || !job) return;
+    if ((!cvFile && !globalCVStatus?.exists) || !job) return;
     setGeneratingLetter(true);
     setLetterError(null);
     setCoverLetter(null);
 
     const formData = new FormData();
-    formData.append('cv', cvFile);
+    if (cvFile) {
+      formData.append('cv', cvFile);
+    }
     formData.append('jobTitle', job.title);
+    formData.append('jobCompany', job.companyName);
     formData.append('jobDescription', job.description || '');
     formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
 
@@ -719,7 +725,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                 </span>
               </div>
 
-              {cvFile && (
+              {(cvFile || globalCVStatus?.exists) && (
                 <button
                   className="btn-primary"
                   onClick={handleAnalyzeCV}

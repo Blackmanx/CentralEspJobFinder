@@ -230,7 +230,7 @@ app.post('/api/user-states', async (req, res) => {
 
 app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => {
   try {
-    const { jobTitle, jobDescription, jobRequirements } = req.body;
+    const { jobTitle, jobCompany, jobDescription, jobRequirements } = req.body;
     
     let fileBuffer: Buffer;
     let originalName = '';
@@ -273,8 +273,23 @@ app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => 
     const prompt = `Eres un redactor profesional de recursos humanos experto en contratación de personal docente en España.
 Redacta una carta de presentación formal y persuasiva adaptada específicamente al puesto y los requisitos de la oferta de empleo provista.
 
-== DETALLES DE LA OFERTA DE EMPLEO ==
+Debes basarte en la estructura, estilo de redacción, tono y detalles específicos de la siguiente plantilla provista por el usuario:
+
+== PLANTILLA DE CARTA DE PRESENTACIÓN DE REFERENCIA ==
+A la atención del equipo de selección de [Nombre del Colegio o Centro],
+Me dirijo a ustedes con gran entusiasmo para presentar mi candidatura al puesto de [Puesto Docente]. Como graduada en Magisterio de Educación Infantil y en el Máster en Investigación e Innovación en Educación (UNED), mi trayectoria se ha centrado en entender y honrar la infancia desde una mirada profundamente respetuosa y científica. Fruto de este compromiso, participo activamente en redes de colaboración con investigadores y en la redacción de artículos especializados encaminados a mejorar la educación actual, lo que me permite trasladar las últimas evidencias educativas directamente a la práctica en el aula.
+Cuento con una sólida base pedagógica y experiencia práctica que se alinea con los valores de su escuela infantil, por ejemplo:
+En mi paso por Cruz Roja y mis prácticas en centros como el CEIP Guernica, he gestionado grupos de primera infancia, priorizando siempre el bienestar socioemocional y el respeto a los ritmos individuales del niño. Por otro lado, he desarrollado proyectos de vanguardia como "Pimpoyo", un chatbot basado en IA generativa diseñado para fomentar el pensamiento crítico en un entorno seguro y de confianza, lo que demuestra mi capacidad para crear espacios de aprendizaje adaptados a los retos actuales.
+Actualmente, desempeño mi labor como profesora de inglés en dos colegios simultáneamente (Colegio ADDIS y Mater Purissima) a jornada partida. Esta experiencia no solo ha consolidado mi fluidez y competencia bilingüe diaria, sino que me ha dotado de una gran capacidad de organización, iniciativa y energía para gestionar diferentes entornos educativos. Asimismo, mi faceta como asistente de fotografía infantil me ha aportado una sensibilidad especial para establecer una comunicación fluida, empática y profesional con las familias, fundamental para el éxito de una escuela.
+Por último, basándome en mi sólida formación académica y experiencia práctica, concibo su escuela como un espacio ideal para crear un entorno de aprendizaje activo y respetuoso; un entorno preparado para ofrecer seguridad y retos evolutivos adaptados a las necesidades individuales de cada niño y niña en las etapas 0-3 y 3-6 años.
+Cabe destacar que resido en Madrid, lo que me permite total puntualidad y compromiso con el horario requerido. Mi objetivo es aportar en su aula una combinación de mi rigor investigador y calidez humana para garantizar que cada niño y niña se sienta visto, escuchado y protegido.
+Agradezco de antemano su tiempo y quedo a su entera disposición para concertar una entrevista.
+Atentamente,
+[Nombre del Candidato]
+
+== DETALLES DE LA OFERTA DE EMPLEO OBJETIVO ==
 Puesto: ${jobTitle || 'No especificado'}
+Colegio/Centro: ${jobCompany || 'el centro'}
 Descripción: ${jobDescription || 'No especificada'}
 Requisitos: ${jobRequirements || 'No especificados'}
 
@@ -282,10 +297,10 @@ Requisitos: ${jobRequirements || 'No especificados'}
 ${anonymizedCV}
 
 == INSTRUCCIONES DE REDACCIÓN ==
-1. Adopta un tono formal, profesional y motivador en español.
-2. Utiliza marcadores de posición limpios como "[Nombre del Candidato]", "[Teléfono]", "[Correo]" (para que el usuario los complete) ya que los datos originales han sido anonimizados por seguridad.
-3. Conecta las fortalezas del candidato (experiencia docente, metodologías) con las necesidades del centro de forma coherente.
-4. No uses emojis de ningún tipo.
+1. Adapta la carta de referencia para dirigirla específicamente a la atención del equipo de selección del colegio objetivo (reemplaza "[Nombre del Colegio o Centro]" con el nombre real del centro si está disponible: ${jobCompany || 'el centro'}).
+2. Modifica el nombre del puesto docente [Puesto Docente] por el título de la oferta de empleo provista.
+3. Asegúrate de mantener la redacción académica y profesional del candidato (Magisterio, Máster UNED, chatbot Pimpoyo, colegios ADDIS y Mater Purissima) pero adaptando suavemente los argumentos para responder a las necesidades particulares del colegio y su descripción de puesto.
+4. No utilices emojis de ningún tipo.
 5. Devuelve directamente el texto de la carta de presentación formateada en Markdown, sin introducciones ni comentarios adicionales de tu parte.`;
 
     const result = await model.generateContent(prompt);

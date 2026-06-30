@@ -519,7 +519,8 @@ export default function App() {
   const lastScrapedTime = jobs.length > 0 ? new Date(jobs[0].scrapedAt).toLocaleString('es-ES') : '';
 
   return (
-    <div className="app-container">
+    <>
+      <div className="app-container">
       
       {/* Left Sidebar: Logo, Metadata and Filters */}
       <aside className="sidebar">
@@ -1114,42 +1115,42 @@ export default function App() {
         </div>
 
       </main>
-
-      {/* Centered Modal details popup */}
-      {selectedJob && (
-        <JobDrawer
-          job={selectedJob}
-          onClose={() => setSelectedJob(null)}
-          userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
-          onUpdateState={handleUpdateJobState}
-          showToast={showToast}
-        />
-      )}
-
-      {/* Toast Notification Container */}
-      <div className="toast-container">
-        {toasts.map(toast => (
-          <div key={toast.id} className={`toast toast-${toast.type}`}>
-            {toast.type === 'success' && <CheckCircle size={16} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />}
-            {toast.type === 'error' && <AlertCircle size={16} style={{ color: 'var(--accent-red)', flexShrink: 0 }} />}
-            {toast.type === 'info' && <Info size={16} style={{ color: 'var(--accent-gold)', flexShrink: 0 }} />}
-            <span>{toast.message}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* CSS definitions for spin animation */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}} />
-
     </div>
-  );
+
+    {/* Centered Modal details popup */}
+    {selectedJob && (
+      <JobDrawer
+        job={selectedJob}
+        onClose={() => setSelectedJob(null)}
+        userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
+        onUpdateState={handleUpdateJobState}
+        showToast={showToast}
+      />
+    )}
+
+    {/* Toast Notification Container */}
+    <div className="toast-container">
+      {toasts.map(toast => (
+        <div key={toast.id} className={`toast toast-${toast.type}`}>
+          {toast.type === 'success' && <CheckCircle size={16} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />}
+          {toast.type === 'error' && <AlertCircle size={16} style={{ color: 'var(--accent-red)', flexShrink: 0 }} />}
+          {toast.type === 'info' && <Info size={16} style={{ color: 'var(--accent-gold)', flexShrink: 0 }} />}
+          <span>{toast.message}</span>
+        </div>
+      ))}
+    </div>
+
+    {/* CSS definitions for spin animation */}
+    <style dangerouslySetInnerHTML={{__html: `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    `}} />
+  </>
+);
 }

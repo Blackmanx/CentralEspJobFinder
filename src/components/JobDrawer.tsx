@@ -738,7 +738,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-primary-hover)'}
               onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-primary)'}
             >
-              Ver Oferta Original en Colejobs
+              Ver Oferta Original en {job.source || 'Colejobs'}
               <ExternalLink size={14} />
             </a>
           </div>

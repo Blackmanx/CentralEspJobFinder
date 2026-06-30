@@ -96,6 +96,22 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   // Interview Date State
   const [interviewDate, setInterviewDate] = useState(userState.interviewDate || '');
 
+  // State for active tab in the CV Visualizer modal
+  const [activeCVTab, setActiveCVTab] = useState<'summary' | 'annotations' | 'letter'>('summary');
+  
+  // Object URL for live PDF previsualization
+  const [pdfUrl, setPdfUrl] = useState<string>('');
+
+  useEffect(() => {
+    if (cvFile && cvFile.type === 'application/pdf') {
+      const url = URL.createObjectURL(cvFile);
+      setPdfUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPdfUrl('');
+    }
+  }, [cvFile]);
+
   // Sync state with selected job
   useEffect(() => {
     if (job) {
@@ -112,6 +128,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setGeneratingLetter(false);
       setLetterError(null);
       setInterviewDate(userState.interviewDate || '');
+      setActiveCVTab('summary');
 
       // Fetch geocoding for Leaflet Map
       if (job.location) {
@@ -736,8 +753,6 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           </div>
 
         </div>
-      </div>
-
       {/* Fullscreen CV Optimization Modal */}
       {showCVModal && annotatedCV && (
         <div style={{
@@ -758,7 +773,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
             backgroundColor: 'var(--bg-surface)',
             border: '1px solid var(--border-color)',
             borderRadius: '8px',
-            width: 'min(1100px, 95vw)',
+            width: 'min(1200px, 95vw)',
             height: '85vh',
             display: 'flex',
             flexDirection: 'column',
@@ -776,7 +791,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
             }}>
               <div>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                  Visualizador de Mejoras de CV
+                  Visualizador y Analizador de CV
                 </h3>
                 <span className="text-muted" style={{ fontSize: '0.75rem' }}>
                   {job.title} | {job.companyName}
@@ -791,184 +806,296 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               </button>
             </div>
 
-            {/* Modal Content Split */}
+            {/* Modal Content Split: 50% PDF original, 50% AI analysis dashboard */}
             <div style={{
               flex: 1,
               display: 'flex',
               overflow: 'hidden'
             }}>
-              {/* Left Side: Summary / HR report & Cover Letter */}
-              {summary && (
-                <div style={{
-                  width: '380px',
-                  borderRight: '1px solid var(--border-color)',
-                  padding: '24px',
-                  overflowY: 'auto',
-                  backgroundColor: 'var(--bg-app)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '24px'
-                }}>
-                  <div>
-                    <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '12px' }}>
-                      Informe de Ajuste
-                    </h4>
-                    <div 
-                      className="text-secondary" 
-                      style={{ fontSize: '0.8rem', lineHeight: 1.5 }}
-                      dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(summary) }} 
-                    />
-                  </div>
-
-                  <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '20px' }}>
-                    <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '12px' }}>
-                      Carta de Presentación AI
-                    </h4>
-                    {coverLetter ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <textarea
-                          readOnly
-                          value={coverLetter}
-                          style={{
-                            width: '100%',
-                            height: '220px',
-                            fontSize: '0.75rem',
-                            padding: '8px',
-                            backgroundColor: 'var(--bg-element)',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '4px',
-                            color: 'var(--text-primary)',
-                            resize: 'none',
-                            fontFamily: 'monospace',
-                            lineHeight: 1.4
-                          }}
-                        />
-                        <button
-                          className="btn-secondary"
-                          onClick={() => {
-                            navigator.clipboard.writeText(coverLetter);
-                            alert('¡Carta de presentación copiada al portapapeles!');
-                          }}
-                          style={{ fontSize: '0.75rem', justifyContent: 'center' }}
-                        >
-                          Copiar al portapapeles
-                        </button>
-                      </div>
-                    ) : (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                          Genera una carta formal adaptada al perfil del colegio usando tus datos anonimizados.
-                        </p>
-                        <button
-                          className="btn-primary"
-                          onClick={handleGenerateCoverLetter}
-                          disabled={generatingLetter}
-                          style={{ width: '100%', justifyContent: 'center', fontSize: '0.75rem' }}
-                        >
-                          {generatingLetter ? 'Generando...' : 'Generar Carta con AI'}
-                        </button>
-                        {letterError && (
-                          <span style={{ fontSize: '0.7rem', color: 'var(--accent-red)' }}>{letterError}</span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Right Side: Original CV with inline highlighted annotations */}
+              
+              {/* Left Pane: Original Document View (PDF / Word) */}
               <div style={{
                 flex: 1,
-                padding: '32px',
-                overflowY: 'auto',
-                backgroundColor: 'var(--bg-element)',
+                padding: '20px',
+                backgroundColor: 'var(--bg-app)',
+                borderRight: '1px solid var(--border-color)',
                 display: 'flex',
-                justifyContent: 'center'
+                flexDirection: 'column',
+                overflow: 'hidden'
               }}>
-                <div style={{
-                  backgroundColor: '#ffffff',
-                  color: '#1e293b',
-                  width: '100%',
-                  maxWidth: '700px',
-                  minHeight: '100%',
-                  borderRadius: '4px',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-                  padding: '40px',
-                  fontFamily: 'Georgia, serif',
-                  fontSize: '0.875rem',
-                  lineHeight: 1.7,
-                  whiteSpace: 'pre-wrap',
-                  position: 'relative'
-                }}>
-                  {/* Title of document sheet */}
-                  <div style={{ 
-                    borderBottom: '2px solid #e2e8f0', 
-                    paddingBottom: '8px', 
-                    marginBottom: '20px', 
-                    fontSize: '0.75rem', 
-                    color: '#64748b', 
-                    fontFamily: 'var(--font-sans)',
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}>
-                    <span>CURRICULUM VITAE ANALIZADO</span>
-                    <span>Pasa el cursor por las zonas subrayadas</span>
-                  </div>
-                  
-                  {/* Dynamic parsed nodes */}
-                  <div style={{ color: '#334155' }}>
-                    {(() => {
-                      const parser = new DOMParser();
-                      const doc = parser.parseFromString(`<div>${annotatedCV}</div>`, 'text/html');
-                      
-                      const renderNodes = (node: Node): React.ReactNode => {
-                        if (node.nodeType === Node.TEXT_NODE) {
-                          return node.textContent;
-                        }
-                        if (node.nodeType === Node.ELEMENT_NODE) {
-                          const el = node as HTMLElement;
-                          if (el.tagName.toLowerCase() === 'annotation') {
-                            const type = el.getAttribute('type') || 'improvement';
-                            const comment = el.getAttribute('comment') || '';
-                            return (
-                              <span 
-                                key={Math.random()}
-                                className={`cv-annotation cv-annotation-${type}`}
-                                style={{
-                                  position: 'relative',
-                                  cursor: 'help',
-                                  borderRadius: '3px',
-                                  padding: '2px 4px',
-                                  margin: '0 2px'
-                                }}
-                              >
-                                {Array.from(el.childNodes).map((child) => renderNodes(child))}
-                                <span className="cv-annotation-tooltip">{comment}</span>
-                              </span>
-                            );
-                          }
-                          if (el.tagName.toLowerCase() === 'br') {
-                            return <br />;
-                          }
-                          return (
-                            <span key={Math.random()}>
-                              {Array.from(el.childNodes).map((child) => renderNodes(child))}
-                            </span>
-                          );
-                        }
-                        return null;
-                      };
-                      
-                      return renderNodes(doc.body.firstChild || doc.body);
-                    })()}
-                  </div>
+                <div style={{ marginBottom: '10px', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                  DOCUMENTO ORIGINAL SUBIDO
+                </div>
+                <div style={{ flex: 1, overflow: 'hidden', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                  {pdfUrl ? (
+                    <iframe 
+                      src={pdfUrl} 
+                      title="Currículum Original" 
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        backgroundColor: '#ffffff'
+                      }} 
+                    />
+                  ) : (
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'var(--bg-tertiary)',
+                      padding: '40px',
+                      textAlign: 'center',
+                      gap: '12px'
+                    }}>
+                      <FileText size={48} className="text-secondary" />
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>Visualización en vivo no disponible</h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', maxWidth: '280px', lineHeight: 1.4 }}>
+                        La visualización interactiva del documento original requiere formato PDF. Para archivos de Microsoft Word (DOCX), puedes revisar las mejoras y generar tu carta en el panel derecho.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
+
+              {/* Right Pane: AI analysis dashboard */}
+              <div style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden',
+                backgroundColor: 'var(--bg-surface)'
+              }}>
+                {/* Tabs bar */}
+                <div style={{
+                  display: 'flex',
+                  borderBottom: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--bg-app)',
+                  padding: '0 16px'
+                }}>
+                  <button
+                    onClick={() => setActiveCVTab('summary')}
+                    style={{
+                      padding: '14px 16px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      background: 'none',
+                      color: activeCVTab === 'summary' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                      borderBottom: activeCVTab === 'summary' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Informe de Ajuste
+                  </button>
+                  <button
+                    onClick={() => setActiveCVTab('annotations')}
+                    style={{
+                      padding: '14px 16px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      background: 'none',
+                      color: activeCVTab === 'annotations' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                      borderBottom: activeCVTab === 'annotations' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Sugerencias y Mejoras
+                  </button>
+                  <button
+                    onClick={() => setActiveCVTab('letter')}
+                    style={{
+                      padding: '14px 16px',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      border: 'none',
+                      background: 'none',
+                      color: activeCVTab === 'letter' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                      borderBottom: activeCVTab === 'letter' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Carta de Presentación
+                  </button>
+                </div>
+
+                {/* Tab content wrapper */}
+                <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+                  
+                  {/* Tab 1: Summary / compatibility */}
+                  {activeCVTab === 'summary' && summary && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                        Informe de Compatibilidad
+                      </h4>
+                      <div 
+                        className="text-secondary" 
+                        style={{ fontSize: '0.8rem', lineHeight: 1.5 }}
+                        dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(summary) }} 
+                      />
+                    </div>
+                  )}
+
+                  {/* Tab 2: Specific annotations list */}
+                  {activeCVTab === 'annotations' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                        Anotaciones de Optimización de CV
+                      </h4>
+                      {(() => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(`<div>${annotatedCV}</div>`, 'text/html');
+                        const annotationsList = Array.from(doc.querySelectorAll('annotation')).map((el, idx) => ({
+                          id: idx,
+                          type: el.getAttribute('type') || 'improvement',
+                          comment: el.getAttribute('comment') || '',
+                          text: el.textContent || ''
+                        }));
+
+                        if (annotationsList.length === 0) {
+                          return (
+                            <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                              No se han detectado anotaciones específicas de mejora en el texto del CV.
+                            </div>
+                          );
+                        }
+
+                        return annotationsList.map(ann => {
+                          let borderColor = 'var(--border-color)';
+                          let badgeColor = 'var(--text-muted)';
+                          let label = 'Sugerencia';
+                          
+                          if (ann.type === 'strength') {
+                            borderColor = '#10b981';
+                            badgeColor = '#10b981';
+                            label = 'Punto Fuerte';
+                          } else if (ann.type === 'improvement') {
+                            borderColor = '#f59e0b';
+                            badgeColor = '#f59e0b';
+                            label = 'Propuesta de Mejora';
+                          } else if (ann.type === 'correction') {
+                            borderColor = '#ef4444';
+                            badgeColor = '#ef4444';
+                            label = 'Corrección Crítica';
+                          }
+                          
+                          return (
+                            <div 
+                              key={ann.id}
+                              style={{
+                                border: '1px solid var(--border-color)',
+                                borderLeft: `4px solid ${borderColor}`,
+                                borderRadius: '6px',
+                                padding: '14px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '8px',
+                                backgroundColor: 'var(--bg-element)'
+                              }}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span style={{
+                                  fontSize: '0.65rem',
+                                  fontWeight: 'bold',
+                                  textTransform: 'uppercase',
+                                  color: badgeColor,
+                                  backgroundColor: `${badgeColor}15`,
+                                  padding: '2px 8px',
+                                  borderRadius: '4px'
+                                }}>
+                                  {label}
+                                </span>
+                              </div>
+                              <div style={{ 
+                                fontSize: '0.78rem', 
+                                fontStyle: 'italic', 
+                                color: 'var(--text-secondary)', 
+                                paddingLeft: '8px', 
+                                borderLeft: '2px solid var(--border-color)',
+                                margin: '2px 0'
+                              }}>
+                                "{ann.text}"
+                              </div>
+                              <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.4 }}>
+                                {ann.comment}
+                              </p>
+                            </div>
+                          );
+                        });
+                      })()}
+                    </div>
+                  )}
+
+                  {/* Tab 3: Cover Letter */}
+                  {activeCVTab === 'letter' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <h4 style={{ fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                        Carta de Presentación AI
+                      </h4>
+                      {coverLetter ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          <textarea
+                            readOnly
+                            value={coverLetter}
+                            style={{
+                              width: '100%',
+                              height: '320px',
+                              fontSize: '0.75rem',
+                              padding: '12px',
+                              backgroundColor: 'var(--bg-element)',
+                              border: '1px solid var(--border-color)',
+                              borderRadius: '4px',
+                              color: 'var(--text-primary)',
+                              resize: 'none',
+                              fontFamily: 'monospace',
+                              lineHeight: 1.4
+                            }}
+                          />
+                          <button
+                            className="btn-secondary"
+                            onClick={() => {
+                              navigator.clipboard.writeText(coverLetter);
+                              alert('¡Carta de presentación copiada al portapapeles!');
+                            }}
+                            style={{ fontSize: '0.75rem', justifyContent: 'center' }}
+                          >
+                            Copiar al portapapeles
+                          </button>
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                            Genera una carta formal adaptada al perfil del colegio usando tus datos anonimizados.
+                          </p>
+                          <button
+                            className="btn-primary"
+                            onClick={handleGenerateCoverLetter}
+                            disabled={generatingLetter}
+                            style={{ width: '100%', justifyContent: 'center', fontSize: '0.75rem' }}
+                          >
+                            {generatingLetter ? 'Generando...' : 'Generar Carta con AI'}
+                          </button>
+                          {letterError && (
+                            <span style={{ fontSize: '0.7rem', color: 'var(--accent-red)' }}>{letterError}</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       )}
-      
+      </div>
+
       {/* Styles for responsive drawer sizing */}
       <style dangerouslySetInnerHTML={{__html: `
         @media (max-width: 550px) {

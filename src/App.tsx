@@ -88,6 +88,7 @@ export default function App() {
 
   // Scraping State
   const [scraping, setScraping] = useState(false);
+  const [scrapeProgress, setScrapeProgress] = useState('');
 
   // Global CV Status (loaded and synchronized with backend server)
   const [globalCVStatus, setGlobalCVStatus] = useState<{ exists: boolean; originalname?: string; mimetype?: string } | null>(null);
@@ -189,16 +190,19 @@ export default function App() {
         const data = await res.json();
         if (data.isScraping) {
           setScraping(true);
+          setScrapeProgress(data.progress || 'Actualizando...');
           loadJobsQuietly();
           setTimeout(checkScrapingStatus, 3000);
         } else {
           setScraping(false);
+          setScrapeProgress('');
           loadJobs();
         }
       }
     } catch (err) {
       console.error('Error al comprobar estado del scraper:', err);
       setScraping(false);
+      setScrapeProgress('');
     }
   };
 
@@ -800,6 +804,19 @@ export default function App() {
             />
             {scraping ? 'Actualizando...' : 'Actualizar ofertas'}
           </button>
+          {scraping && scrapeProgress && (
+            <div style={{
+              fontSize: '0.7rem',
+              color: 'var(--accent-primary)',
+              marginTop: '4px',
+              fontStyle: 'italic',
+              textAlign: 'center',
+              lineHeight: 1.3,
+              wordBreak: 'break-word'
+            }}>
+              {scrapeProgress}
+            </div>
+          )}
         </div>
       </aside>
 

@@ -786,6 +786,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           </div>
 
         </div>
+      </div>
       {/* Fullscreen CV Optimization Modal */}
       {showCVModal && annotatedCV && (
         <div style={{
@@ -1126,7 +1127,6 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
           </div>
         </div>
       )}
-      </div>
 
       {/* Styles for responsive drawer sizing */}
       <style dangerouslySetInnerHTML={{__html: `

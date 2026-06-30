@@ -1239,28 +1239,44 @@
   {
     "id": "psicologo-a-para-colegio-n3305dUSwRRu7RDw4DmeJ",
     "title": "PSICÓLOGO/A PARA COLEGIO",
-    "companyName": "Colegio Católico",
+    "companyName": "Colegio Concertado",
     "companyType": "Colegio Catolico",
     "location": "Madrid",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/psicologo-a-para-colegio-n3305dUSwRRu7RDw4DmeJ/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-06-30T16:11:34.606Z"
+    "requirements": [
+      "- Grado en Psicología (infanto-juvenil)\n\n- Máster de Profesorado o CAP\n\n- Experiencia previa en puestos similares en el sector educativo será muy valorable\n\n- Residencia en Madrid o alrededores",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-06-30T16:11:34.606Z",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 14-07-2026",
+    "province": "Madrid",
+    "description": "Buscamos a un psicólogo/a con experiencia en el área infanto-juvenil para unirse al equipo de nuestro colegio ubicado en Madrid.<br>\nOfrecemos un contrato estable a tiempo completo. Buen ambiente de trabajo en un equipo multidisciplinar.",
+    "salary": "Competitivo"
   },
   {
     "id": "profesor-a-de-ingles-secundaria-con-c1-de-ingles-n891Q897IGzweK2wPsH3f",
     "title": "PROFESOR/A DE INGLÉS SECUNDARIA CON C1 DE INGLÉS",
     "companyName": "Colegio Concertado",
     "companyType": "Colegio Concertado",
-    "location": "Alcobendas, Madrid",
+    "location": "Alcobendas",
     "hours": "Completa",
     "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-ingles-secundaria-con-c1-de-ingles-n891Q897IGzweK2wPsH3f/",
     "publishDate": "26 junio de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-06-30T16:11:34.606Z"
+    "requirements": [
+      "Licenciatura o grado en:\n- Filología inglesa\n- Traducción e interpretación\n- C1 en Inglés en todas las destrezas y con una antigüedad inferior a 5 años.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-06-30T16:11:34.606Z",
+    "companyDesc": "",
+    "dates": "26-06-2026 a 11-07-2026",
+    "province": "Madrid",
+    "description": "Profesor/a de inglés para clases en ESO  y preparación para exámenes externos de Cambridge y Oxford (B2 y C1-C2).<br>\n<br>\nSe valorará experiencia docente en Secundaria y preparación de exámenes oficiales de certificación de Cambridge u Oxford. Participación y coordinación en proyectos Erasmus+.",
+    "salary": "Según convenio"
   },
   {
     "id": "profesor-de-ingles-n39913UWI8EvbL58fMz6G",

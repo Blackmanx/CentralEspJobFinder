@@ -238,6 +238,18 @@ app.get('/api/scrape/status', (req, res) => {
   });
 });
 
+app.post('/api/notify-email', async (req, res) => {
+  try {
+    const { to } = req.body || {};
+    const { sendJobsEmail } = await import('./scripts/emailNotifier');
+    const result = await sendJobsEmail(to);
+    return res.json(result);
+  } catch (err: any) {
+    console.error('Error al enviar correo:', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/user-states', async (req, res) => {
   try {
     await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });

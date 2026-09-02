@@ -103,6 +103,27 @@ npm run dev
 # Run scraping job manually
 npm run scrape
 
+# Send formatted email digest of jobs via SMTP (or automate via cron)
+npm run notify:email
+# Or specify recipient directly via CLI:
+npx tsx scripts/emailNotifier.ts --to destinatario@gmail.com
+
+# Scrape and immediately email summary
+npm run scrape:email
+
 # Production build
 npm run build
 ```
+
+---
+
+## 6. Automated Email Notification & Raspberry Pi Deployment
+
+CentralEspJobFinder includes an integrated SMTP mailing module ([`scripts/emailNotifier.ts`](file:///home/blackman/Projects/CentralEspJobFinder/scripts/emailNotifier.ts)) for headless automation on a **Raspberry Pi** or home server:
+
+* **HTML Email Template**: Formatted digest with KPI metrics (TSEI 0-3, Monitores, Colegios), applicable Spanish collective agreements (*Convenios Colectivos*), salary bands, direct portal links, and tags.
+* **SMTP Credentials**: Configured via `.env` (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_TO`).
+* **Cron Automation**: Can be scheduled daily (e.g., at 08:00 AM) in crontab:
+  ```bash
+  0 8 * * * cd /home/pi/CentralEspJobFinder && npm run scrape:email >> /var/log/jobfinder.log 2>&1
+  ```

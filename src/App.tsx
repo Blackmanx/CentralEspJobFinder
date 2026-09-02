@@ -15,7 +15,8 @@ import {
   AlertCircle,
   Info,
   Minimize2,
-  Maximize2
+  Maximize2,
+  Mail
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -219,6 +220,26 @@ export default function App() {
     } catch (err) {
       console.error('Error al iniciar scraping:', err);
       setScraping(false);
+    }
+  };
+
+  const [sendingEmail, setSendingEmail] = useState(false);
+
+  const triggerSendEmail = async () => {
+    if (sendingEmail) return;
+    setSendingEmail(true);
+    try {
+      const res = await fetch('http://localhost:3001/api/notify-email', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        showToast(data.message || 'Boletín de ofertas enviado por correo correctamente.', 'success');
+      } else {
+        showToast(data.error || 'No se pudo enviar el correo. Revisa la configuración SMTP en el servidor.', 'error');
+      }
+    } catch (err: any) {
+      showToast('Error al conectar con el servidor de correo.', 'error');
+    } finally {
+      setSendingEmail(false);
     }
   };
 
@@ -810,6 +831,16 @@ export default function App() {
               style={scraping ? { animation: 'spin 2s linear infinite' } : undefined} 
             />
             {scraping ? 'Actualizando...' : 'Actualizar ofertas'}
+          </button>
+          <button 
+            className="btn-secondary"
+            onClick={triggerSendEmail}
+            disabled={sendingEmail || scraping}
+            style={{ width: '100%', justifyContent: 'center' }}
+            title="Enviar boletín con las ofertas a tu correo configurado"
+          >
+            <Mail size={12} />
+            {sendingEmail ? 'Enviando correo...' : 'Enviar por correo'}
           </button>
           {scraping && scrapeProgress && (
             <div style={{

@@ -19,7 +19,7 @@ interface JobTableProps {
   userStates: { [jobId: string]: UserJobState };
   onSelectJob: (job: Job) => void;
   onUpdateStatus: (jobId: string, status: ApplicationStatus) => void;
-  selectedScope: 'infantil' | 'docente_otros' | 'apoyo_otros' | 'all';
+  selectedScope: 'infantil' | 'monitor_ocio' | 'docente_otros' | 'apoyo_otros' | 'all';
   selectedJobId?: string;
 }
 
@@ -136,6 +136,28 @@ export const JobTable: React.FC<JobTableProps> = ({
                           {job.source}
                         </span>
                       )}
+                      {job.certificationTags?.map((tag) => (
+                        <span key={tag} style={{
+                          backgroundColor: tag === 'TSEI' ? 'rgba(14, 165, 233, 0.15)' :
+                                           tag === 'Magisterio_Infantil' ? 'rgba(99, 102, 241, 0.15)' :
+                                           tag === 'Monitor_Ocio' ? 'rgba(234, 88, 12, 0.15)' :
+                                           'rgba(168, 85, 247, 0.15)',
+                          color: tag === 'TSEI' ? '#0284c7' :
+                                 tag === 'Magisterio_Infantil' ? '#4f46e5' :
+                                 tag === 'Monitor_Ocio' ? '#c2410c' :
+                                 '#7e22ce',
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          letterSpacing: '0.03em'
+                        }}>
+                          {tag === 'TSEI' ? 'FP TSEI' :
+                           tag === 'Magisterio_Infantil' ? 'Grado Infantil' :
+                           tag === 'Monitor_Ocio' ? 'Monitor Ocio' :
+                           'Auxiliar'}
+                        </span>
+                      ))}
                     </div>
                     {job.companyType && (
                       <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>

@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { ScrapedJob } from './scrapers/types';
+import { classifyAndEnrichJob } from './scrapers/classifier';
 import { scrapeColejobs } from './scrapers/colejobs';
 import { scrapeInfojobs } from './scrapers/infojobs';
 import { scrapeIndeed } from './scrapers/indeed';
@@ -88,7 +89,8 @@ export async function runAllScrapers() {
     // Apply strict quality filters (Geographic & English C2)
     const filteredJobs = deduplicated
       .filter(filterGeographicArea)
-      .filter(filterC2Requirement);
+      .filter(filterC2Requirement)
+      .map(classifyAndEnrichJob);
 
     console.log(`Total ofertas tras deduplicación y filtros de idoneidad: ${filteredJobs.length}`);
 

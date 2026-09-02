@@ -104,8 +104,8 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
         if (lowerTitleStr.includes('monitor') || lowerTitleStr.includes('comedor') || lowerTitleStr.includes('ocio') || lowerTitleStr.includes('animad') || lowerTitleStr.includes('extraescolar')) {
           companyType = 'Empresa de Servicios Educativos / Ocio y Tiempo Libre';
           requirements = [
-            'Título de Monitor de Ocio y Tiempo Libre, TSEI o experiencia acreditada con grupos de menores.',
-            'Dinamización, vigilancia activa, resolución de conflictos y pautas de higiene y alimentación.',
+            'Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.',
+            'Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.',
             'Certificado negativo de delitos de naturaleza sexual en vigor.'
           ];
         }

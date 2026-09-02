@@ -30,12 +30,13 @@ The system will be enhanced to aggressively index, parse, and monitor vacancies 
 - [x] **Task 1.4**: Add automated rate-limiting, randomized headers, and link health validation strategies for resilient multi-source scraping.
 
 ### Phase 2: Domain-Specific Filtering & Classification
-- [ ] **Task 2.1**: Refine the scope classification algorithm in `src/App.tsx` and `scripts/scrape.ts`:
+- [x] **Task 2.1**: Refine the scope classification algorithm in `src/App.tsx` and `scripts/scrape.ts`:
   - Tag jobs with exact certification tags:
     - `TSEI` (Técnico Superior en Educación Infantil / FP Grado Superior)
     - `Grado Magisterio Infantil` (Grado universitario)
-    - `Auxiliar de Jardín de Infancia`
-- [ ] **Task 2.2**: Add specific salary & schedule parsing for the Spanish *Convenio Colectivo de Centros de Educación Infantil* (0-3 years).
+    - `Monitor_Ocio` (Monitor de Ocio y Tiempo Libre / Extraescolares / Comedores)
+    - `Auxiliar de Jardín de Infancia / Aula`
+- [x] **Task 2.2**: Add specific salary & schedule parsing for the Spanish *Convenio Colectivo de Centros de Educación Infantil* (0-3 years), *Enseñanza Concertada*, and *Ocio Educativo*.
 
 ### Phase 3: UI & Search Experience Enhancements
 - [ ] **Task 3.1**: Add a dedicated filter chip for **"Técnico Educación Infantil (0-3)"** in the top navigation of [`src/App.tsx`](file:///home/blackman/Projects/CentralEspJobFinder/src/App.tsx).

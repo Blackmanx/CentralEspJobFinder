@@ -384,6 +384,28 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                     {job.source}
                   </span>
                 )}
+                {job.certificationTags?.map((tag) => (
+                  <span key={tag} style={{
+                    backgroundColor: tag === 'TSEI' ? 'rgba(14, 165, 233, 0.15)' :
+                                     tag === 'Magisterio_Infantil' ? 'rgba(99, 102, 241, 0.15)' :
+                                     tag === 'Monitor_Ocio' ? 'rgba(234, 88, 12, 0.15)' :
+                                     'rgba(168, 85, 247, 0.15)',
+                    color: tag === 'TSEI' ? '#0284c7' :
+                           tag === 'Magisterio_Infantil' ? '#4f46e5' :
+                           tag === 'Monitor_Ocio' ? '#c2410c' :
+                           '#7e22ce',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    letterSpacing: '0.03em'
+                  }}>
+                    {tag === 'TSEI' ? 'FP Técnico Superior (TSEI)' :
+                     tag === 'Magisterio_Infantil' ? 'Grado Magisterio Infantil' :
+                     tag === 'Monitor_Ocio' ? 'Monitor Ocio y Tiempo Libre' :
+                     'Auxiliar de Infancia'}
+                  </span>
+                ))}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px', fontSize: '0.9rem' }}>
                 <span style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>{job.companyName}</span>
@@ -405,6 +427,49 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               )}
             </div>
           </div>
+
+          {/* Convenio Colectivo & Labor Framework Card */}
+          {job.convenioInfo && (
+            <div style={{
+              backgroundColor: 'rgba(14, 165, 233, 0.05)',
+              border: '1px solid rgba(14, 165, 233, 0.25)',
+              borderRadius: '10px',
+              padding: '12px 16px',
+              marginBottom: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Marco Laboral & Convenio Colectivo
+                </span>
+                {job.convenioInfo.stage && (
+                  <span style={{
+                    fontSize: '0.65rem',
+                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(14, 165, 233, 0.15)',
+                    color: '#0284c7',
+                    fontWeight: 600
+                  }}>
+                    {job.convenioInfo.stage.replace('_', ' ')}
+                  </span>
+                )}
+              </div>
+              <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                {job.convenioInfo.convenioName}
+              </div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '2px' }}>
+                {job.convenioInfo.applicableCategory && (
+                  <span><strong>Categoría:</strong> {job.convenioInfo.applicableCategory}</span>
+                )}
+                {job.convenioInfo.referenceSalary && (
+                  <span><strong>Baremación Salarial:</strong> {job.convenioInfo.referenceSalary}</span>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Job Info Grid */}
           <div 

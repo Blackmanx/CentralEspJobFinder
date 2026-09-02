@@ -227,7 +227,7 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const [selectedScope, setSelectedScope] = useState<'infantil' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
+  const [selectedScope, setSelectedScope] = useState<'infantil' | 'monitor_ocio' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
 
   // Fetch Jobs Data
   const loadJobs = async () => {
@@ -549,11 +549,17 @@ export default function App() {
     // 5. Scope Filter
     let matchesScope = true;
     if (selectedScope === 'infantil') {
-      matchesScope = isInfantilJob(job);
+      matchesScope = isInfantilJob(job) || job.certificationTags?.includes('TSEI') === true;
+    } else if (selectedScope === 'monitor_ocio') {
+      matchesScope = job.certificationTags?.includes('Monitor_Ocio') === true || 
+                     job.title.toLowerCase().includes('monitor') || 
+                     job.title.toLowerCase().includes('comedor') ||
+                     job.title.toLowerCase().includes('ocio') ||
+                     job.title.toLowerCase().includes('ludoteca');
     } else if (selectedScope === 'docente_otros') {
-      matchesScope = getJobScope(job) === 'docente_otros';
+      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio');
     } else if (selectedScope === 'apoyo_otros') {
-      matchesScope = getJobScope(job) === 'apoyo_otros';
+      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio');
     }
 
     return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
@@ -678,7 +684,8 @@ export default function App() {
               value={selectedScope}
               onChange={(e) => setSelectedScope(e.target.value as any)}
             >
-              <option value="infantil">Educación Infantil (Defecto)</option>
+              <option value="infantil">Educación Infantil / TSEI (Defecto)</option>
+              <option value="monitor_ocio">Monitores, Ocio y Comedor Infantil</option>
               <option value="docente_otros">Otros Puestos Docentes (Primaria, Secundaria...)</option>
               <option value="apoyo_otros">Apoyo / Administración (Limpieza, Conserjería...)</option>
               <option value="all">Todos los Ámbitos</option>

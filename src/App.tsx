@@ -577,10 +577,14 @@ export default function App() {
                      job.title.toLowerCase().includes('comedor') ||
                      job.title.toLowerCase().includes('ocio') ||
                      job.title.toLowerCase().includes('ludoteca');
+    } else if ((selectedScope as string) === 'bolsas') {
+      matchesScope = job.source?.includes('Bolsa') === true || 
+                     job.companyType?.toLowerCase().includes('bolsa') === true ||
+                     job.title.toLowerCase().includes('bolsa');
     } else if (selectedScope === 'docente_otros') {
-      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio');
+      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa');
     } else if (selectedScope === 'apoyo_otros') {
-      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio');
+      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa');
     }
 
     return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
@@ -1128,6 +1132,23 @@ export default function App() {
                   }}
                 >
                   🎨 Monitores y Ocio Infantil
+                </button>
+                <button
+                  onClick={() => setSelectedScope('bolsas' as any)}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: (selectedScope as string) === 'bolsas' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: (selectedScope as string) === 'bolsas' ? '#059669' : 'var(--border-color)',
+                    backgroundColor: (selectedScope as string) === 'bolsas' ? 'rgba(5, 150, 105, 0.15)' : 'var(--bg-element)',
+                    color: (selectedScope as string) === 'bolsas' ? '#059669' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  🏛️ Bolsas de Empleo (Madrid/Toledo)
                 </button>
                 <button
                   onClick={() => setSelectedScope('docente_otros')}

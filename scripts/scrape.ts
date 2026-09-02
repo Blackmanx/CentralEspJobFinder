@@ -6,6 +6,7 @@ import { scrapeColejobs } from './scrapers/colejobs';
 import { scrapeInfojobs } from './scrapers/infojobs';
 import { scrapeIndeed } from './scrapers/indeed';
 import { scrapeInfoempleo } from './scrapers/infoempleo';
+import { scrapeBolsasEmpleo } from './scrapers/bolsas';
 
 const DATA_DIR = path.join(process.cwd(), 'public', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'jobs.json');
@@ -50,21 +51,25 @@ export async function runAllScrapers() {
     // 1. Scrape Colejobs (Educational portal)
     const colejobsList = await scrapeColejobs();
 
-    // 2. Scrape Infojobs (Focus on Técnico de Educación Infantil / Primer Ciclo)
+    // 2. Scrape Infojobs (Focus on Técnico de Educación Infantil / Primer Ciclo en Madrid y Toledo)
     const infojobsList = await scrapeInfojobs();
 
-    // 3. Scrape Indeed (Targeted TSEI / 0-3 verified vacancies)
+    // 3. Scrape Indeed (Targeted TSEI / 0-3 verified vacancies en Madrid y Toledo)
     const indeedList = await scrapeIndeed();
 
     // 4. Scrape Infoempleo (Teaching & support vacancies)
     const infoempleoList = await scrapeInfoempleo();
+
+    // 5. Scrape Official Educational & Childhood Job Banks (Bolsas de Empleo Madrid y Toledo)
+    const bolsasList = await scrapeBolsasEmpleo();
 
     // Combine all sources
     const allScraped = [
       ...infojobsList,
       ...indeedList,
       ...colejobsList,
-      ...infoempleoList
+      ...infoempleoList,
+      ...bolsasList
     ];
 
     console.log(`\nTotal ofertas agregadas en bruto: ${allScraped.length}`);

@@ -20,26 +20,31 @@ const SEARCH_QUERIES = [
   'monitor ruta escolar'
 ];
 
+const REGIONS_CONFIG = [
+  { name: 'Madrid', provinceParam: 'provinceIds=33' },
+  { name: 'Toledo', provinceParam: 'provinceIds=50' } // or semantic toledo
+];
+
 export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
-  console.log('=== [Infojobs] Iniciando extracción de vacantes específicas de Infantil ===');
+  console.log('=== [Infojobs] Iniciando extracción de vacantes específicas de Infantil (Madrid y Toledo) ===');
   const results: ScrapedJob[] = [];
   const seenUrls = new Set<string>();
 
-  for (const query of SEARCH_QUERIES) {
-    const encoded = encodeURIComponent(query);
-    // Province 33 is Madrid in InfoJobs
-    const searchUrl = `https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword=${encoded}&provinceIds=33`;
+  for (const region of REGIONS_CONFIG) {
+    for (const query of SEARCH_QUERIES) {
+      const encoded = encodeURIComponent(query);
+      const searchUrl = `https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword=${encoded}&${region.provinceParam}`;
 
-    try {
-      console.log(`[Infojobs] Buscando: "${query}"...`);
-      const response = await axios.get(searchUrl, {
-        headers: {
-          'User-Agent': getRandomUserAgent(),
-          'Accept-Language': 'es-ES,es;q=0.9',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-        },
-        timeout: 9000
-      });
+      try {
+        console.log(`[Infojobs - ${region.name}] Buscando: "${query}"...`);
+        const response = await axios.get(searchUrl, {
+          headers: {
+            'User-Agent': getRandomUserAgent(),
+            'Accept-Language': 'es-ES,es;q=0.9',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+          },
+          timeout: 9000
+        });
 
       const $ = cheerio.load(response.data);
 
@@ -115,22 +120,23 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
           title,
           companyName,
           companyType,
-          location,
-          province: 'Madrid',
+          location: region.name === 'Toledo' && location === 'Madrid' ? 'Toledo' : location,
+          province: region.name,
           hours,
           contract,
           url: cleanUrl,
           publishDate: 'Reciente',
           scrapedAt: new Date().toISOString(),
           source: 'Infojobs',
-          description: `Oferta activa publicada en InfoJobs para el puesto de ${title}. Puesto orientado a la atención educativa, dinamización o cuidado infantil. Revisa los detalles y postúlate directamente en el enlace oficial.`,
+          description: `Oferta activa publicada en InfoJobs para el puesto de ${title}. Puesto orientado a la atención educativa, dinamización o cuidado infantil en ${region.name}. Revisa los detalles y postúlate directamente en el enlace oficial.`,
           requirements
         });
       });
     } catch (err) {
-      console.warn(`[Infojobs] Error al consultar término "${query}":`, err instanceof Error ? err.message : err);
+      console.warn(`[Infojobs - ${region.name}] Error al consultar término "${query}":`, err instanceof Error ? err.message : err);
     }
   }
+}
 
   console.log(`[Infojobs] Total de ofertas verificadas obtenidas: ${results.length}`);
   return results;

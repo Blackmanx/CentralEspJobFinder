@@ -40,9 +40,12 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   const total = jobs.length;
   const tseiJobs = jobs.filter(j => j.certificationTags?.includes('TSEI'));
   const monitorJobs = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio'));
+  const bolsasJobs = jobs.filter(j => j.source?.includes('Bolsa') || j.companyType?.includes('Bolsa'));
+  const toledoJobs = jobs.filter(j => (j.province || '').toLowerCase().includes('toledo') || (j.location || '').toLowerCase().includes('toledo'));
   const otherInfantil = jobs.filter(j => 
     !j.certificationTags?.includes('TSEI') && 
     !j.certificationTags?.includes('Monitor_Ocio') &&
+    !j.source?.includes('Bolsa') &&
     (j.title.toLowerCase().includes('infantil') || j.convenioInfo?.stage === '0-3_años' || j.convenioInfo?.stage === '3-6_años')
   );
 
@@ -121,12 +124,12 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
           <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">TSEI / 0-3</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #ea580c; display: block;">${monitorJobs.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Monitores / Ocio</span>
+          <span style="font-size: 18px; font-weight: 700; color: #059669; display: block;">${bolsasJobs.length}</span>
+          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bolsas Oficiales</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #4f46e5; display: block;">${otherInfantil.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Colegios / Otras</span>
+          <span style="font-size: 18px; font-weight: 700; color: #ea580c; display: block;">${toledoJobs.length}</span>
+          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Toledo</span>
         </div>
         <div>
           <span style="font-size: 18px; font-weight: 700; color: #0f172a; display: block;">${total}</span>
@@ -136,6 +139,16 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
       <!-- Main Body -->
       <div style="padding: 24px;">
+
+        <!-- Section 0: Bolsas de Empleo Oficiales (Madrid y Toledo) -->
+        ${bolsasJobs.length > 0 ? `
+          <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 16px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 6px; margin-bottom: 14px;">
+              🏛️ Bolsas de Empleo Público Oficiales (Madrid y Toledo) (${bolsasJobs.length})
+            </h2>
+            ${bolsasJobs.map(formatCard).join('')}
+          </div>
+        ` : ''}
         
         <!-- Section 1: TSEI (0-3) -->
         <div style="margin-bottom: 28px;">

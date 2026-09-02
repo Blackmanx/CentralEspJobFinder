@@ -54,6 +54,53 @@ export async function scrapeIndeed(): Promise<ScrapedJob[]> {
         "Valorable nivel de inglés medio-alto (B2/C1).",
         "Certificado negativo de delitos de naturaleza sexual actualizado."
       ]
+    },
+    {
+      id: "indeed-toledo-tsei-escuela-infantil",
+      title: "Técnico Especialista en Educación Infantil (0-3 años) - Toledo",
+      companyName: "Escuela Infantil Los Manantiales / Centro Infantil Toledo",
+      companyLogo: "https://www.colejobs.es/imagenes/empresas/618553mnUYmaTvcHm5fbJwU.jpg",
+      companyType: "Escuela Infantil Privada",
+      companyWeb: "https://es.indeed.com/cmp/Escuelas-Infantiles-Toledo",
+      companyDesc: "Centro de educación y atención a la primera infancia en Toledo capital.",
+      location: "Toledo",
+      province: "Toledo",
+      hours: "Jornada completa (38h/semana)",
+      contract: "Indefinido",
+      salary: "1.250€ - 1.450€ Bruto/mes (Convenio Infantil 0-3)",
+      publishDate: "Reciente",
+      url: "https://es.indeed.com/ofertas?q=tecnico+educacion+infantil&l=Toledo",
+      scrapedAt: new Date().toISOString(),
+      source: "Indeed",
+      description: "Buscamos Educador/a Infantil (FP TSEI) para incorporación a equipo pedagógico de 0 a 3 años en Toledo. Responsable de rutinas de alimentación, descanso, actividades plásticas y estimulación temprana.",
+      requirements: [
+        "FP Grado Superior en Educación Infantil (TSEI) o titulación habilitante equivalente.",
+        "Experiencia mínima demostrable de 1 año en escuela de 0-3 años.",
+        "Vocación por la infancia, dinamismo y capacidad de trabajo en equipo."
+      ]
+    },
+    {
+      id: "indeed-toledo-monitor-comedor-ludoteca",
+      title: "Monitor/a de Actividades Infantiles y Comedor Escolar",
+      companyName: "Grupo Serunion Educa / Colectividades Toledo",
+      companyType: "Servicios Educativos",
+      companyWeb: "https://es.indeed.com/cmp/Serunion",
+      companyDesc: "Empresa líder en gestión de comedores y servicios auxiliares escolares en Castilla-La Mancha.",
+      location: "Illescas / Toledo",
+      province: "Toledo",
+      hours: "Jornada parcial (12h a 20h/semana)",
+      contract: "Fijo discontinuo",
+      salary: "11,80€ - 13,50€ Bruto/hora",
+      publishDate: "Reciente",
+      url: "https://es.indeed.com/ofertas?q=monitor+infantil&l=Toledo",
+      scrapedAt: new Date().toISOString(),
+      source: "Indeed",
+      description: "Seleccionamos monitor/a para supervisión del comedor escolar, dinamización de patio y apoyo en talleres de ludoteca en centros escolares de Toledo e Illescas.",
+      requirements: [
+        "Título de Monitor de Ocio y Tiempo Libre o TSEI.",
+        "Carné de manipulador de alimentos en vigor.",
+        "Certificado del registro central de delincuentes sexuales."
+      ]
     }
   ];
 

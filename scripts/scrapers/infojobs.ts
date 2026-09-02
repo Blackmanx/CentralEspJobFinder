@@ -3,13 +3,21 @@ import * as cheerio from 'cheerio';
 import { ScrapedJob } from './types';
 import { clean, getRandomUserAgent } from './utils';
 
-// Specific high-yield search terms for Técnico de Educación Infantil
+// Specific high-yield search terms for Técnico de Educación Infantil, Monitores and Childhood Education
 const SEARCH_QUERIES = [
   'tecnico educacion infantil',
   'educador infantil',
   'tsei',
   'auxiliar infantil guarderia',
-  'primer ciclo educacion infantil'
+  'primer ciclo educacion infantil',
+  'monitor infantil',
+  'monitor ocio y tiempo libre',
+  'monitor comedor infantil',
+  'monitor patio y comedor',
+  'monitor extraescolares',
+  'monitor ludoteca',
+  'animador infantil',
+  'monitor ruta escolar'
 ];
 
 export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
@@ -84,11 +92,29 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
         const idMatch = cleanUrl.match(/of-([a-zA-Z0-9]+)/);
         const id = idMatch ? `infojobs-${idMatch[1]}` : `infojobs-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
 
+        // Tailor requirements dynamically based on role type
+        const lowerTitleStr = title.toLowerCase();
+        let companyType = 'Escuela Infantil / Empresa Educativa';
+        let requirements = [
+          'Titulación de Técnico Superior en Educación Infantil (TSEI) o Grado en Magisterio Infantil.',
+          'Experiencia en cuidado y desarrollo pedagógico en la etapa 0-3 / 3-6 años.',
+          'Capacidad de trabajo en equipo y empatía con las familias.'
+        ];
+
+        if (lowerTitleStr.includes('monitor') || lowerTitleStr.includes('comedor') || lowerTitleStr.includes('ocio') || lowerTitleStr.includes('animad') || lowerTitleStr.includes('extraescolar')) {
+          companyType = 'Empresa de Servicios Educativos / Ocio y Tiempo Libre';
+          requirements = [
+            'Título de Monitor de Ocio y Tiempo Libre, TSEI o experiencia acreditada con grupos de menores.',
+            'Dinamización, vigilancia activa, resolución de conflictos y pautas de higiene y alimentación.',
+            'Certificado negativo de delitos de naturaleza sexual en vigor.'
+          ];
+        }
+
         results.push({
           id,
           title,
           companyName,
-          companyType: 'Escuela Infantil / Empresa Educativa',
+          companyType,
           location,
           province: 'Madrid',
           hours,
@@ -97,12 +123,8 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
           publishDate: 'Reciente',
           scrapedAt: new Date().toISOString(),
           source: 'Infojobs',
-          description: `Oferta publicada en InfoJobs para el puesto de ${title}. Revisa los requisitos completos y postúlate directamente en el enlace oficial.`,
-          requirements: [
-            'Titulación de Técnico Superior en Educación Infantil (TSEI) o Grado en Magisterio Infantil.',
-            'Experiencia en cuidado y desarrollo pedagógico en la etapa 0-3 / 3-6 años.',
-            'Capacidad de trabajo en equipo y empatía con las familias.'
-          ]
+          description: `Oferta activa publicada en InfoJobs para el puesto de ${title}. Puesto orientado a la atención educativa, dinamización o cuidado infantil. Revisa los detalles y postúlate directamente en el enlace oficial.`,
+          requirements
         });
       });
     } catch (err) {

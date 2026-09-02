@@ -206,13 +206,30 @@ export async function sendJobsEmail(customRecipient?: string): Promise<{ success
   });
 
   const htmlContent = generateEmailHtml(jobs, recipient);
-  const subject = `[JobFinder] ${jobs.filter(j => j.certificationTags?.includes('TSEI')).length} ofertas de Infantil / TSEI y Monitores en Madrid`;
+  const tseiCount = jobs.filter(j => j.certificationTags?.includes('TSEI')).length;
+  const monitorCount = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio')).length;
+  const subject = `Boletín Diario de Empleo Infantil y TSEI: ${tseiCount} vacantes 0-3 y ${monitorCount} monitores`;
+
+  // Provide high quality plain text alternative to score high on anti-spam filters
+  const textAlternative = `Boletín de Ofertas CentralEspJobFinder
+Resumen de Empleo: ${tseiCount} vacantes TSEI / 0-3 años y ${monitorCount} puestos de Monitores y Ocio.
+
+Visita la plataforma o consulta la versión HTML del mensaje para ver los enlaces directos de inscripción y los convenios colectivos aplicables.
+
+Destinatario: ${recipient}
+CentralEspJobFinder`;
 
   const info = await transporter.sendMail({
-    from: `"CentralEspJobFinder" <${config.emailFrom}>`,
+    from: `"CentralEsp JobFinder" <${config.emailFrom}>`,
     to: recipient,
     subject,
-    html: htmlContent
+    text: textAlternative,
+    html: htmlContent,
+    headers: {
+      'List-Unsubscribe': `<mailto:${config.emailFrom}?subject=unsubscribe>`,
+      'X-Entity-Ref-ID': Date.now().toString(),
+      'Precedence': 'bulk'
+    }
   });
 
   console.log(`✅ Correo enviado exitosamente (ID: ${info.messageId})`);

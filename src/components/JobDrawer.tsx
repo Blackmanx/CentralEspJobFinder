@@ -367,22 +367,34 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                 <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2, margin: 0 }}>{job.title}</h2>
                 {job.source && (
-                  <span style={{
-                    backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
-                                     job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
-                                     'rgba(139, 92, 246, 0.12)',
-                    color: job.source === 'Colejobs' ? '#3b82f6' :
-                           job.source === 'Indeed' ? '#10b981' :
-                           '#8b5cf6',
-                    fontSize: '0.65rem',
-                    fontWeight: 'bold',
-                    padding: '2px 6px',
-                    borderRadius: '4px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em'
-                  }}>
+                  <a 
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
+                                       job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
+                                       'rgba(139, 92, 246, 0.12)',
+                      color: job.source === 'Colejobs' ? '#3b82f6' :
+                             job.source === 'Indeed' ? '#10b981' :
+                             '#8b5cf6',
+                      fontSize: '0.65rem',
+                      fontWeight: 'bold',
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      cursor: 'pointer'
+                    }}
+                    title={`Abrir oferta en portal original (${job.source})`}
+                  >
                     {job.source}
-                  </span>
+                    <ExternalLink size={10} />
+                  </a>
                 )}
                 {job.certificationTags?.map((tag) => (
                   <span key={tag} style={{

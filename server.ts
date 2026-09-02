@@ -174,11 +174,16 @@ app.post('/api/scrape', (req, res) => {
     return res.status(409).json({ error: 'Ya hay una actualización de ofertas en curso.' });
   }
 
+  runScraperProcess();
+  return res.json({ message: 'Actualización iniciada en segundo plano.' });
+});
+
+function runScraperProcess() {
   isScraping = true;
   lastScrapeError = null;
-  scrapeProgress = 'Iniciando...';
+  scrapeProgress = 'Iniciando scraper modular...';
 
-  console.log('Iniciando scraper en segundo plano...');
+  console.log(`[Scheduler/Trigger] Iniciando scraper programado: ${new Date().toLocaleString('es-ES')}`);
   
   const child = spawn('npx', ['tsx', 'scripts/scrape.ts'], { shell: true });
 
@@ -210,9 +215,19 @@ app.post('/api/scrape', (req, res) => {
       scrapeProgress = 'Completado';
     }
   });
+}
 
-  return res.json({ message: 'Actualización iniciada en segundo plano.' });
-});
+// Automated Periodic Scraping Scheduler:
+// Runs automatically every 12 hours to keep childhood education and monitor positions fresh
+const SCRAPE_INTERVAL_HOURS = 12;
+const SCRAPE_INTERVAL_MS = SCRAPE_INTERVAL_HOURS * 60 * 60 * 1000;
+
+setInterval(() => {
+  if (!isScraping) {
+    console.log(`[Automated Scheduler] Ejecutando escaneo periódico automático (cada ${SCRAPE_INTERVAL_HOURS}h)...`);
+    runScraperProcess();
+  }
+}, SCRAPE_INTERVAL_MS);
 
 app.get('/api/scrape/status', (req, res) => {
   return res.json({

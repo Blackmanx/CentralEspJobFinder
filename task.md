@@ -39,9 +39,9 @@ The system will be enhanced to aggressively index, parse, and monitor vacancies 
 - [x] **Task 2.2**: Add specific salary & schedule parsing for the Spanish *Convenio Colectivo de Centros de Educación Infantil* (0-3 years), *Enseñanza Concertada*, and *Ocio Educativo*.
 
 ### Phase 3: UI & Search Experience Enhancements
-- [ ] **Task 3.1**: Add a dedicated filter chip for **"Técnico Educación Infantil (0-3)"** in the top navigation of [`src/App.tsx`](file:///home/blackman/Projects/CentralEspJobFinder/src/App.tsx).
-- [ ] **Task 3.2**: Add source badge icons with direct links to the original application portal.
-- [ ] **Task 3.3**: Include automated daily/periodic scraping scheduler support in backend (`server.ts`).
+- [x] **Task 3.1**: Add a dedicated filter chip for **"Técnico Educación Infantil (0-3)"** in the top navigation of [`src/App.tsx`](file:///home/blackman/Projects/CentralEspJobFinder/src/App.tsx).
+- [x] **Task 3.2**: Add source badge icons with direct links to the original application portal.
+- [x] **Task 3.3**: Include automated daily/periodic scraping scheduler support in backend (`server.ts`).
 
 ### Phase 4: Verification & Testing
 - [ ] **Task 4.1**: Execute comprehensive scrape test (`npm run scrape`) with all new sources enabled.

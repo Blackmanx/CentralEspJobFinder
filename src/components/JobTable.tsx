@@ -11,7 +11,8 @@ import {
   Sparkles,
   CalendarCheck,
   XCircle,
-  Award
+  Award,
+  ExternalLink
 } from 'lucide-react';
 
 interface JobTableProps {
@@ -119,22 +120,36 @@ export const JobTable: React.FC<JobTableProps> = ({
                         </span>
                       )}
                       {job.source && (
-                        <span style={{
-                          backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
-                                           job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
-                                           'rgba(139, 92, 246, 0.12)',
-                          color: job.source === 'Colejobs' ? '#3b82f6' :
-                                 job.source === 'Indeed' ? '#10b981' :
-                                 '#8b5cf6',
-                          fontSize: '0.65rem',
-                          fontWeight: 'bold',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em'
-                        }}>
+                        <a 
+                          href={job.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          style={{
+                            backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
+                                             job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
+                                             'rgba(139, 92, 246, 0.12)',
+                            color: job.source === 'Colejobs' ? '#3b82f6' :
+                                   job.source === 'Indeed' ? '#10b981' :
+                                   '#8b5cf6',
+                            fontSize: '0.65rem',
+                            fontWeight: 'bold',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                            transition: 'opacity 0.2s',
+                            cursor: 'pointer'
+                          }}
+                          title={`Ver oferta original en ${job.source}`}
+                        >
                           {job.source}
-                        </span>
+                          <ExternalLink size={8} />
+                        </a>
                       )}
                       {job.certificationTags?.map((tag) => (
                         <span key={tag} style={{
@@ -461,23 +476,57 @@ export const JobTable: React.FC<JobTableProps> = ({
                       </span>
                     )}
                     {job.source && (
-                      <span style={{
-                        backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
-                                         job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
-                                         'rgba(139, 92, 246, 0.12)',
-                        color: job.source === 'Colejobs' ? '#3b82f6' :
-                               job.source === 'Indeed' ? '#10b981' :
-                               '#8b5cf6',
+                      <a 
+                        href={job.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          backgroundColor: job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
+                                           job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
+                                           'rgba(139, 92, 246, 0.12)',
+                          color: job.source === 'Colejobs' ? '#3b82f6' :
+                                 job.source === 'Indeed' ? '#10b981' :
+                                 '#8b5cf6',
+                          fontSize: '0.6rem',
+                          fontWeight: 'bold',
+                          padding: '1px 5px',
+                          borderRadius: '3px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '2px'
+                        }}
+                        title={`Ver oferta original en ${job.source}`}
+                      >
+                        {job.source}
+                        <ExternalLink size={7} />
+                      </a>
+                    )}
+                    {job.certificationTags?.map((tag) => (
+                      <span key={tag} style={{
+                        backgroundColor: tag === 'TSEI' ? 'rgba(14, 165, 233, 0.15)' :
+                                         tag === 'Magisterio_Infantil' ? 'rgba(99, 102, 241, 0.15)' :
+                                         tag === 'Monitor_Ocio' ? 'rgba(234, 88, 12, 0.15)' :
+                                         'rgba(168, 85, 247, 0.15)',
+                        color: tag === 'TSEI' ? '#0284c7' :
+                               tag === 'Magisterio_Infantil' ? '#4f46e5' :
+                               tag === 'Monitor_Ocio' ? '#c2410c' :
+                               '#7e22ce',
                         fontSize: '0.6rem',
-                        fontWeight: 'bold',
+                        fontWeight: 700,
                         padding: '1px 5px',
                         borderRadius: '3px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em'
+                        letterSpacing: '0.03em'
                       }}>
-                        {job.source}
+                        {tag === 'TSEI' ? 'FP TSEI' :
+                         tag === 'Magisterio_Infantil' ? 'Grado Infantil' :
+                         tag === 'Monitor_Ocio' ? 'Monitor Ocio' :
+                         'Auxiliar'}
                       </span>
-                    )}
+                    ))}
                   </div>
                   <span className="text-muted" style={{ fontSize: '0.75rem', marginTop: '2px', display: 'block' }}>
                     {job.companyType || 'Docente'}

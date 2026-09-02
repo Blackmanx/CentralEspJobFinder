@@ -1020,42 +1020,119 @@ export default function App() {
             {/* View Tabs Selector */}
             <div style={{ 
               display: 'flex', 
+              justifyContent: 'space-between',
+              alignItems: 'center',
               borderBottom: '1px solid var(--border-color)', 
               marginBottom: '16px',
-              gap: '24px'
+              flexWrap: 'wrap',
+              gap: '12px'
             }}>
-              <button
-                onClick={() => setActiveTab('list')}
-                style={{
-                  padding: '8px 4px 12px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem',
-                  border: 'none',
-                  background: 'none',
-                  color: activeTab === 'list' ? 'var(--accent-primary)' : 'var(--text-muted)',
-                  borderBottom: activeTab === 'list' ? '2px solid var(--accent-primary)' : '2px solid transparent',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s, border-bottom-color 0.2s'
-                }}
-              >
-                Listado de Ofertas ({filteredJobs.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('agenda')}
-                style={{
-                  padding: '8px 4px 12px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem',
-                  border: 'none',
-                  background: 'none',
-                  color: activeTab === 'agenda' ? 'var(--accent-primary)' : 'var(--text-muted)',
-                  borderBottom: activeTab === 'agenda' ? '2px solid var(--accent-primary)' : '2px solid transparent',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s, border-bottom-color 0.2s'
-                }}
-              >
-                Agenda de Entrevistas
-              </button>
+              <div style={{ display: 'flex', gap: '24px' }}>
+                <button
+                  onClick={() => setActiveTab('list')}
+                  style={{
+                    padding: '8px 4px 12px',
+                    fontWeight: 600,
+                    fontSize: '0.85rem',
+                    border: 'none',
+                    background: 'none',
+                    color: activeTab === 'list' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                    borderBottom: activeTab === 'list' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s, border-bottom-color 0.2s'
+                  }}
+                >
+                  Listado de Ofertas ({filteredJobs.length})
+                </button>
+                <button
+                  onClick={() => setActiveTab('agenda')}
+                  style={{
+                    padding: '8px 4px 12px',
+                    fontWeight: 600,
+                    fontSize: '0.85rem',
+                    border: 'none',
+                    background: 'none',
+                    color: activeTab === 'agenda' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                    borderBottom: activeTab === 'agenda' ? '2px solid var(--accent-primary)' : '2px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s, border-bottom-color 0.2s'
+                  }}
+                >
+                  Agenda de Entrevistas
+                </button>
+              </div>
+
+              {/* Fast Scope Filter Chips */}
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', paddingBottom: '8px' }}>
+                <button
+                  onClick={() => setSelectedScope('infantil')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: selectedScope === 'infantil' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: selectedScope === 'infantil' ? '#0284c7' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'infantil' ? 'rgba(14, 165, 233, 0.12)' : 'var(--bg-element)',
+                    color: selectedScope === 'infantil' ? '#0284c7' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  🧸 Técnico Infantil (TSEI / 0-3)
+                </button>
+                <button
+                  onClick={() => setSelectedScope('monitor_ocio')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: selectedScope === 'monitor_ocio' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: selectedScope === 'monitor_ocio' ? '#ea580c' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'monitor_ocio' ? 'rgba(234, 88, 12, 0.12)' : 'var(--bg-element)',
+                    color: selectedScope === 'monitor_ocio' ? '#c2410c' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  🎨 Monitores y Ocio Infantil
+                </button>
+                <button
+                  onClick={() => setSelectedScope('docente_otros')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: selectedScope === 'docente_otros' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: selectedScope === 'docente_otros' ? 'var(--accent-primary)' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'docente_otros' ? 'var(--accent-primary-light)' : 'var(--bg-element)',
+                    color: selectedScope === 'docente_otros' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  📚 Otros Docentes
+                </button>
+                <button
+                  onClick={() => setSelectedScope('all')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: selectedScope === 'all' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: selectedScope === 'all' ? 'var(--text-primary)' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'all' ? 'var(--bg-element)' : 'transparent',
+                    color: selectedScope === 'all' ? 'var(--text-primary)' : 'var(--text-muted)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  Todos
+                </button>
+              </div>
             </div>
 
             {activeTab === 'list' ? (

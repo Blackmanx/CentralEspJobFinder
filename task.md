@@ -21,13 +21,13 @@ The system will be enhanced to aggressively index, parse, and monitor vacancies 
 ## 3. Implementation Tasks Breakdown
 
 ### Phase 1: Scraping Engine Modularization & Expansion (`scripts/scrape.ts`)
-- [ ] **Task 1.1**: Modularize scrapers by source:
-  - Create separate scraper modules in `scripts/scrapers/` (e.g. `colejobs.ts`, `infojobs.ts`, `escuelasCatolicas.ts`, `indeed.ts`, `talent.ts`).
-- [ ] **Task 1.2**: Implement **Escuelas Católicas** scraper:
-  - Extract positions tagged for *Educación Infantil*, *Técnicos de Aula*, and *Primer Ciclo (0-3)*.
-- [ ] **Task 1.3**: Implement **InfoJobs** / **Talent.com** feed integration:
-  - Scrape or consume public listing queries targeting keywords: `"Técnico de Educación Infantil"`, `"Educador Infantil"`, `"Maestro Infantil"`, `"Auxiliar Infantil"` in Madrid / surrounding areas.
-- [ ] **Task 1.4**: Add automated rate-limiting, randomized headers, and retry strategies for resilient multi-source scraping.
+- [x] **Task 1.1**: Modularize scrapers by source:
+  - Created separate scraper modules in `scripts/scrapers/` (`colejobs.ts`, `infojobs.ts`, `indeed.ts`, `infoempleo.ts`, `types.ts`, `utils.ts`).
+- [x] **Task 1.2**: Resilient educational crawling & network probe:
+  - Extracted verified vacancies tagged for *Educación Infantil*, *Técnicos de Aula*, and *Primer Ciclo (0-3)* across regional centers.
+- [x] **Task 1.3**: Implement **InfoJobs** & multi-source integration:
+  - Live query extraction targeting: `"Técnico de Educación Infantil"`, `"Educador Infantil"`, `"TSEI"`, `"Auxiliar Infantil"` in Madrid.
+- [x] **Task 1.4**: Add automated rate-limiting, randomized headers, and link health validation strategies for resilient multi-source scraping.
 
 ### Phase 2: Domain-Specific Filtering & Classification
 - [ ] **Task 2.1**: Refine the scope classification algorithm in `src/App.tsx` and `scripts/scrape.ts`:

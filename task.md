@@ -44,6 +44,6 @@ The system will be enhanced to aggressively index, parse, and monitor vacancies 
 - [x] **Task 3.3**: Include automated daily/periodic scraping scheduler support in backend (`server.ts`).
 
 ### Phase 4: Verification & Testing
-- [ ] **Task 4.1**: Execute comprehensive scrape test (`npm run scrape`) with all new sources enabled.
-- [ ] **Task 4.2**: Validate link health checker and ensure no false positives or broken job links reach [`public/data/jobs.json`](file:///home/blackman/Projects/CentralEspJobFinder/public/data/jobs.json).
-- [ ] **Task 4.3**: Test AI CV analysis on newly collected Técnico de Educación Infantil vacancies.
+- [x] **Task 4.1**: Execute comprehensive scrape test (`npm run scrape`) with all new sources enabled.
+- [x] **Task 4.2**: Validate link health checker and ensure no false positives or broken job links reach [`public/data/jobs.json`](file:///home/blackman/Projects/CentralEspJobFinder/public/data/jobs.json).
+- [x] **Task 4.3**: Test AI CV analysis on newly collected Técnico de Educación Infantil vacancies.

@@ -313,42 +313,27 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       {/* Drawer */}
       <div className="drawer-container">
         {/* Header */}
-        <div 
-          style={{
-            padding: '20px 24px',
-            borderBottom: '1px solid var(--border-color)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
-          <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-primary)' }}>Detalles del Puesto</h3>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+        <div className="drawer-header">
+          <div style={{ flex: 1, minWidth: 0, paddingRight: '12px' }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              Detalles del Puesto
+            </h3>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
               Publicado: {job.publishDate || 'Fecha no disponible'}
             </span>
           </div>
           <button 
             onClick={onClose}
-            style={{
-              background: 'var(--bg-tertiary)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-primary)',
-              borderRadius: '50%',
-              width: '32px',
-              height: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
+            className="drawer-close-btn"
+            aria-label="Cerrar detalles"
+            title="Cerrar (Esc)"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Content (Scrollable) */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+        <div className="drawer-content">
           
           {/* Main Card */}
           <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>

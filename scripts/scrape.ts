@@ -14,6 +14,7 @@ import { scrapeAdministracionPublica } from './scrapers/administracionPublica';
 import { scrapeMadrid } from './scrapers/madrid';
 import { scrapeSNE } from './scrapers/sne';
 import { isConcreteJobUrl, normalizeUrl, validateLink } from './scrapers/utils';
+import { enrichJobLocation } from './scrapers/locationEnrichment';
 
 const DATA_DIR = path.join(process.cwd(), 'public', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'jobs.json');
@@ -164,7 +165,7 @@ export async function runAllScrapers() {
       ...unedList,
       ...uamResearchList,
       ...ucmResearchList
-    ];
+    ].map(enrichJobLocation);
 
     console.log(`\nTotal ofertas agregadas en bruto: ${allScraped.length}`);
 

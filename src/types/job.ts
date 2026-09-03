@@ -9,6 +9,8 @@ export interface Job {
   dates?: string;
   province?: string;
   location?: string;
+  /** True when the fallback location was extracted from the offer title. */
+  locationFromTitle?: boolean;
   description?: string;
   requirements: string[];
   hours?: string;

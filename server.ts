@@ -238,12 +238,75 @@ app.get('/api/scrape/status', (req, res) => {
   });
 });
 
+// Rate limit tracking for email notifications (max 2 sends every 4 hours)
+const EMAIL_RATELIMIT_FILE = path.join(process.cwd(), 'public/data/email_ratelimit.json');
+const RATELIMIT_WINDOW_MS = 4 * 60 * 60 * 1000; // 4 hours
+const MAX_EMAILS_PER_WINDOW = 2;
+
+async function checkAndApplyEmailRateLimit(identifier: string): Promise<{ allowed: boolean; remaining: number; waitMinutes?: number }> {
+  try {
+    await fs.mkdir(path.dirname(EMAIL_RATELIMIT_FILE), { recursive: true });
+    let history: Record<string, number[]> = {};
+    try {
+      const content = await fs.readFile(EMAIL_RATELIMIT_FILE, 'utf-8');
+      history = JSON.parse(content);
+    } catch {
+      history = {};
+    }
+
+    const now = Date.now();
+    const userTimestamps = (history[identifier] || []).filter(ts => (now - ts) < RATELIMIT_WINDOW_MS);
+
+    if (userTimestamps.length >= MAX_EMAILS_PER_WINDOW) {
+      const oldestInWindow = userTimestamps[0];
+      const waitMs = (oldestInWindow + RATELIMIT_WINDOW_MS) - now;
+      const waitMinutes = Math.ceil(waitMs / (60 * 1000));
+      return { allowed: false, remaining: 0, waitMinutes };
+    }
+
+    // Add current send timestamp
+    userTimestamps.push(now);
+    history[identifier] = userTimestamps;
+
+    await fs.writeFile(EMAIL_RATELIMIT_FILE, JSON.stringify(history, null, 2), 'utf-8');
+    return { allowed: true, remaining: MAX_EMAILS_PER_WINDOW - userTimestamps.length };
+  } catch (err) {
+    console.error('Error al verificar rate limit:', err);
+    return { allowed: true, remaining: 1 };
+  }
+}
+
 app.post('/api/notify-email', async (req, res) => {
   try {
-    const { to } = req.body || {};
+    const { to, jobs } = req.body || {};
+    
+    // Normalize recipient email or default
+    const targetEmail = (to || process.env.EMAIL_TO || 'velsi12blackman@gmail.com').trim().toLowerCase();
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(targetEmail)) {
+      return res.status(400).json({ error: 'El formato de correo electrónico introducido no es válido.' });
+    }
+
+    // Identify by email or client IP
+    const clientIp = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+    const rateLimitKey = `${targetEmail}_${clientIp}`;
+
+    const rateLimit = await checkAndApplyEmailRateLimit(rateLimitKey);
+    if (!rateLimit.allowed) {
+      return res.status(429).json({
+        error: `Límite de envíos alcanzado (máximo 2 envíos cada 4 horas). Por favor espera ${rateLimit.waitMinutes} minutos antes de enviar otro boletín.`
+      });
+    }
+
     const { sendJobsEmail } = await import('./scripts/emailNotifier');
-    const result = await sendJobsEmail(to);
-    return res.json(result);
+    const result = await sendJobsEmail(targetEmail, jobs);
+    return res.json({
+      ...result,
+      remaining: rateLimit.remaining,
+      message: `${result.message}. (Te quedan ${rateLimit.remaining} envíos en esta ventana de 4 horas)`
+    });
   } catch (err: any) {
     console.error('Error al enviar correo:', err);
     return res.status(500).json({ error: err.message });

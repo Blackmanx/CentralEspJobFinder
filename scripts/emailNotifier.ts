@@ -216,7 +216,7 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   `;
 }
 
-export async function sendJobsEmail(customRecipient?: string): Promise<{ success: boolean; message: string }> {
+export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]): Promise<{ success: boolean; message: string }> {
   const config = getEmailConfig();
   const rawRecipient = customRecipient || config.emailTo;
 
@@ -231,9 +231,14 @@ export async function sendJobsEmail(customRecipient?: string): Promise<{ success
   // Support multiple recipients separated by comma or semicolon
   const recipients = rawRecipient.split(/[,;]+/).map(r => r.trim()).filter(Boolean);
 
-  const jobsPath = path.join(process.cwd(), 'public/data/jobs.json');
-  const fileContent = await fs.readFile(jobsPath, 'utf-8');
-  const jobs: Job[] = JSON.parse(fileContent);
+  let jobs: Job[] = [];
+  if (customJobs && Array.isArray(customJobs) && customJobs.length > 0) {
+    jobs = customJobs;
+  } else {
+    const jobsPath = path.join(process.cwd(), 'public/data/jobs.json');
+    const fileContent = await fs.readFile(jobsPath, 'utf-8');
+    jobs = JSON.parse(fileContent);
+  }
 
   console.log(`Preparando envío de correo para ${jobs.length} ofertas a: ${recipients.join(', ')}...`);
 

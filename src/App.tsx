@@ -19,7 +19,9 @@ import {
   Mail,
   Filter,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Send,
+  X
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -227,20 +229,42 @@ export default function App() {
   };
 
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [targetRecipientEmail, setTargetRecipientEmail] = useState('velsi12blackman@gmail.com');
+  const [emailSendScope, setEmailSendScope] = useState<'current_view' | 'all'>('current_view');
 
-  const triggerSendEmail = async () => {
+  const triggerSendEmail = async (overrideEmail?: string) => {
     if (sendingEmail) return;
+    const recipient = overrideEmail || targetRecipientEmail;
+    
+    if (!recipient || !recipient.includes('@')) {
+      showToast('Por favor introduce una dirección de correo válida.', 'error');
+      return;
+    }
+
     setSendingEmail(true);
     try {
-      const res = await fetch('/api/notify-email', { method: 'POST' });
+      const payload: { to: string; jobs?: Job[] } = { to: recipient };
+      
+      // If sending current filtered view, pass the filtered jobs
+      if (emailSendScope === 'current_view') {
+        payload.jobs = filteredJobs;
+      }
+
+      const res = await fetch('/api/notify-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
       const data = await res.json();
       if (res.ok) {
-        showToast(data.message || 'Boletín de ofertas enviado por correo correctamente.', 'success');
+        showToast(data.message || `Boletín enviado con éxito a ${recipient}.`, 'success');
+        setShowEmailModal(false);
       } else {
-        showToast(data.error || 'No se pudo enviar el correo. Revisa la configuración SMTP en el servidor.', 'error');
+        showToast(data.error || 'No se pudo enviar el correo.', 'error');
       }
     } catch (err: any) {
-      showToast('Error al conectar con el servidor de correo.', 'error');
+      showToast('Error de conexión con el servidor al enviar el correo.', 'error');
     } finally {
       setSendingEmail(false);
     }
@@ -854,13 +878,13 @@ export default function App() {
           </button>
           <button 
             className="btn-secondary"
-            onClick={triggerSendEmail}
+            onClick={() => setShowEmailModal(true)}
             disabled={sendingEmail || scraping}
             style={{ width: '100%', justifyContent: 'center' }}
-            title="Enviar boletín con las ofertas a tu correo configurado"
+            title="Enviar resumen de ofertas al correo seleccionado"
           >
             <Mail size={12} />
-            {sendingEmail ? 'Enviando correo...' : 'Enviar por correo'}
+            {sendingEmail ? 'Enviando correo...' : 'Enviar resumen por correo'}
           </button>
           {scraping && scrapeProgress && (
             <div style={{
@@ -1011,14 +1035,14 @@ export default function App() {
             </button>
 
             <button
-              onClick={triggerSendEmail}
+              onClick={() => setShowEmailModal(true)}
               disabled={sendingEmail || scraping}
               className="btn-primary header-action-btn"
-              title="Enviar boletín con las ofertas al correo configurado"
+              title="Enviar resumen de ofertas al correo que elijas"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', padding: '6px 12px' }}
             >
               <Mail size={13} />
-              <span className="hide-on-very-small">{sendingEmail ? 'Enviando...' : 'Enviar Email'}</span>
+              <span className="hide-on-very-small">{sendingEmail ? 'Enviando...' : 'Enviar por Email'}</span>
             </button>
 
             {/* Compact Mode Switcher */}
@@ -1394,6 +1418,184 @@ export default function App() {
         onUpdateState={handleUpdateJobState}
         showToast={showToast}
       />
+    )}
+
+    {/* Custom Email Dispatch Modal */}
+    {showEmailModal && (
+      <div 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.65)',
+          backdropFilter: 'blur(4px)',
+          zIndex: 2000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '16px'
+        }}
+        onClick={() => setShowEmailModal(false)}
+      >
+        <div 
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '16px',
+            width: 'min(480px, 95vw)',
+            padding: '24px',
+            boxShadow: 'var(--shadow-lg)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px'
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Mail size={20} style={{ color: 'var(--accent-primary)' }} />
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Enviar Resumen por Correo
+              </h3>
+            </div>
+            <button
+              onClick={() => setShowEmailModal(false)}
+              style={{
+                background: 'var(--bg-element)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '50%',
+                width: '30px',
+                height: '30px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: 'var(--text-secondary)'
+              }}
+            >
+              <X size={15} />
+            </button>
+          </div>
+
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.45 }}>
+            Recibe un informe formateado con las ofertas, convenios colectivos aplicables y enlaces directos de postulación.
+          </p>
+
+          {/* Email Input */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+              Dirección de correo destinatario
+            </label>
+            <input
+              type="email"
+              placeholder="tu_correo@ejemplo.com"
+              value={targetRecipientEmail}
+              onChange={(e) => setTargetRecipientEmail(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                fontSize: '0.9rem',
+                border: '1px solid var(--border-color)',
+                backgroundColor: 'var(--bg-element)',
+                color: 'var(--text-primary)'
+              }}
+            />
+          </div>
+
+          {/* Content Scope Selector */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+              ¿Qué ofertas deseas incluir?
+            </label>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => setEmailSendScope('current_view')}
+                style={{
+                  flex: 1,
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  fontSize: '0.78rem',
+                  fontWeight: emailSendScope === 'current_view' ? 700 : 500,
+                  border: '1px solid',
+                  borderColor: emailSendScope === 'current_view' ? 'var(--accent-primary)' : 'var(--border-color)',
+                  backgroundColor: emailSendScope === 'current_view' ? 'var(--accent-primary-light)' : 'var(--bg-element)',
+                  color: emailSendScope === 'current_view' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                  cursor: 'pointer'
+                }}
+              >
+                Filtro actual ({filteredJobs.length} ofertas)
+              </button>
+              <button
+                type="button"
+                onClick={() => setEmailSendScope('all')}
+                style={{
+                  flex: 1,
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  fontSize: '0.78rem',
+                  fontWeight: emailSendScope === 'all' ? 700 : 500,
+                  border: '1px solid',
+                  borderColor: emailSendScope === 'all' ? 'var(--accent-primary)' : 'var(--border-color)',
+                  backgroundColor: emailSendScope === 'all' ? 'var(--accent-primary-light)' : 'var(--bg-element)',
+                  color: emailSendScope === 'all' ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                  cursor: 'pointer'
+                }}
+              >
+                Catálogo completo ({jobs.length} ofertas)
+              </button>
+            </div>
+          </div>
+
+          {/* Rate Limit Notice */}
+          <div style={{
+            backgroundColor: 'rgba(217, 119, 6, 0.08)',
+            border: '1px solid rgba(217, 119, 6, 0.25)',
+            borderRadius: '8px',
+            padding: '10px 12px',
+            fontSize: '0.73rem',
+            color: 'var(--accent-gold)',
+            lineHeight: 1.4
+          }}>
+            ⏱️ <strong>Control de Envíos:</strong> Se permite un máximo de <strong>2 envíos cada 4 horas</strong> para evitar saturar tu bandeja de entrada y el servidor de correo.
+          </div>
+
+          {/* Actions */}
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '6px' }}>
+            <button
+              type="button"
+              onClick={() => setShowEmailModal(false)}
+              className="btn-secondary"
+              style={{ padding: '8px 16px', borderRadius: '8px' }}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={() => triggerSendEmail()}
+              disabled={sendingEmail}
+              className="btn-primary"
+              style={{ padding: '8px 20px', borderRadius: '8px', gap: '8px' }}
+            >
+              {sendingEmail ? (
+                <>
+                  <RefreshCw size={14} style={{ animation: 'spin 2s linear infinite' }} />
+                  <span>Enviando...</span>
+                </>
+              ) : (
+                <>
+                  <Send size={14} />
+                  <span>Enviar Ahora</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
     )}
 
     {/* Toast Notification Container */}

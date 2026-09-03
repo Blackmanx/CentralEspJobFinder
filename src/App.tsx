@@ -3,6 +3,12 @@ import { Job, ApplicationStatus, UserJobState, LocalStorageAppState } from './ty
 import { JobTable } from './components/JobTable';
 import { JobDrawer } from './components/JobDrawer';
 import { isOfficialPublicJob, isUnedJob } from './jobCategories';
+import {
+  AUTONOMOUS_COMMUNITIES,
+  getAutonomousCommunity,
+  getLocationFilterKey,
+  getMunicipalityLabel
+} from './locationGrouping';
 import { 
   Search, 
   Briefcase, 
@@ -584,7 +590,7 @@ export default function App() {
     const matchesSearch = fuzzyMatch(jobText, searchQuery);
 
     // 2. Location
-    const matchesLocation = selectedLocation === 'all' || job.location === selectedLocation;
+    const matchesLocation = selectedLocation === 'all' || getLocationFilterKey(job) === selectedLocation;
 
     // 3. School/Company Type
     const matchesType = selectedType === 'all' || 
@@ -621,10 +627,21 @@ export default function App() {
     return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
   });
 
-  // Extract unique locations for filter dropdown
-  const uniqueLocations = Array.from(
-    new Set(jobs.map((job) => job.location).filter(Boolean))
-  ).sort() as string[];
+  // Group municipalities by autonomous community while preserving precise filtering.
+  const locationsByCommunity = new Map<string, Map<string, { label: string; count: number }>>();
+  jobs.forEach((job) => {
+    if (!job.location && !job.province) return;
+    const community = getAutonomousCommunity(job);
+    const locationKey = getLocationFilterKey(job);
+    const municipalityKey = locationKey.split('::')[1];
+    const communityLocations = locationsByCommunity.get(community) || new Map();
+    const current = communityLocations.get(municipalityKey);
+    communityLocations.set(municipalityKey, {
+      label: current?.label || getMunicipalityLabel(job),
+      count: (current?.count || 0) + 1
+    });
+    locationsByCommunity.set(community, communityLocations);
+  });
 
   // Statistics Calculations
   const stats = {
@@ -697,15 +714,31 @@ export default function App() {
 
           {/* Location Dropdown */}
           <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Población / Municipio</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Comunidad y población</label>
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
             >
-              <option value="all">Todas las poblaciones</option>
-              {uniqueLocations.map((loc) => (
-                <option key={loc} value={loc}>{loc}</option>
-              ))}
+              <option value="all">Todas las comunidades y poblaciones</option>
+              {AUTONOMOUS_COMMUNITIES.map((community) => {
+                const locations = locationsByCommunity.get(community);
+                if (!locations) return null;
+                const communityCount = Array.from(locations.values()).reduce((sum, item) => sum + item.count, 0);
+                return (
+                  <optgroup key={community} label={`${community} (${communityCount})`}>
+                    {Array.from(locations.entries())
+                      .sort(([, a], [, b]) => a.label.localeCompare(b.label, 'es'))
+                      .map(([municipalityKey, item]) => {
+                        const value = `${community}::${municipalityKey}`;
+                        return (
+                          <option key={value} value={value}>
+                            {item.label} ({item.count})
+                          </option>
+                        );
+                      })}
+                  </optgroup>
+                );
+              })}
             </select>
           </div>
 

@@ -8,8 +8,7 @@ echo "[$TIMESTAMP] Iniciando rutina diaria de JobCrawling..." >> /home/pi/jobfin
 
 # 1. Sincronizar repositorio desde GitHub por si hay mejoras de scrapers o código
 echo "[$TIMESTAMP] [1/3] Sincronizando repositorio Git..." >> /home/pi/jobfinder_cron.log
-git fetch origin main >> /home/pi/jobfinder_cron.log 2>&1
-git reset --hard origin/main >> /home/pi/jobfinder_cron.log 2>&1
+git pull --ff-only origin main >> /home/pi/jobfinder_cron.log 2>&1
 
 # 2. Ejecutar escaneo completo (Scraping & Sync de ofertas activas)
 echo "[$TIMESTAMP] [2/3] Scrapeando y sincronizando ofertas frescas..." >> /home/pi/jobfinder_cron.log

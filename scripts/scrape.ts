@@ -7,6 +7,7 @@ import { scrapeInfojobs } from './scrapers/infojobs';
 import { scrapeIndeed } from './scrapers/indeed';
 import { scrapeInfoempleo } from './scrapers/infoempleo';
 import { scrapeBolsasEmpleo } from './scrapers/bolsas';
+import { scrapeUnedBici } from './scrapers/uned';
 
 const DATA_DIR = path.join(process.cwd(), 'public', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'jobs.json');
@@ -53,8 +54,10 @@ function filterExcludeForeignCountries(job: ScrapedJob): boolean {
   return !isForeign;
 }
 
-// Strict date filter: Exclude offers published more than 3 weeks ago (21 days)
+// Strict date filter: Exclude commercial offers published more than 3 weeks ago (21 days)
+// (UNED BICI research contracts already manage their own 3-4 months quarterly window)
 function filterRecentDate(job: ScrapedJob): boolean {
+  if (job.source?.includes('UNED')) return true;
   // If no date or marked as Reciente / Convocatoria / Curso, keep it
   if (!job.publishDate) return true;
   const pDateLower = job.publishDate.toLowerCase();
@@ -130,13 +133,17 @@ export async function runAllScrapers() {
     // 5. Scrape Official Educational & Childhood Job Banks (Bolsas de Empleo Madrid y Toledo)
     const bolsasList = await scrapeBolsasEmpleo();
 
+    // 6. Scrape UNED BICI (Research contracts on early childhood & education)
+    const unedList = await scrapeUnedBici();
+
     // Combine all sources
     const allScraped = [
       ...infojobsList,
       ...indeedList,
       ...colejobsList,
       ...infoempleoList,
-      ...bolsasList
+      ...bolsasList,
+      ...unedList
     ];
 
     console.log(`\nTotal ofertas agregadas en bruto: ${allScraped.length}`);

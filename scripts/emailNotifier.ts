@@ -40,12 +40,14 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   const total = jobs.length;
   const tseiJobs = jobs.filter(j => j.certificationTags?.includes('TSEI'));
   const monitorJobs = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio'));
-  const bolsasJobs = jobs.filter(j => j.source?.includes('Bolsa') || j.companyType?.includes('Bolsa'));
+  const unedJobs = jobs.filter(j => j.source?.includes('UNED'));
+  const bolsasJobs = jobs.filter(j => (j.source?.includes('Bolsa') || j.companyType?.includes('Bolsa')) && !j.source?.includes('UNED'));
   const toledoJobs = jobs.filter(j => (j.province || '').toLowerCase().includes('toledo') || (j.location || '').toLowerCase().includes('toledo'));
   const otherInfantil = jobs.filter(j => 
     !j.certificationTags?.includes('TSEI') && 
     !j.certificationTags?.includes('Monitor_Ocio') &&
     !j.source?.includes('Bolsa') &&
+    !j.source?.includes('UNED') &&
     (j.title.toLowerCase().includes('infantil') || j.convenioInfo?.stage === '0-3_años' || j.convenioInfo?.stage === '3-6_años')
   );
 
@@ -124,6 +126,10 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
           <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">TSEI / 0-3</span>
         </div>
         <div>
+          <span style="font-size: 18px; font-weight: 700; color: #b45309; display: block;">${unedJobs.length}</span>
+          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">UNED BICI</span>
+        </div>
+        <div>
           <span style="font-size: 18px; font-weight: 700; color: #059669; display: block;">${bolsasJobs.length}</span>
           <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bolsas Oficiales</span>
         </div>
@@ -166,7 +172,17 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
           </div>
         ` : ''}
 
-        <!-- Section 4: Bolsas de Empleo Oficiales (Madrid y Toledo) - Al final del correo -->
+        <!-- Section 4: UNED BICI - Contratos de Investigación en Educación / Infancia -->
+        ${unedJobs.length > 0 ? `
+          <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 16px; color: #b45309; border-bottom: 2px solid #fde68a; padding-bottom: 6px; margin-bottom: 14px;">
+              🎓 UNED BICI: Contratos de Investigación en Educación e Infancia (${unedJobs.length})
+            </h2>
+            ${unedJobs.map(formatCard).join('')}
+          </div>
+        ` : ''}
+
+        <!-- Section 5: Bolsas de Empleo Oficiales (Madrid y Toledo) - Al final del correo -->
         ${bolsasJobs.length > 0 ? `
           <div style="margin-bottom: 24px;">
             <h2 style="font-size: 16px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 6px; margin-bottom: 14px;">

@@ -590,7 +590,13 @@ export default function App() {
     const matchesSearch = fuzzyMatch(jobText, searchQuery);
 
     // 2. Location
-    const matchesLocation = selectedLocation === 'all' || getLocationFilterKey(job) === selectedLocation;
+    const selectedCommunity = selectedLocation.startsWith('community::')
+      ? selectedLocation.slice('community::'.length)
+      : null;
+    const matchesLocation = selectedLocation === 'all' ||
+      (selectedCommunity !== null
+        ? getAutonomousCommunity(job) === selectedCommunity
+        : getLocationFilterKey(job) === selectedLocation);
 
     // 3. School/Company Type
     const matchesType = selectedType === 'all' || 
@@ -726,6 +732,9 @@ export default function App() {
                 const communityCount = Array.from(locations.values()).reduce((sum, item) => sum + item.count, 0);
                 return (
                   <optgroup key={community} label={`${community} (${communityCount})`}>
+                    <option value={`community::${community}`}>
+                      Toda la comunidad ({communityCount})
+                    </option>
                     {Array.from(locations.entries())
                       .sort(([, a], [, b]) => a.label.localeCompare(b.label, 'es'))
                       .map(([municipalityKey, item]) => {

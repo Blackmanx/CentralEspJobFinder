@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Job, ApplicationStatus, UserJobState, LocalStorageAppState } from './types/job';
 import { JobTable } from './components/JobTable';
 import { JobDrawer } from './components/JobDrawer';
+import { isOfficialPublicJob, isUnedJob } from './jobCategories';
 import { 
   Search, 
   Briefcase, 
@@ -606,17 +607,15 @@ export default function App() {
                      job.title.toLowerCase().includes('ocio') ||
                      job.title.toLowerCase().includes('ludoteca');
     } else if (selectedScope === 'bolsas') {
-      matchesScope = (job.source?.includes('Bolsa') === true || 
-                     job.companyType?.toLowerCase().includes('bolsa') === true ||
-                     job.title.toLowerCase().includes('bolsa')) && !job.source?.includes('UNED');
+      matchesScope = isOfficialPublicJob(job) && !isUnedJob(job);
     } else if (selectedScope === 'uned') {
-      matchesScope = job.source?.includes('UNED') === true ||
+      matchesScope = isUnedJob(job) ||
                      job.companyName?.toLowerCase().includes('uned') === true ||
                      job.url.includes('uned.es');
     } else if (selectedScope === 'docente_otros') {
-      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa') && !job.source?.includes('UNED');
+      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !isOfficialPublicJob(job) && !isUnedJob(job);
     } else if (selectedScope === 'apoyo_otros') {
-      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa') && !job.source?.includes('UNED');
+      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !isOfficialPublicJob(job) && !isUnedJob(job);
     }
 
     return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
@@ -631,8 +630,8 @@ export default function App() {
   const stats = {
     total: jobs.length,
     infantil: jobs.filter(isInfantilJob).length,
-    bolsas: jobs.filter(j => (j.source?.includes('Bolsa') || j.companyType?.toLowerCase().includes('bolsa')) && !j.source?.includes('UNED')).length,
-    uned: jobs.filter(j => j.source?.includes('UNED') || j.companyName?.toLowerCase().includes('uned')).length,
+    bolsas: jobs.filter(j => isOfficialPublicJob(j) && !isUnedJob(j)).length,
+    uned: jobs.filter(j => isUnedJob(j) || j.companyName?.toLowerCase().includes('uned')).length,
     applied: Object.values(userStates).filter((s) => s.status === 'applied').length,
     interviewing: Object.values(userStates).filter((s) => s.status === 'interviewing').length,
     offered: Object.values(userStates).filter((s) => s.status === 'offered').length,
@@ -749,7 +748,7 @@ export default function App() {
             >
               <option value="infantil">🧸 Educación Infantil / TSEI (Defecto)</option>
               <option value="monitor_ocio">🎨 Monitores, Ocio y Comedor Infantil</option>
-              <option value="bolsas">🏛️ Bolsas de Empleo Público (España)</option>
+              <option value="bolsas">🏛️ Ofertas/Bolsas Oficiales (España)</option>
               <option value="uned">🎓 UNED BICI: Contratos de Investigación</option>
               <option value="docente_otros">📚 Otros Puestos Docentes (Primaria, Secundaria...)</option>
               <option value="apoyo_otros">🏢 Apoyo / Administración (Limpieza, Conserjería...)</option>

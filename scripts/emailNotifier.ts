@@ -3,6 +3,7 @@ import * as path from 'path';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
 import { Job } from '../src/types/job';
+import { isOfficialPublicJob } from '../src/jobCategories';
 
 dotenv.config();
 
@@ -48,12 +49,12 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   const tseiJobs = jobs.filter(j => j.certificationTags?.includes('TSEI'));
   const monitorJobs = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio'));
   const unedJobs = jobs.filter(j => j.source?.includes('UNED'));
-  const bolsasJobs = jobs.filter(j => (j.source?.includes('Bolsa') || j.companyType?.includes('Bolsa')) && !j.source?.includes('UNED'));
+  const bolsasJobs = jobs.filter(j => isOfficialPublicJob(j) && !j.source?.includes('UNED'));
   const toledoJobs = jobs.filter(j => (j.province || '').toLowerCase().includes('toledo') || (j.location || '').toLowerCase().includes('toledo'));
   const otherInfantil = jobs.filter(j => 
     !j.certificationTags?.includes('TSEI') && 
     !j.certificationTags?.includes('Monitor_Ocio') &&
-    !j.source?.includes('Bolsa') &&
+    !isOfficialPublicJob(j) &&
     !j.source?.includes('UNED') &&
     (j.title.toLowerCase().includes('infantil') || j.convenioInfo?.stage === '0-3_años' || j.convenioInfo?.stage === '3-6_años')
   );
@@ -212,11 +213,11 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
           </div>
         ` : ''}
 
-        <!-- Section 5: Bolsas de Empleo Oficiales (Madrid y Toledo) - Al final del correo -->
+        <!-- Section 5: Ofertas y Bolsas Oficiales de España - Al final del correo -->
         ${bolsasJobs.length > 0 ? `
           <div style="margin-bottom: 20px;">
             <h2 style="font-size: 15px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 5px; margin-bottom: 12px;">
-              🏛️ Bolsas de Empleo Público Oficiales (Madrid y Toledo) (${bolsasJobs.length})
+              🏛️ Ofertas y Bolsas de Empleo Público Oficiales (España) (${bolsasJobs.length})
             </h2>
             ${bolsasJobs.map(formatCard).join('')}
           </div>

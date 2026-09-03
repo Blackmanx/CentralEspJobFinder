@@ -1,5 +1,6 @@
 import React from 'react';
 import { Job, ApplicationStatus, UserJobState } from '../types/job';
+import { isOfficialPublicJob } from '../jobCategories';
 import { 
   Building2, 
   MapPin, 
@@ -127,12 +128,12 @@ export const JobTable: React.FC<JobTableProps> = ({
                           onClick={(e) => e.stopPropagation()}
                           style={{
                             backgroundColor: job.source.includes('UNED') ? 'rgba(217, 119, 6, 0.15)' :
-                                             job.source.includes('Bolsa') ? 'rgba(5, 150, 105, 0.15)' :
+                                             isOfficialPublicJob(job) ? 'rgba(5, 150, 105, 0.15)' :
                                              job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
                                              job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
                                              'rgba(139, 92, 246, 0.12)',
                             color: job.source.includes('UNED') ? '#b45309' :
-                                   job.source.includes('Bolsa') ? '#059669' :
+                                   isOfficialPublicJob(job) ? '#059669' :
                                    job.source === 'Colejobs' ? '#3b82f6' :
                                    job.source === 'Indeed' ? '#10b981' :
                                    '#8b5cf6',
@@ -487,12 +488,12 @@ export const JobTable: React.FC<JobTableProps> = ({
                         onClick={(e) => e.stopPropagation()}
                         style={{
                           backgroundColor: job.source.includes('UNED') ? 'rgba(217, 119, 6, 0.15)' :
-                                           job.source.includes('Bolsa') ? 'rgba(5, 150, 105, 0.15)' :
+                                           isOfficialPublicJob(job) ? 'rgba(5, 150, 105, 0.15)' :
                                            job.source === 'Colejobs' ? 'rgba(59, 130, 246, 0.12)' :
                                            job.source === 'Indeed' ? 'rgba(16, 185, 129, 0.12)' :
                                            'rgba(139, 92, 246, 0.12)',
                           color: job.source.includes('UNED') ? '#b45309' :
-                                 job.source.includes('Bolsa') ? '#059669' :
+                                 isOfficialPublicJob(job) ? '#059669' :
                                  job.source === 'Colejobs' ? '#3b82f6' :
                                  job.source === 'Indeed' ? '#10b981' :
                                  '#8b5cf6',

@@ -179,6 +179,15 @@ export async function runAllScrapers() {
     await fs.writeFile(DATA_FILE, JSON.stringify(filteredJobs, null, 2), 'utf-8');
     console.log(`✅ Base de datos unificada actualizada exitosamente en: ${DATA_FILE}`);
 
+    // Also mirror to dist/data/jobs.json if dist directory exists (for live Caddy web server)
+    const distDataFile = path.join(process.cwd(), 'dist', 'data', 'jobs.json');
+    try {
+      await fs.mkdir(path.dirname(distDataFile), { recursive: true });
+      await fs.writeFile(distDataFile, JSON.stringify(filteredJobs, null, 2), 'utf-8');
+    } catch {
+      // Ignore if dist has not been generated yet
+    }
+
   } catch (error) {
     console.error('Error fatal durante la ejecución de los scrapers:', error);
     process.exit(1);

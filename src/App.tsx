@@ -583,6 +583,18 @@ export default function App() {
     return queryWords.every(word => cleanText.includes(word));
   };
 
+  const matchesSelectedLocation = (job: Job): boolean => {
+    if (selectedLocation === 'all') return true;
+
+    const selectedCommunity = selectedLocation.startsWith('community::')
+      ? selectedLocation.slice('community::'.length)
+      : null;
+
+    return selectedCommunity !== null
+      ? getAutonomousCommunity(job) === selectedCommunity
+      : getLocationFilterKey(job) === selectedLocation;
+  };
+
   // Filter Logic
   const filteredJobs = jobs.filter((job) => {
     // 1. Text Search (title, company, description, requirements) using Advanced Fuzzy Search
@@ -590,13 +602,7 @@ export default function App() {
     const matchesSearch = fuzzyMatch(jobText, searchQuery);
 
     // 2. Location
-    const selectedCommunity = selectedLocation.startsWith('community::')
-      ? selectedLocation.slice('community::'.length)
-      : null;
-    const matchesLocation = selectedLocation === 'all' ||
-      (selectedCommunity !== null
-        ? getAutonomousCommunity(job) === selectedCommunity
-        : getLocationFilterKey(job) === selectedLocation);
+    const matchesLocation = matchesSelectedLocation(job);
 
     // 3. School/Company Type
     const matchesType = selectedType === 'all' || 
@@ -650,11 +656,12 @@ export default function App() {
   });
 
   // Statistics Calculations
+  const locationScopedJobs = jobs.filter(matchesSelectedLocation);
   const stats = {
     total: jobs.length,
-    infantil: jobs.filter(isInfantilJob).length,
-    bolsas: jobs.filter(j => isOfficialPublicJob(j) && !isUnedJob(j)).length,
-    uned: jobs.filter(j => isUnedJob(j) || j.companyName?.toLowerCase().includes('uned')).length,
+    infantil: locationScopedJobs.filter(isInfantilJob).length,
+    bolsas: locationScopedJobs.filter(j => isOfficialPublicJob(j) && !isUnedJob(j)).length,
+    uned: locationScopedJobs.filter(j => isUnedJob(j) || j.companyName?.toLowerCase().includes('uned')).length,
     applied: Object.values(userStates).filter((s) => s.status === 'applied').length,
     interviewing: Object.values(userStates).filter((s) => s.status === 'interviewing').length,
     offered: Object.values(userStates).filter((s) => s.status === 'offered').length,

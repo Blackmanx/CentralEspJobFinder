@@ -76,6 +76,7 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
     } : null;
     const badges = [
       job.source ? `<span style="background-color: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">${source}</span>` : '',
+      job.isOlderThanMonth ? '<span style="background-color: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">&gt;1 mes</span>' : '',
       job.certificationTags?.map(t => {
         const label = t === 'TSEI' ? 'FP TSEI' : t === 'Monitor_Ocio' ? 'Monitor Ocio' : t === 'Magisterio_Infantil' ? 'Grado Infantil' : 'Auxiliar';
         const color = t === 'TSEI' ? '#0284c7; background-color: #e0f2fe' : t === 'Monitor_Ocio' ? '#c2410c; background-color: #ffedd5' : '#4f46e5; background-color: #ede9fe';

@@ -73,8 +73,17 @@ export function isConcreteJobUrl(url: string, source = ''): boolean {
   if (sourceName.includes('administración') || sourceName.includes('administracion') || host === 'administracion.gob.es') {
     return host === 'administracion.gob.es' && path.endsWith('/detalleempleo.htm') && Boolean(parsed.searchParams.get('idConvocatoria'));
   }
+  if (sourceName.includes('uned bici') || host === 'bici.uned.es') {
+    return host === 'bici.uned.es' && /^\/\d{4}\/bici-n-o-\d+-\d{2}-\d{2}-\d{4}\/?$/.test(path);
+  }
   if (sourceName.includes('uned') || host === 'uned.es' || host === 'www2.uned.es') {
     return (host === 'uned.es' || host === 'www2.uned.es') && path.includes('/bici/') && path.endsWith('.htm');
+  }
+  if (sourceName.includes('uam investigación') || host === 'uam.es') {
+    return host === 'uam.es' && /^\/uam\/investigacion\/ofertas?-empleo\/[^/]+\/?$/.test(path);
+  }
+  if (sourceName.includes('ucm investigación') || host === 'ucm.es') {
+    return host === 'ucm.es' && /^\/(?:pli|paii|pait)\d+-\d{2}\/?$/.test(path);
   }
   if (sourceName.includes('sa empleo') || host === 'saempleo.es') {
     return host === 'saempleo.es' && path.includes('/detalle-oferta') && Boolean(parsed.searchParams.get('ofertaid'));
@@ -87,6 +96,7 @@ export function isConcreteJobUrl(url: string, source = ''): boolean {
 }
 
 export async function validateLink(url: string, source: string): Promise<boolean> {
+  const sourceName = source.toLowerCase();
   if (!isConcreteJobUrl(url, source)) {
     console.warn(`[${source}] URL descartada por no ser una ficha de oferta: ${url}`);
     return false;
@@ -141,6 +151,10 @@ export async function validateLink(url: string, source: string): Promise<boolean
           return false;
         }
       }
+
+      // Archived BICI articles remain valid, even when the application deadline has passed.
+      // They are intentionally kept for the current-year historical view and marked in the UI.
+      if (sourceName.includes('uned bici')) return true;
 
       // Check for closed or expired job listings
       const closedIndicators = [

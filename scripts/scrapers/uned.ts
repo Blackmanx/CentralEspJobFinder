@@ -1,157 +1,183 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { ScrapedJob } from './types';
-import { getRandomUserAgent, validateLink } from './utils';
+import { clean, getRandomUserAgent, validateLink } from './utils';
+
+const ARCHIVE_ENDPOINT = 'https://www.uned.es/universidad/inicio/en/unidad/bici/hemeroteca/main/0';
+const ARCHIVE_PAGE = 'https://www.uned.es/universidad/inicio/en/unidad/bici/hemeroteca.html';
+const BICI_SITE = 'https://bici.uned.es';
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const spanishMonths = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+];
+
+interface BiciIssue {
+  number: number;
+  date: Date;
+  archiveUrl: string;
+}
+
+function parseIssue(text: string, href: string): BiciIssue | null {
+  const match = text.match(/BICI\s*N?\.?\s*(\d+)\s*\((\d{1,2})\/(\d{1,2})\/(\d{4})\)/i);
+  if (!match) return null;
+
+  const issueDate = new Date(Number(match[4]), Number(match[3]) - 1, Number(match[2]));
+  if (Number.isNaN(issueDate.getTime())) return null;
+
+  return {
+    number: Number(match[1]),
+    date: issueDate,
+    archiveUrl: new URL(href, ARCHIVE_ENDPOINT).toString()
+  };
+}
+
+function formatDate(date: Date): string {
+  return `${String(date.getDate()).padStart(2, '0')} de ${spanishMonths[date.getMonth()]} de ${date.getFullYear()}`;
+}
+
+function articleUrl(issue: BiciIssue): string {
+  const day = String(issue.date.getDate()).padStart(2, '0');
+  const month = String(issue.date.getMonth() + 1).padStart(2, '0');
+  return `${BICI_SITE}/${issue.date.getFullYear()}/bici-n-o-${issue.number}-${day}-${month}-${issue.date.getFullYear()}/`;
+}
+
+function isRelevantResearchCall(title: string, body: string): boolean {
+  const titleNormalized = title.toLowerCase();
+  const normalized = `${title} ${body}`.toLowerCase();
+  if (/resoluci[oó]n|designa(?:ci[oó]n)?|adjudicaci[oó]n|candidato(?:a)? elegido/.test(titleNormalized)) return false;
+
+  const isCall = /contrato\s+(?:laboral|de\s+investigaci[oó]n)|convocatoria[\s\S]{0,120}(?:contrat|plaza.*investig)|oferta[\s\S]{0,120}(?:empleo|contrato)/.test(titleNormalized);
+  const titleIsEducationRelated =
+    /educaci[oó]n|educational|education|infan|child|literacy|alfabetizaci[oó]n|escuela|school|pedagog|maestr[oa]|teacher|docen/.test(titleNormalized);
+  const bodyIsEducationRelated =
+    /educaci[oó]n\s+(?:infantil|primaria|secundaria|especial)|early childhood|child development|emergent literacy|alfabetizaci[oó]n emergente|educational research|school-based|pedagog/.test(body.toLowerCase());
+
+  return isCall && (titleIsEducationRelated || bodyIsEducationRelated);
+}
+
+function extractSection($: cheerio.CheerioAPI, heading: cheerio.Element): string {
+  const parts: string[] = [];
+  let sibling = $(heading).next();
+
+  while (sibling.length) {
+    const tag = sibling[0]?.tagName?.toLowerCase();
+    if (tag === 'h2' || tag === 'h3' || tag === 'h4') break;
+    const text = clean(sibling.text());
+    if (text) parts.push(text);
+    sibling = sibling.next();
+  }
+
+  return parts.join(' ');
+}
+
+async function getHtml(url: string): Promise<string | null> {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': getRandomUserAgent(),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'es-ES,es;q=0.9'
+      },
+      timeout: 20000,
+      validateStatus: () => true
+    });
+    return response.status === 200 && typeof response.data === 'string' ? response.data : null;
+  } catch (error) {
+    console.warn(`[UNED BICI] No se pudo consultar ${url}:`, error instanceof Error ? error.message : error);
+    return null;
+  }
+}
+
+async function findCurrentYearIssues(currentYear: number): Promise<BiciIssue[]> {
+  const yearStart = new Date(currentYear, 0, 1);
+  const issues = new Map<string, BiciIssue>();
+
+  for (let offset = 0; offset <= 100; offset += 10) {
+    const endpoint = `${ARCHIVE_ENDPOINT}?offset=${offset}`;
+    const html = await getHtml(endpoint);
+    if (!html) break;
+
+    const $ = cheerio.load(html);
+    const pageIssues: BiciIssue[] = [];
+    $('a[href*="idBici="]').each((_, element) => {
+      const issue = parseIssue(clean($(element).text()), $(element).attr('href') || '');
+      if (!issue) return;
+      pageIssues.push(issue);
+      issues.set(`${issue.number}-${issue.date.toISOString().slice(0, 10)}`, issue);
+    });
+
+    if (!pageIssues.length || pageIssues.every(issue => issue.date < yearStart)) break;
+  }
+
+  return [...issues.values()]
+    .filter(issue => issue.date >= yearStart && issue.date.getFullYear() === currentYear)
+    .sort((left, right) => right.date.getTime() - left.date.getTime());
+}
 
 /**
- * Scraper for UNED BICI (Boletín Interno de Coordinación Informativa)
- * Focuses on research contracts linked to education, childhood, literacy and child development.
- * Searches the current year and up to 3 months back (e.g. 2026.html, 2025.html).
+ * Reads the official BICI archive instead of the retired UNED employment page.
+ * Every result points to the concrete WordPress article and is retained for the
+ * whole calendar year; old entries are explicitly marked for the user.
  */
 export async function scrapeUnedBici(): Promise<ScrapedJob[]> {
   console.log('=== [UNED BICI] Buscando contratos de investigación en Educación e Infancia ===');
 
-  const currentYear = new Date().getFullYear();
-  // Check current year and previous year to cover window properly
-  const candidateYears = [currentYear, currentYear - 1];
   const now = new Date();
-  const maxDays = (4 * 30.5) + 5; // Up to ~4 months (approx 125 days) to capture research contracts of current/previous quarter
-
-  const spanishMonths: { [key: string]: number } = {
-    enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
-    julio: 6, agosto: 7, septiembre: 8, octubre: 9, noviembre: 10, diciembre: 11
-  };
-
-  function parseDate(text: string, url: string): Date | null {
-    const textMatch = text.match(/(\d{1,2})\s+de\s+([a-záéíóú]+)\s+de\s+(\d{4})/i);
-    if (textMatch) {
-      const day = parseInt(textMatch[1], 10);
-      const mName = textMatch[2].toLowerCase();
-      const year = parseInt(textMatch[3], 10);
-      if (spanishMonths[mName] !== undefined) {
-        return new Date(year, spanishMonths[mName], day);
-      }
-    }
-
-    const urlMatch1 = url.match(/\/Curso\d{4}-\d{4}\/(20\d{2})(\d{2})(\d{2})\d{2}\//);
-    if (urlMatch1) {
-      return new Date(parseInt(urlMatch1[1], 10), parseInt(urlMatch1[2], 10) - 1, parseInt(urlMatch1[3], 10));
-    }
-
-    const urlMatch2 = url.match(/\/Curso\d{4}-\d{4}\/(\d{2})(\d{2})(\d{2})\d{2}\//);
-    if (urlMatch2) {
-      return new Date(2000 + parseInt(urlMatch2[1], 10), parseInt(urlMatch2[2], 10) - 1, parseInt(urlMatch2[3], 10));
-    }
-
-    return null;
-  }
-
+  const currentYear = now.getFullYear();
+  const issues = await findCurrentYearIssues(currentYear);
   const collectedJobs: ScrapedJob[] = [];
-  const seenUrls = new Set<string>();
+  const seenKeys = new Set<string>();
 
-  for (const year of candidateYears) {
-    const pageUrl = `https://www.uned.es/universidad/inicio/en/institucional/areas-direccion/vicerrectorados/investigacion/ofertas-empleo-investigacion/${year}.html`;
+  for (const issue of issues) {
+    const url = articleUrl(issue);
+    const html = await getHtml(url);
+    if (!html) continue;
 
-    try {
-      console.log(`[UNED BICI] Consultando convocatorias de investigación año ${year}...`);
-      const response = await axios.get(pageUrl, {
-        headers: {
-          'User-Agent': getRandomUserAgent(),
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Language': 'es-ES,es;q=0.9'
-        },
-        timeout: 10000,
-        validateStatus: () => true
+    const $ = cheerio.load(html);
+    $('h4').each((index, element) => {
+      const title = clean($(element).text());
+      const body = extractSection($, element);
+      if (!isRelevantResearchCall(title, body)) return;
+
+      const key = `${issue.number}-${title.toLowerCase()}`;
+      if (seenKeys.has(key)) return;
+      seenKeys.add(key);
+
+      const concreteUrl = `${url}#:~:text=${encodeURIComponent(title.slice(0, 180))}`;
+      const ageInDays = (now.getTime() - issue.date.getTime()) / DAY_MS;
+      const dateFormatted = formatDate(issue.date);
+
+      collectedJobs.push({
+        id: `uned-bici-${issue.date.getTime()}-${issue.number}-${index}`,
+        title,
+        companyName: 'UNED - Vicerrectorado de Investigación (BICI)',
+        companyLogo: 'https://www.uned.es/universidad/inicio/.resources/site-uned/webresources/img/uned_logo.svg',
+        companyType: 'Universidad Pública / Contrato de Investigación',
+        companyWeb: issue.archiveUrl,
+        companyDesc: 'Convocatorias de contratos y plazas de investigación de la UNED publicadas en el BICI.',
+        location: 'Madrid / UNED Sede Central',
+        province: 'Madrid',
+        hours: 'Según las bases de la convocatoria',
+        contract: 'Contrato laboral de investigación / Proyecto',
+        salary: 'Según las bases de la convocatoria BICI',
+        publishDate: dateFormatted,
+        isOlderThanMonth: ageInDays > 30,
+        url: concreteUrl,
+        scrapedAt: now.toISOString(),
+        source: 'UNED BICI Investigación',
+        description: `${body.slice(0, 2200)} Publicado en el BICI nº ${issue.number} de ${dateFormatted}.`,
+        requirements: ['Consultar las bases y requisitos completos en la convocatoria oficial enlazada.']
       });
-
-      if (response.status !== 200) {
-        continue;
-      }
-
-      const $ = cheerio.load(response.data);
-
-      const itemsToValidate: { title: string; url: string; date: Date }[] = [];
-
-      $('a').each((_, el) => {
-        const text = $(el).text().trim().replace(/\s+/g, ' ');
-        const href = $(el).attr('href');
-        if (!href || !href.includes('bici') || !href.includes('.htm')) return;
-
-        const lower = text.toLowerCase();
-        if (/designa|candidata elegida|candidato elegido|resoluci[oó]n de adjudicaci[oó]n/.test(lower)) return;
-        // Target keywords on early childhood, education, literacy, children
-        const isEducationOrInfancy =
-          lower.includes('educa') ||
-          lower.includes('infan') ||
-          lower.includes('child') ||
-          lower.includes('literacy') ||
-          lower.includes('menor') ||
-          lower.includes('adolescen') ||
-          lower.includes('escuela');
-
-        if (!isEducationOrInfancy) return;
-
-        const date = parseDate(text, href);
-        if (!date) return;
-
-        const diffDays = (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24);
-
-        // Filter: maximum 3 months old (or current/future within maxDays window)
-        if (diffDays > maxDays || diffDays < -30) return;
-
-        const cleanTitle = text.replace(/^-\s*/, '');
-        itemsToValidate.push({ title: cleanTitle, url: href, date });
-      });
-
-      for (const item of itemsToValidate) {
-        const cleanUrl = item.url.split('#')[0];
-        if (seenUrls.has(cleanUrl) || seenUrls.has(item.url)) continue;
-
-        // Verify that the body of the page is accessible and doesn't return 404 or closed
-        const isValid = await validateLink(item.url, 'UNED');
-        if (!isValid) continue;
-
-        seenUrls.add(cleanUrl);
-        seenUrls.add(item.url);
-
-        const dateFormatted = item.date.toLocaleDateString('es-ES', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        });
-
-        const isChildhood = item.title.toLowerCase().includes('early childhood') || item.title.toLowerCase().includes('infan') || item.title.toLowerCase().includes('literacy');
-
-        collectedJobs.push({
-          id: `uned-bici-${item.date.getTime()}-${Math.abs(item.title.length)}`,
-          title: item.title,
-          companyName: 'UNED - Vicerrectorado de Investigación (BICI)',
-          companyLogo: 'https://www.uned.es/universidad/inicio/.resources/site-uned/webresources/img/uned_logo.svg',
-          companyType: 'Universidad Pública / Contrato de Investigación',
-          companyWeb: pageUrl,
-          companyDesc: 'Ofertas de empleo y contratos laborales de proyectos de investigación en la UNED publicados en el BICI.',
-          location: 'Madrid / UNED Sede Central',
-          province: 'Madrid',
-          hours: 'Jornada completa / Tiempo parcial según proyecto',
-          contract: 'Laboral de Investigación / Proyecto',
-          salary: 'Según bases de la convocatoria BICI (Retribución Investigador/a)',
-          publishDate: dateFormatted,
-          url: item.url,
-          scrapedAt: new Date().toISOString(),
-          source: 'UNED BICI Investigación',
-          description: `Contrato laboral para proyecto de investigación publicado en el Boletín Interno de Coordinación Informativa (BICI) de la UNED: "${item.title}". Proyecto en el ámbito educativo e investigación de la infancia.`,
-          requirements: [
-            'Titulación universitaria requerida en las bases específicas (Grado en Educación Infantil, Magisterio, Pedagogía o afines).',
-            'Presentación telemática de la solicitud a través de la Sede Electrónica de la UNED.',
-            isChildhood ? 'Especialización o interés en educación infantil, desarrollo lector temprano o intervención en primera infancia.' : 'Conocimiento en metodologías de investigación educativa.'
-          ]
-        });
-      }
-    } catch (error) {
-      console.error(`[UNED BICI] Error extrayendo ofertas del año ${year}:`, error instanceof Error ? error.message : error);
-    }
+    });
   }
 
-  console.log(`[UNED BICI] ${collectedJobs.length} contratos de investigación en Educación/Infancia validados.`);
-  return collectedJobs;
+  const validJobs: ScrapedJob[] = [];
+  for (const job of collectedJobs) {
+    if (await validateLink(job.url, 'UNED BICI Investigación')) validJobs.push(job);
+  }
+
+  console.log(`[UNED BICI] ${validJobs.length} contratos de investigación en Educación/Infancia del año ${currentYear} validados.`);
+  return validJobs;
 }

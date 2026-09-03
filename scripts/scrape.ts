@@ -7,6 +7,8 @@ import { scrapeInfojobs } from './scrapers/infojobs';
 import { scrapeIndeed } from './scrapers/indeed';
 import { scrapeInfoempleo } from './scrapers/infoempleo';
 import { scrapeUnedBici } from './scrapers/uned';
+import { scrapeUamResearch } from './scrapers/uamResearch';
+import { scrapeUcmResearch } from './scrapers/ucmResearch';
 import { scrapeColegios } from './scrapers/colegios';
 import { scrapeAdministracionPublica } from './scrapers/administracionPublica';
 import { scrapeMadrid } from './scrapers/madrid';
@@ -55,7 +57,13 @@ function filterExcludeForeignCountries(job: ScrapedJob): boolean {
 // Strict date filter: Exclude commercial offers published more than 3 weeks ago (21 days)
 // (UNED BICI research contracts already manage their own 3-4 months quarterly window)
 function filterRecentDate(job: ScrapedJob): boolean {
-  if (job.source?.includes('UNED') || job.source?.includes('Administración') || job.source?.includes('Oficina Virtual')) return true;
+  if (
+    job.source?.includes('UNED') ||
+    job.source?.includes('Administración') ||
+    job.source?.includes('Oficina Virtual') ||
+    job.source?.includes('UAM Investigación') ||
+    job.source?.includes('UCM Investigación')
+  ) return true;
   // If no date or marked as Reciente / Convocatoria / Curso, keep it
   if (!job.publishDate) return true;
   const pDateLower = job.publishDate.toLowerCase();
@@ -139,6 +147,10 @@ export async function runAllScrapers() {
     // 7. UNED BICI (research contracts on early childhood & education)
     const unedList = await scrapeUnedBici();
 
+    // 8. Official university research-contract calls with concrete detail pages
+    const uamResearchList = await scrapeUamResearch();
+    const ucmResearchList = await scrapeUcmResearch();
+
     // Combine all sources
     const allScraped = [
       ...infojobsList,
@@ -149,7 +161,9 @@ export async function runAllScrapers() {
       ...madridList,
       ...sneList,
       ...colegiosList,
-      ...unedList
+      ...unedList,
+      ...uamResearchList,
+      ...ucmResearchList
     ];
 
     console.log(`\nTotal ofertas agregadas en bruto: ${allScraped.length}`);

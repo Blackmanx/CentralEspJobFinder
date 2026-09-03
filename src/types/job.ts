@@ -15,6 +15,8 @@ export interface Job {
   contract?: string;
   salary?: string;
   publishDate?: string;
+  /** True for archived UNED BICI calls published over 30 days ago. */
+  isOlderThanMonth?: boolean;
   url: string;
   scrapedAt: string;
   source?: string;

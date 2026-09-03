@@ -25,6 +25,28 @@ interface JobTableProps {
   selectedJobId?: string;
 }
 
+const BiciAgeBadge: React.FC<{ job: Job }> = ({ job }) => {
+  if (!job.source?.includes('UNED BICI') || !job.isOlderThanMonth) return null;
+
+  return (
+    <span
+      title="Convocatoria BICI publicada hace más de un mes"
+      style={{
+        backgroundColor: 'rgba(245, 158, 11, 0.14)',
+        color: '#b45309',
+        fontSize: '0.65rem',
+        fontWeight: 'bold',
+        padding: '2px 6px',
+        borderRadius: '4px',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em'
+      }}
+    >
+      &gt;1 mes
+    </span>
+  );
+};
+
 export const JobTable: React.FC<JobTableProps> = ({
   jobs,
   userStates,
@@ -102,6 +124,7 @@ export const JobTable: React.FC<JobTableProps> = ({
                         }
                         return null;
                       })()}
+                      <BiciAgeBadge job={job} />
                       {state.cvAnalysis && (
                         <span style={{
                           backgroundColor: 'rgba(245, 158, 11, 0.12)',
@@ -462,6 +485,7 @@ export const JobTable: React.FC<JobTableProps> = ({
                       }
                       return null;
                     })()}
+                    <BiciAgeBadge job={job} />
                     {state.cvAnalysis && (
                       <span style={{
                         backgroundColor: 'rgba(245, 158, 11, 0.12)',

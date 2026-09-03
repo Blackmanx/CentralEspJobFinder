@@ -296,20 +296,19 @@ app.post('/api/notify-email', async (req, res) => {
     const rateLimit = await checkAndApplyEmailRateLimit(rateLimitKey);
     if (!rateLimit.allowed) {
       return res.status(429).json({
-        error: `Límite de envíos alcanzado (máximo 2 envíos cada 4 horas). Por favor espera ${rateLimit.waitMinutes} minutos antes de enviar otro boletín.`
+        error: `Has alcanzado el límite de envíos (máximo 2 cada 4 horas). Por favor espera unos minutos.`
       });
     }
 
     const { sendJobsEmail } = await import('./scripts/emailNotifier');
     const result = await sendJobsEmail(targetEmail, jobs);
     return res.json({
-      ...result,
-      remaining: rateLimit.remaining,
-      message: `${result.message}. (Te quedan ${rateLimit.remaining} envíos en esta ventana de 4 horas)`
+      success: true,
+      message: 'Correo enviado correctamente'
     });
   } catch (err: any) {
     console.error('Error al enviar correo:', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Error al enviar correo' });
   }
 });
 

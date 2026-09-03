@@ -205,8 +205,8 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
       <!-- Footer -->
       <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 20px; font-size: 11px; color: #94a3b8; text-align: center;">
-        <p style="margin: 0 0 4px 0;">Este correo fue generado automáticamente por JobCrawling en Raspberry Pi / Servidor Local.</p>
-        <p style="margin: 0 0 6px 0;">Destinatario(s): <strong>${recipientEmail}</strong></p>
+        <p style="margin: 0 0 4px 0;">Este resumen fue generado automáticamente por JobCrawling.</p>
+        <p style="margin: 0 0 6px 0;">Destinatario: <strong>${recipientEmail}</strong></p>
         <p style="margin: 0;"><a href="https://jobcrawling.sajl.cc" style="color: #0284c7; text-decoration: none; font-weight: 600;">Acceder a JobCrawling Portal Web</a></p>
       </div>
 
@@ -221,11 +221,11 @@ export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]
   const rawRecipient = customRecipient || config.emailTo;
 
   if (!rawRecipient) {
-    throw new Error('No se ha especificado un email destinatario. Configura EMAIL_TO en .env o pásalo como argumento: --to tu_email@dominio.com');
+    throw new Error('No se ha especificado un correo destinatario.');
   }
 
   if (!config.smtpUser || !config.smtpPass) {
-    throw new Error('Faltan credenciales SMTP (SMTP_USER / SMTP_PASS) en el archivo .env.');
+    throw new Error('Configuración de correo no disponible en el servidor.');
   }
 
   // Support multiple recipients separated by comma or semicolon
@@ -254,17 +254,15 @@ export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]
 
   const tseiCount = jobs.filter(j => j.certificationTags?.includes('TSEI')).length;
   const monitorCount = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio')).length;
-  const subject = `Boletín Diario de Empleo Infantil y TSEI: ${tseiCount} vacantes 0-3 y ${monitorCount} monitores`;
-
-  const sentIds: string[] = [];
+  const subject = `Boletín de Empleo: ${tseiCount} vacantes Infantil / TSEI y ${monitorCount} monitores`;
 
   for (const recipient of recipients) {
     const htmlContent = generateEmailHtml(jobs, recipient);
 
     const textAlternative = `Boletín de Ofertas JobCrawling
-Resumen de Empleo: ${tseiCount} vacantes TSEI / 0-3 años y ${monitorCount} puestos de Monitores y Ocio.
+Resumen de Empleo: ${tseiCount} vacantes Infantil / TSEI y ${monitorCount} puestos de Monitores y Ocio.
 
-Visita la plataforma o consulta la versión HTML del mensaje para ver los enlaces directos de inscripción y los convenios colectivos aplicables.
+Visita la plataforma web para ver los enlaces directos de inscripción: https://jobcrawling.sajl.cc
 
 Destinatario: ${recipient}
 JobCrawling`;
@@ -283,10 +281,9 @@ JobCrawling`;
     });
 
     console.log(`✅ Correo enviado exitosamente a ${recipient} (ID: ${info.messageId})`);
-    sentIds.push(info.messageId);
   }
 
-  return { success: true, message: `Correo enviado a ${recipients.join(', ')} con IDs: ${sentIds.join(', ')}` };
+  return { success: true, message: 'Correo enviado correctamente' };
 }
 
 // CLI execution handling

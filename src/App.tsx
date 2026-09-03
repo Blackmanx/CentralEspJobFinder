@@ -258,13 +258,13 @@ export default function App() {
       });
       const data = await res.json();
       if (res.ok) {
-        showToast(data.message || `Boletín enviado con éxito a ${recipient}.`, 'success');
+        showToast(data.message || 'Correo enviado correctamente', 'success');
         setShowEmailModal(false);
       } else {
-        showToast(data.error || 'No se pudo enviar el correo.', 'error');
+        showToast(data.error || 'Error al enviar correo', 'error');
       }
     } catch (err: any) {
-      showToast('Error de conexión con el servidor al enviar el correo.', 'error');
+      showToast('Error al enviar correo', 'error');
     } finally {
       setSendingEmail(false);
     }
@@ -1553,15 +1553,15 @@ export default function App() {
 
           {/* Rate Limit Notice */}
           <div style={{
-            backgroundColor: 'rgba(217, 119, 6, 0.08)',
-            border: '1px solid rgba(217, 119, 6, 0.25)',
+            backgroundColor: 'var(--bg-element)',
+            border: '1px solid var(--border-color)',
             borderRadius: '8px',
             padding: '10px 12px',
-            fontSize: '0.73rem',
-            color: 'var(--accent-gold)',
+            fontSize: '0.75rem',
+            color: 'var(--text-muted)',
             lineHeight: 1.4
           }}>
-            ⏱️ <strong>Control de Envíos:</strong> Se permite un máximo de <strong>2 envíos cada 4 horas</strong> para evitar saturar tu bandeja de entrada y el servidor de correo.
+            ℹ️ Límite de envíos: máximo 2 veces cada 4 horas.
           </div>
 
           {/* Actions */}

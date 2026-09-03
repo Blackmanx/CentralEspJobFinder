@@ -22,7 +22,7 @@ const SEARCH_QUERIES = [
 
 const REGIONS_CONFIG = [
   { name: 'Madrid', provinceParam: 'provinceIds=33' },
-  { name: 'Toledo', provinceParam: 'provinceIds=50' } // or semantic toledo
+  { name: 'Toledo', provinceParam: 'provinceIds=48' }
 ];
 
 export async function scrapeInfojobs(): Promise<ScrapedJob[]> {

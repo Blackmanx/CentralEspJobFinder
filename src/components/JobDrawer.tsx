@@ -132,7 +132,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   useEffect(() => {
     const checkGlobal = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/global-cv');
+        const res = await fetch('/api/global-cv');
         if (res.ok) {
           const data = await res.json();
           setGlobalCVStatus(data);
@@ -150,7 +150,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
       setPdfUrl(url);
       return () => URL.revokeObjectURL(url);
     } else if (globalCVStatus?.exists && globalCVStatus.mimetype === 'application/pdf') {
-      setPdfUrl('http://localhost:3001/api/global-cv/download');
+      setPdfUrl('/api/global-cv/download');
     } else {
       setPdfUrl('');
     }
@@ -239,7 +239,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
     formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
 
     try {
-      const response = await fetch('http://localhost:3001/api/analyze-cv', {
+      const response = await fetch('/api/analyze-cv', {
         method: 'POST',
         body: formData,
       });
@@ -282,7 +282,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
     formData.append('jobRequirements', job.requirements ? job.requirements.join('\n') : '');
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate-cover-letter', {
+      const response = await fetch('/api/generate-cover-letter', {
         method: 'POST',
         body: formData,
       });

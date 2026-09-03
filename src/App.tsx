@@ -16,7 +16,10 @@ import {
   Info,
   Minimize2,
   Maximize2,
-  Mail
+  Mail,
+  Filter,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -103,7 +106,7 @@ export default function App() {
 
   const checkGlobalCV = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/global-cv');
+      const res = await fetch('/api/global-cv');
       if (res.ok) {
         const data = await res.json();
         setGlobalCVStatus(data);
@@ -118,7 +121,7 @@ export default function App() {
     formData.append('cv', file);
 
     try {
-      const res = await fetch('http://localhost:3001/api/global-cv', {
+      const res = await fetch('/api/global-cv', {
         method: 'POST',
         body: formData
       });
@@ -153,7 +156,7 @@ export default function App() {
 
   const loadUserStates = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/user-states');
+      const res = await fetch('/api/user-states');
       if (res.ok) {
         const data = await res.json();
         setUserStates(data);
@@ -173,7 +176,7 @@ export default function App() {
 
   const loadNotifications = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/notifications');
+      const res = await fetch('/api/notifications');
       if (res.ok) {
         const data = await res.json();
         setNotifications(data);
@@ -186,7 +189,7 @@ export default function App() {
 
   const checkScrapingStatus = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/scrape/status');
+      const res = await fetch('/api/scrape/status');
       if (res.ok) {
         const data = await res.json();
         if (data.isScraping) {
@@ -211,7 +214,7 @@ export default function App() {
     if (scraping) return;
     setScraping(true);
     try {
-      const res = await fetch('http://localhost:3001/api/scrape', { method: 'POST' });
+      const res = await fetch('/api/scrape', { method: 'POST' });
       if (res.ok) {
         setTimeout(checkScrapingStatus, 2000);
       } else {
@@ -229,7 +232,7 @@ export default function App() {
     if (sendingEmail) return;
     setSendingEmail(true);
     try {
-      const res = await fetch('http://localhost:3001/api/notify-email', { method: 'POST' });
+      const res = await fetch('/api/notify-email', { method: 'POST' });
       const data = await res.json();
       if (res.ok) {
         showToast(data.message || 'Boletín de ofertas enviado por correo correctamente.', 'success');
@@ -249,6 +252,7 @@ export default function App() {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedScope, setSelectedScope] = useState<'infantil' | 'monitor_ocio' | 'bolsas' | 'uned' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Fetch Jobs Data
   const loadJobs = async () => {
@@ -322,7 +326,7 @@ export default function App() {
             formData.append('jobRequirements', jobToScan.requirements ? jobToScan.requirements.join('\n') : '');
 
             try {
-              const res = await fetch('http://localhost:3001/api/analyze-cv', {
+              const res = await fetch('/api/analyze-cv', {
                 method: 'POST',
                 body: formData
               });
@@ -408,7 +412,7 @@ export default function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedStates));
 
     try {
-      await fetch('http://localhost:3001/api/user-states', {
+      await fetch('/api/user-states', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedStates)
@@ -619,31 +623,35 @@ export default function App() {
       
       {/* Left Sidebar: Logo, Metadata and Filters */}
       <aside className="sidebar">
-        <div>
+        <div className="sidebar-brand">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2>
-              JobCrawling
-            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.4rem' }}>🎒</span>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, letterSpacing: '-0.02em' }}>
+                JobCrawling
+              </h2>
+            </div>
+            {/* Mobile Toggle Button */}
+            <button
+              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+              className="mobile-filter-toggle"
+              aria-label="Abrir filtros"
+            >
+              <Filter size={15} />
+              <span>{mobileFiltersOpen ? 'Ocultar Filtros' : 'Filtros'}</span>
+              {mobileFiltersOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
           </div>
-          <span style={{ 
-            color: 'var(--accent-primary)', 
-            fontSize: '0.7rem', 
-            fontWeight: 600, 
-            padding: '2px 8px', 
-            borderRadius: '4px', 
-            backgroundColor: 'var(--accent-primary-light)', 
-            border: '1px solid var(--accent-primary)',
-            display: 'inline-block',
-            marginTop: '6px'
-          }}>
+          <span className="sidebar-badge">
             Madrid, Toledo y Alrededores
           </span>
-          <p style={{ marginTop: '12px' }}>
-            Gestión local de ofertas de empleo docente, infantil y bolsas públicas.
+          <p className="sidebar-desc">
+            Portal local de empleo docente, educación infantil y convocatorias públicas.
           </p>
         </div>
 
-        {/* Filters Form */}
+        {/* Filters Form - Collapsible on Mobile */}
+        <div className={`sidebar-collapsible ${mobileFiltersOpen ? 'is-open' : ''}`}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '10px' }}>
           <h3 style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>
             Filtros
@@ -868,6 +876,7 @@ export default function App() {
             </div>
           )}
         </div>
+        </div>
       </aside>
 
       {/* Right Main Panel */}
@@ -989,10 +998,33 @@ export default function App() {
               )}
             </div>
 
+            {/* Quick Actions: Actualizar y Enviar Correo */}
+            <button
+              onClick={triggerScrape}
+              disabled={scraping}
+              className="btn-secondary header-action-btn"
+              title="Actualizar ofertas desde los portales oficiales"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', padding: '6px 12px' }}
+            >
+              <RefreshCw size={13} style={scraping ? { animation: 'spin 2s linear infinite' } : undefined} />
+              <span className="hide-on-very-small">{scraping ? 'Actualizando...' : 'Actualizar'}</span>
+            </button>
+
+            <button
+              onClick={triggerSendEmail}
+              disabled={sendingEmail || scraping}
+              className="btn-primary header-action-btn"
+              title="Enviar boletín con las ofertas al correo configurado"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', padding: '6px 12px' }}
+            >
+              <Mail size={13} />
+              <span className="hide-on-very-small">{sendingEmail ? 'Enviando...' : 'Enviar Email'}</span>
+            </button>
+
             {/* Compact Mode Switcher */}
             <button 
               onClick={() => setCompact(!compact)}
-              className="btn-secondary"
+              className="btn-secondary hidden-mobile"
               style={{ padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 'auto' }}
               title={compact ? 'Desactivar modo compacto' : 'Activar modo compacto'}
             >

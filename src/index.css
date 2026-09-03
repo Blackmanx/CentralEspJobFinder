@@ -1,53 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "leaflet/dist/leaflet.css";
 
 :root {
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
   
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.06);
 
-  /* Common Accent Colors (Semantically defined) */
-  --accent-primary: #10b981;        /* Emerald Green for success/hired */
-  --accent-primary-hover: #059669;
-  --accent-primary-light: rgba(16, 185, 129, 0.08);
+  /* Primary Editorial Emerald & Teal */
+  --accent-primary: #059669;
+  --accent-primary-hover: #047857;
+  --accent-primary-light: rgba(5, 150, 105, 0.12);
 
-  --accent-blue: #3b82f6;           /* Blue for applied/info */
-  --accent-blue-light: rgba(59, 130, 246, 0.08);
+  /* Semantic Highlights */
+  --accent-blue: #2563eb;
+  --accent-blue-light: rgba(37, 99, 235, 0.1);
 
-  --accent-gold: #f59e0b;           /* Amber/Gold for interviews */
-  --accent-gold-light: rgba(245, 158, 11, 0.08);
+  --accent-gold: #d97706;
+  --accent-gold-light: rgba(217, 119, 6, 0.12);
 
-  --accent-red: #ef4444;            /* Red for rejected */
-  --accent-red-light: rgba(239, 68, 68, 0.08);
+  --accent-red: #dc2626;
+  --accent-red-light: rgba(220, 38, 38, 0.1);
 
-  --accent-purple: #8b5cf6;         /* Purple for offered */
-  --accent-purple-light: rgba(139, 92, 246, 0.08);
+  --accent-purple: #7c3aed;
+  --accent-purple-light: rgba(124, 58, 237, 0.1);
 }
 
-/* Dark Mode Tokens (Default) */
+/* Dark Mode (Modern Deep Slate & Indigo) */
 :root, .dark {
-  --bg-app: #0b0f19;          /* Rich midnight canvas */
-  --bg-surface: #161f30;      /* Slate card background */
-  --bg-element: #222f47;      /* Hover states & fields */
-  --border-color: #2e3d56;    /* Dark grey borders */
+  --bg-app: #090d16;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1a2234;
+  --bg-element: #1e293b;
+  --bg-element-hover: #293548;
+  --border-color: #1f293d;
+  --border-color-subtle: #172033;
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
+  --card-glow: 0 0 20px rgba(5, 150, 105, 0.05);
 }
 
-/* Light Mode Tokens (Activated via class on html/body) */
+/* Light Mode (Crisp Warm Editorial Ivory & Clean Stone) */
 .light {
-  --bg-app: #f8fafc;          /* Slate 50 canvas */
-  --bg-surface: #ffffff;      /* Pure white card background */
-  --bg-element: #f1f5f9;      /* Slate 100 fields */
-  --border-color: #e2e8f0;    /* Slate 200 borders */
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-element: #f1f5f9;
+  --bg-element-hover: #e2e8f0;
+  --border-color: #e2e8f0;
+  --border-color-subtle: #edf2f7;
 
-  --text-primary: #0f172a;    /* Slate 900 */
-  --text-secondary: #475569;  /* Slate 600 */
-  --text-muted: #94a3b8;      /* Slate 400 */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --card-glow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 * {
@@ -456,45 +466,156 @@ input[type="text"]:focus, select:focus, textarea:focus {
   background-color: rgba(120, 130, 150, 0.1);
 }
 
+/* Mobile Collapsible Sidebar & Filter Toggle */
+.mobile-filter-toggle {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-element);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-filter-toggle:hover {
+  background: var(--bg-element-hover);
+  border-color: var(--accent-primary);
+}
+
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-badge {
+  color: var(--accent-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background-color: var(--accent-primary-light);
+  border: 1px solid var(--accent-primary);
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-top: 8px;
+}
+
+.sidebar-collapsible {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Glass Card & Job Card Styling */
+.glass-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.glass-card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
+/* Header Action Buttons */
+.header-action-btn {
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+}
+
+.header-action-btn:hover {
+  transform: translateY(-1px);
+}
+
 /* Responsive Styles for Mobile Adaptability */
 @media (max-width: 768px) {
   .app-container {
     flex-direction: column;
     overflow-y: auto;
-    height: auto;
+    height: 100vh;
+    height: 100dvh;
   }
-  
+
+  .mobile-filter-toggle {
+    display: inline-flex;
+  }
+
   .sidebar {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
+    padding: 14px 16px;
+    gap: 12px;
     overflow-y: visible;
-    height: auto;
+    flex-shrink: 0;
   }
-  
+
+  .sidebar-collapsible {
+    display: none;
+  }
+
+  .sidebar-collapsible.is-open {
+    display: flex;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border-color);
+    margin-top: 6px;
+    animation: fadeIn 0.2s ease;
+  }
+
   .main-content {
-    overflow-y: visible;
+    overflow-y: auto;
+    flex: 1;
     height: auto;
   }
-  
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
   .content-split {
     flex-direction: column;
     overflow: visible;
     height: auto;
   }
-  
+
   .list-pane {
     overflow-y: visible;
-    padding: 16px;
+    padding: 12px 14px 40px;
   }
-  
+
   .detail-pane {
     display: none !important;
+  }
+
+  .hide-on-very-small {
+    display: none;
   }
 
   .drawer-container {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     border-radius: 0;
     border: none;
   }

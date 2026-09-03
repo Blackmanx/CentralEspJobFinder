@@ -760,7 +760,7 @@ export const JobTable: React.FC<JobTableProps> = ({
         }
         @media (max-width: 768px) {
           .hidden-mobile { display: none !important; }
-          .visible-mobile { display: block !important; }
+          .visible-mobile { display: block !important; width: 100% !important; }
         }
       `}} />
 

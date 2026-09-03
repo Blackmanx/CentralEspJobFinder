@@ -39,6 +39,73 @@ function filterGeographicArea(job: ScrapedJob): boolean {
   return allowedKeywords.some(kw => loc.includes(kw));
 }
 
+// Strict filter to exclude international jobs (e.g. Germany, Ireland, UK, etc.)
+function filterExcludeForeignCountries(job: ScrapedJob): boolean {
+  const fullText = `${job.title} ${job.description || ''} ${(job.requirements || []).join(' ')} ${job.location || ''} ${job.province || ''}`.toLowerCase();
+  const foreignKeywords = [
+    'alemania', 'germany', 'deutschland', 
+    'irlanda', 'ireland', 'dublin', 'dublín',
+    'reino unido', 'united kingdom', 'uk', 'londres', 'london',
+    'francia', 'france', 'holanda', 'países bajos', 'netherlands'
+  ];
+
+  const isForeign = foreignKeywords.some(kw => fullText.includes(kw));
+  return !isForeign;
+}
+
+// Strict date filter: Exclude offers published more than 3 weeks ago (21 days)
+function filterRecentDate(job: ScrapedJob): boolean {
+  // If no date or marked as Reciente / Convocatoria / Curso, keep it
+  if (!job.publishDate) return true;
+  const pDateLower = job.publishDate.toLowerCase();
+  if (
+    pDateLower.includes('reciente') || 
+    pDateLower.includes('convocatoria') || 
+    pDateLower.includes('curso') || 
+    pDateLower.includes('hoy') || 
+    pDateLower.includes('ayer') ||
+    pDateLower.includes('hace')
+  ) {
+    // Check if relative date says more than 3 weeks (e.g. "hace 1 mes", "hace 4 semanas")
+    if (pDateLower.includes('mes') || pDateLower.includes('año')) return false;
+    const weeksMatch = pDateLower.match(/hace\s+(\d+)\s*sem/);
+    if (weeksMatch && parseInt(weeksMatch[1], 10) > 3) return false;
+    const daysMatch = pDateLower.match(/hace\s+(\d+)\s*d/);
+    if (daysMatch && parseInt(daysMatch[1], 10) > 21) return false;
+    return true;
+  }
+
+  // Parse Spanish date strings: "27 agosto de 2026" or "27/08/2026"
+  const spanishMonths: { [key: string]: number } = {
+    enero: 0, febrero: 1, marzo: 2, abril: 3, mayo: 4, junio: 5,
+    julio: 6, agosto: 7, septiembre: 8, octubre: 9, noviembre: 10, diciembre: 11
+  };
+
+  const textMatch = pDateLower.match(/(\d{1,2})\s+([a-z]+)\s+(?:de\s+)?(\d{4})/);
+  if (textMatch) {
+    const day = parseInt(textMatch[1], 10);
+    const month = spanishMonths[textMatch[2]];
+    const year = parseInt(textMatch[3], 10);
+    if (month !== undefined) {
+      const pubDate = new Date(year, month, day);
+      const diffDays = (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24);
+      return diffDays <= 21; // Within 21 days (3 weeks)
+    }
+  }
+
+  const slashMatch = pDateLower.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (slashMatch) {
+    const day = parseInt(slashMatch[1], 10);
+    const month = parseInt(slashMatch[2], 10) - 1;
+    const year = parseInt(slashMatch[3], 10);
+    const pubDate = new Date(year, month, day);
+    const diffDays = (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24);
+    return diffDays <= 21;
+  }
+
+  return true;
+}
+
 export async function runAllScrapers() {
   console.log('===========================================================');
   console.log('JobCrawling - Multi-Source Scraping Engine (v2.0)');
@@ -91,9 +158,11 @@ export async function runAllScrapers() {
       deduplicated.push(job);
     }
 
-    // Apply strict quality filters (Geographic & English C2)
+    // Apply strict quality filters (Geographic, No Foreign/Alemania/Irlanda, Max 3 weeks, & English C2)
     const filteredJobs = deduplicated
       .filter(filterGeographicArea)
+      .filter(filterExcludeForeignCountries)
+      .filter(filterRecentDate)
       .filter(filterC2Requirement)
       .map(classifyAndEnrichJob);
 

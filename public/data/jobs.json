@@ -10,7 +10,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/especialista-intervencion-neurodesarrollo-infantil/of-i2ce0c1ad5a4bbdafece3bb2e1a973c",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.001Z",
+    "scrapedAt": "2026-09-03T17:03:36.818Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Especialista en Intervención en Neurodesarrollo Infantil. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -39,7 +39,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/las-rozas-de-madrid/auxiliar-infancia/of-i2ce7caf19c4f9dbae9f445aa398184",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.001Z",
+    "scrapedAt": "2026-09-03T17:03:36.818Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Auxiliar de Infancia. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -69,7 +69,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/profesor-educacion-primaria-educacion-infantil/of-i9f7a3419614831a9910ff8a002e2d7",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.001Z",
+    "scrapedAt": "2026-09-03T17:03:36.818Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Profesor/a de Educación Primaria o Educación Infantil. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -99,7 +99,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/collado-villalba/monitor-taller-cocina-madrid/of-i446974d3104496862e35c0751f92b4",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.001Z",
+    "scrapedAt": "2026-09-03T17:03:36.818Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a de taller - Cocina (Madrid). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -118,19 +118,19 @@
     }
   },
   {
-    "id": "infojobs-i5a1dbe728e4a35b2d476d1089a0865",
-    "title": "Educador/a Aldea Escorial (vacaciones)",
+    "id": "infojobs-i05b51ada6c41ec91bac197335699d7",
+    "title": "Educador/a Centro de Día Villalba (temporal)",
     "companyName": "Centro Educativo / Infantil",
     "companyType": "Escuela Infantil / Empresa Educativa",
     "location": "Madrid",
     "province": "Madrid",
     "hours": "Jornada no especificada",
     "contract": "Convenio colectivo",
-    "url": "https://www.infojobs.net/san-lorenzo-de-el-escorial/educador-aldea-escorial-vacaciones/of-i5a1dbe728e4a35b2d476d1089a0865",
+    "url": "https://www.infojobs.net/collado-villalba/educador-centro-dia-villalba-temporal/of-i05b51ada6c41ec91bac197335699d7",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.373Z",
+    "scrapedAt": "2026-09-03T17:03:37.265Z",
     "source": "Infojobs",
-    "description": "Oferta activa publicada en InfoJobs para el puesto de Educador/a Aldea Escorial (vacaciones). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de Educador/a Centro de Día Villalba (temporal). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Titulación de Técnico Superior en Educación Infantil (TSEI) o Grado en Magisterio Infantil.",
       "Experiencia en cuidado y desarrollo pedagógico en la etapa 0-3 / 3-6 años.",
@@ -147,19 +147,48 @@
     }
   },
   {
-    "id": "infojobs-i57002b0cc549d2a15e45ee219feede",
-    "title": "Profesor/a de apoyo educativo",
+    "id": "infojobs-i5f7a3b15be421ab4c37d38b3104ade",
+    "title": "Educador/a Centro de Día Escorial (temporal)",
     "companyName": "Centro Educativo / Infantil",
     "companyType": "Escuela Infantil / Empresa Educativa",
     "location": "Madrid",
     "province": "Madrid",
     "hours": "Jornada no especificada",
     "contract": "Convenio colectivo",
-    "url": "https://www.infojobs.net/madrid/profesor-apoyo-educativo/of-i57002b0cc549d2a15e45ee219feede",
+    "url": "https://www.infojobs.net/san-lorenzo-de-el-escorial/educador-centro-dia-escorial-temporal/of-i5f7a3b15be421ab4c37d38b3104ade",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:15.373Z",
+    "scrapedAt": "2026-09-03T17:03:37.265Z",
     "source": "Infojobs",
-    "description": "Oferta activa publicada en InfoJobs para el puesto de Profesor/a de apoyo educativo. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de Educador/a Centro de Día Escorial (temporal). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "requirements": [
+      "Titulación de Técnico Superior en Educación Infantil (TSEI) o Grado en Magisterio Infantil.",
+      "Experiencia en cuidado y desarrollo pedagógico en la etapa 0-3 / 3-6 años.",
+      "Capacidad de trabajo en equipo y empatía con las familias."
+    ],
+    "certificationTags": [
+      "TSEI"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo Estatal de Centros de Asistencia y Educación Infantil (0-3 años)",
+      "applicableCategory": "Educador/a Infantil (Grupo II)",
+      "referenceSalary": "1.200€ - 1.450€ Bruto/mes (según tablas actualizadas)",
+      "stage": "0-3_años"
+    }
+  },
+  {
+    "id": "infojobs-i5a1dbe728e4a35b2d476d1089a0865",
+    "title": "Educador/a Aldea Escorial (vacaciones)",
+    "companyName": "Centro Educativo / Infantil",
+    "companyType": "Escuela Infantil / Empresa Educativa",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "Jornada no especificada",
+    "contract": "Convenio colectivo",
+    "url": "https://www.infojobs.net/san-lorenzo-de-el-escorial/educador-aldea-escorial-vacaciones/of-i5a1dbe728e4a35b2d476d1089a0865",
+    "publishDate": "Reciente",
+    "scrapedAt": "2026-09-03T17:03:37.265Z",
+    "source": "Infojobs",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de Educador/a Aldea Escorial (vacaciones). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Titulación de Técnico Superior en Educación Infantil (TSEI) o Grado en Magisterio Infantil.",
       "Experiencia en cuidado y desarrollo pedagógico en la etapa 0-3 / 3-6 años.",
@@ -186,7 +215,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/pinto/monitor-guitarra-para-actividades-extraescolares-26-27/of-i7210ea8bda4a56ae545d5a6e595395",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.089Z",
+    "scrapedAt": "2026-09-03T17:03:38.968Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE GUITARRA PARA ACTIVIDADES EXTRAESCOLARES 26/27. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -215,9 +244,38 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-baile-urbano-madrid-solo-septiembre-2026/of-ib49389ebb94ffa996e7d3a4bb4eadf",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.089Z",
+    "scrapedAt": "2026-09-03T17:03:38.968Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a de baile Urbano – Madrid (Sólo septiembre 2026). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "requirements": [
+      "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
+      "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
+      "Certificado negativo de delitos de naturaleza sexual en vigor."
+    ],
+    "certificationTags": [
+      "Monitor_Ocio"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo de Ocio Educativo y Animación Sociocultural / Colectividades",
+      "applicableCategory": "Monitor/a de Actividades / Comedor y Acompañamiento",
+      "referenceSalary": "11,50€ - 14,00€ Bruto/hora o proporcional a jornada parcial",
+      "stage": "Ocio_Comedor"
+    }
+  },
+  {
+    "id": "infojobs-i877c07929740e0b19f3381db77fdf6",
+    "title": "MONITOR/A TARDES DEL COLE SEPTIEMBRE CON INFANTIL",
+    "companyName": "Centro Educativo / Infantil",
+    "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "Jornada no especificada",
+    "contract": "Convenio colectivo",
+    "url": "https://www.infojobs.net/madrid/monitor-tardes-del-cole-septiembre-con-infantil/of-i877c07929740e0b19f3381db77fdf6",
+    "publishDate": "Reciente",
+    "scrapedAt": "2026-09-03T17:03:38.968Z",
+    "source": "Infojobs",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A TARDES DEL COLE SEPTIEMBRE CON INFANTIL. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
       "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
@@ -244,7 +302,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-boxeo-infantil-forus-caja-magica-jornada-parcial/of-idf0087eaaa4a87b4ce064fcc79fd81",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.089Z",
+    "scrapedAt": "2026-09-03T17:03:38.969Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE BOXEO INFANTIL FORUS CAJA MÁGICA (JORNADA PARCIAL). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -273,38 +331,9 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-infantil/of-icbb51b94d447ccac3ddcaa3520a014",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.089Z",
+    "scrapedAt": "2026-09-03T17:03:38.969Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a infantil. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
-    "requirements": [
-      "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
-      "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
-      "Certificado negativo de delitos de naturaleza sexual en vigor."
-    ],
-    "certificationTags": [
-      "Monitor_Ocio"
-    ],
-    "convenioInfo": {
-      "convenioName": "Convenio Colectivo de Ocio Educativo y Animación Sociocultural / Colectividades",
-      "applicableCategory": "Monitor/a de Actividades / Comedor y Acompañamiento",
-      "referenceSalary": "11,50€ - 14,00€ Bruto/hora o proporcional a jornada parcial",
-      "stage": "Ocio_Comedor"
-    }
-  },
-  {
-    "id": "infojobs-ief340ca4f54e79954f0d328f73720d",
-    "title": "MONITOR/A DE DEFENSA PERSONAL - ACTIVIDADES EXTRAESCOLARES 2026/2027",
-    "companyName": "Centro Educativo / Infantil",
-    "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
-    "location": "Madrid",
-    "province": "Madrid",
-    "hours": "Jornada no especificada",
-    "contract": "Convenio colectivo",
-    "url": "https://www.infojobs.net/el-alamo/monitor-defensa-personal-actividades-extraescolares-2026-2027/of-ief340ca4f54e79954f0d328f73720d",
-    "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.089Z",
-    "source": "Infojobs",
-    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE DEFENSA PERSONAL - ACTIVIDADES EXTRAESCOLARES 2026/2027. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
       "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
@@ -331,7 +360,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/san-sebastian-de-los-reyes/trabaja-micropolix-como-monitor-ocio-tiempo-libre/of-i4bfa8523df40f08164176872f52468",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.508Z",
+    "scrapedAt": "2026-09-03T17:03:39.484Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Trabaja en MICROPOLIX como Monitor/a de Ocio y Tiempo Libre!. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -350,19 +379,19 @@
     }
   },
   {
-    "id": "infojobs-ic3d8ce181841aa8929d97c587e4eff",
-    "title": "Monitor/a de Ocio y Tiempo Libre Espacio Joven - Tres Cantos",
+    "id": "infojobs-i110b5329e943918c0739d665936902",
+    "title": "MONITOR/A DE OCIO Y TIEMPO LIBRE (PREVENCIÓN) – MÓSTOLES",
     "companyName": "Centro Educativo / Infantil",
     "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
     "location": "Madrid",
     "province": "Madrid",
     "hours": "Jornada no especificada",
     "contract": "Convenio colectivo",
-    "url": "https://www.infojobs.net/tres-cantos/monitor-ocio-tiempo-libre-espacio-joven-tres-cantos/of-ic3d8ce181841aa8929d97c587e4eff",
+    "url": "https://www.infojobs.net/mostoles/monitor-ocio-tiempo-libre-prevencion-mostoles/of-i110b5329e943918c0739d665936902",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.508Z",
+    "scrapedAt": "2026-09-03T17:03:39.484Z",
     "source": "Infojobs",
-    "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a de Ocio y Tiempo Libre Espacio Joven - Tres Cantos. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE OCIO Y TIEMPO LIBRE (PREVENCIÓN) – MÓSTOLES. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
       "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
@@ -389,7 +418,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-ocio-tiempo-libre/of-i9e9f8f8ce842dea731c42ab3c72cc5",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.508Z",
+    "scrapedAt": "2026-09-03T17:03:39.484Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a de ocio y tiempo libre. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -418,7 +447,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/las-rozas-de-madrid/monitor-patio-comedor-las-rozas/of-i0724b8605d4b458a12b47de8e8fded",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.871Z",
+    "scrapedAt": "2026-09-03T17:03:39.957Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a patio y comedor Las Rozas. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -447,7 +476,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/alcobendas/monitor-patio-comedor-zona-alcobendas-madrid/of-i98f128534e4ceabaeeb3464a3c833f",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.871Z",
+    "scrapedAt": "2026-09-03T17:03:39.957Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a Patio y Comedor ZONA ALCOBENDAS (Madrid). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -476,7 +505,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-patio-comedor-zona-madrid-capital/of-i17a3c4842d4123b3bf7e91705b07c2",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:17.871Z",
+    "scrapedAt": "2026-09-03T17:03:39.957Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a Patio y Comedor (ZONA MADRID CAPITAL). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -505,7 +534,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/el-escorial/monitor-patio-comedor-escorial/of-i33e326063b459598be78dbd6df6cbf",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:18.330Z",
+    "scrapedAt": "2026-09-03T17:03:40.355Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a patio y comedor El Escorial. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -524,19 +553,48 @@
     }
   },
   {
-    "id": "infojobs-if5f4d9ef9f45a8aaaf2b520ac2bdd8",
-    "title": "MONITOR/A DE BALONCESTO PARA ACTIVIDADES EXTRAESCOLARES 26/27",
+    "id": "infojobs-ief340ca4f54e79954f0d328f73720d",
+    "title": "MONITOR/A DE DEFENSA PERSONAL - ACTIVIDADES EXTRAESCOLARES 2026/2027",
     "companyName": "Centro Educativo / Infantil",
     "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
     "location": "Madrid",
     "province": "Madrid",
     "hours": "Jornada no especificada",
     "contract": "Convenio colectivo",
-    "url": "https://www.infojobs.net/madrid/monitor-baloncesto-para-actividades-extraescolares-26-27/of-if5f4d9ef9f45a8aaaf2b520ac2bdd8",
+    "url": "https://www.infojobs.net/el-alamo/monitor-defensa-personal-actividades-extraescolares-2026-2027/of-ief340ca4f54e79954f0d328f73720d",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:18.757Z",
+    "scrapedAt": "2026-09-03T17:03:40.801Z",
     "source": "Infojobs",
-    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE BALONCESTO PARA ACTIVIDADES EXTRAESCOLARES 26/27. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A DE DEFENSA PERSONAL - ACTIVIDADES EXTRAESCOLARES 2026/2027. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "requirements": [
+      "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
+      "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
+      "Certificado negativo de delitos de naturaleza sexual en vigor."
+    ],
+    "certificationTags": [
+      "Monitor_Ocio"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo de Ocio Educativo y Animación Sociocultural / Colectividades",
+      "applicableCategory": "Monitor/a de Actividades / Comedor y Acompañamiento",
+      "referenceSalary": "11,50€ - 14,00€ Bruto/hora o proporcional a jornada parcial",
+      "stage": "Ocio_Comedor"
+    }
+  },
+  {
+    "id": "infojobs-if05b7aeb9f42b2a066bc4230faec56",
+    "title": "MONITOR/A ACTIVIDADES EXTRAESCOLARES",
+    "companyName": "Centro Educativo / Infantil",
+    "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "Jornada no especificada",
+    "contract": "Convenio colectivo",
+    "url": "https://www.infojobs.net/madrid/monitor-actividades-extraescolares/of-if05b7aeb9f42b2a066bc4230faec56",
+    "publishDate": "Reciente",
+    "scrapedAt": "2026-09-03T17:03:40.801Z",
+    "source": "Infojobs",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITOR/A ACTIVIDADES EXTRAESCOLARES. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
       "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
@@ -563,7 +621,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/san-martin-de-valdeiglesias/animador-sociocultural/of-i0457415b414c24bb128ff7c009db08",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:19.374Z",
+    "scrapedAt": "2026-09-03T17:03:41.344Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Animador/a sociocultural. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -592,7 +650,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-padel/of-i9ff606fa6e4687b10b7ff3b641eec7",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:19.374Z",
+    "scrapedAt": "2026-09-03T17:03:41.344Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a pádel. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -621,7 +679,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/animador-para-restaurante-madrid/of-i51bdf3d00a443db8566661a769c465",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:19.718Z",
+    "scrapedAt": "2026-09-03T17:03:41.770Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de ANIMADOR/A PARA RESTAURANTE MADRID. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -650,7 +708,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/villanueva-de-la-canada/monitor-escolar-comedor-patio-rutas-22-5-h-semanales-curso-escolar-valdemorillo-villafranca-del-castillo-madrid/of-i3cc096be9442239634a693fc30d624",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:20.141Z",
+    "scrapedAt": "2026-09-03T17:03:42.326Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a escolar comedor, patio y rutas – 22,5 h/semanales – curso escolar – Valdemorillo / Villafranca del Castillo (Madrid). Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -679,7 +737,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/madrid/monitor-ruta.-zona-las-tablas/of-i9d5bee777b427683c2d6ac17ef000f",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:20.141Z",
+    "scrapedAt": "2026-09-03T17:03:42.326Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a de ruta. Zona Las Tablas. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -708,7 +766,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/las-rozas-de-madrid/monitores-ruta.-las-rozas-madrid/of-i080b6a31d74f4b820802c627bb9f11",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:20.141Z",
+    "scrapedAt": "2026-09-03T17:03:42.326Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitores/as Ruta. Las Rozas -Madrid. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Madrid. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -737,7 +795,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/penafiel/educador-infantil/of-i3e8048b27444608eba313a565d2a8e",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:20.654Z",
+    "scrapedAt": "2026-09-03T17:03:42.789Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Educador/a Infantil. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -766,7 +824,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/valladolid/profesor-fp-educacion-infantil-26-h-sem/of-ic6dbef79ce48b3ba329e6bc3186e9e",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:22.054Z",
+    "scrapedAt": "2026-09-03T17:03:44.343Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Profesor/a FP Educación Infantil- 26 h/sem. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -796,7 +854,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/valladolid/monitor-actividades-extraescolares-robotica-educativa/of-iaa8a279dc240c395e6dc556a5adb2c",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:22.468Z",
+    "scrapedAt": "2026-09-03T17:03:44.722Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor actividades extraescolares robótica educativa. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -825,9 +883,38 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/valladolid/monitor/of-i005f2a329a4a5db0090943dc64de27",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:22.468Z",
+    "scrapedAt": "2026-09-03T17:03:44.722Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Monitor/a. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
+    "requirements": [
+      "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
+      "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
+      "Certificado negativo de delitos de naturaleza sexual en vigor."
+    ],
+    "certificationTags": [
+      "Monitor_Ocio"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo de Ocio Educativo y Animación Sociocultural / Colectividades",
+      "applicableCategory": "Monitor/a de Actividades / Comedor y Acompañamiento",
+      "referenceSalary": "11,50€ - 14,00€ Bruto/hora o proporcional a jornada parcial",
+      "stage": "Ocio_Comedor"
+    }
+  },
+  {
+    "id": "infojobs-if1e96b4cbc4dec8b41bb2fd2b8aecc",
+    "title": "MONITORES/AS DE OCIO Y TIEMPO LIBRE - SEGOVIA Y VALLADOLID",
+    "companyName": "Centro Educativo / Infantil",
+    "companyType": "Empresa de Servicios Educativos / Ocio y Tiempo Libre",
+    "location": "Toledo",
+    "province": "Toledo",
+    "hours": "Jornada no especificada",
+    "contract": "Convenio colectivo",
+    "url": "https://www.infojobs.net/valladolid/monitores-ocio-tiempo-libre-segovia-valladolid/of-if1e96b4cbc4dec8b41bb2fd2b8aecc",
+    "publishDate": "Reciente",
+    "scrapedAt": "2026-09-03T17:03:44.722Z",
+    "source": "Infojobs",
+    "description": "Oferta activa publicada en InfoJobs para el puesto de MONITORES/AS DE OCIO Y TIEMPO LIBRE - SEGOVIA Y VALLADOLID. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
       "Título de Monitor de Ocio y Tiempo Libre o experiencia demostrable en dinamización infantil.",
       "Vigilancia activa, resolución constructiva de conflictos y pautas de higiene/convivencia.",
@@ -854,7 +941,7 @@
     "contract": "Convenio colectivo",
     "url": "https://www.infojobs.net/valladolid/cuidador-ninos-canguro-apoyo-escolar-horario-flexible/of-i304b73b0e248b1862e4912c1ac1c1e",
     "publishDate": "Reciente",
-    "scrapedAt": "2026-09-02T22:51:22.468Z",
+    "scrapedAt": "2026-09-03T17:03:44.722Z",
     "source": "Infojobs",
     "description": "Oferta activa publicada en InfoJobs para el puesto de Cuidador/a de niños – Canguro y apoyo escolar | Horario flexible. Puesto orientado a la atención educativa, dinamización o cuidado infantil en Toledo. Revisa los detalles y postúlate directamente en el enlace oficial.",
     "requirements": [
@@ -887,7 +974,7 @@
     "salary": "24.000€ - 28.000€ Bruto/año",
     "publishDate": "Reciente",
     "url": "https://es.indeed.com/viewjob?jk=69df3220d53a5a1f",
-    "scrapedAt": "2026-09-02T22:51:25.246Z",
+    "scrapedAt": "2026-09-03T17:03:47.777Z",
     "source": "Indeed",
     "description": "Buscamos Educador/a Infantil de 0 a 3 años para nuestro campus de Alcobendas. Formarás parte de un equipo docente dinámico en un entorno bilingüe internacional.<br/>\nFunciones:<br/>\n- Cuidado y atención de los alumnos en el aula de 1-2 años.<br/>\n- Estimulación temprana y desarrollo socioemocional.<br/>\n- Comunicación periódica con las familias.",
     "requirements": [
@@ -921,7 +1008,7 @@
     "salary": "Según Convenio Colectivo de Centros de Asistencia y Educación Infantil",
     "publishDate": "Reciente",
     "url": "https://es.indeed.com/cmp/Escuelas-Infantiles-Nemomarlin",
-    "scrapedAt": "2026-09-02T22:51:25.246Z",
+    "scrapedAt": "2026-09-03T17:03:47.777Z",
     "source": "Indeed",
     "description": "Seleccionamos Técnico/a de Educación Infantil (TSEI) para tutoría de aula de 1-2 años. Proyecto educativo basado en el apego seguro, estimulación multisensorial y psicomotricidad relacional.",
     "requirements": [
@@ -955,7 +1042,7 @@
     "salary": "1.250€ - 1.450€ Bruto/mes (Convenio Infantil 0-3)",
     "publishDate": "Reciente",
     "url": "https://es.indeed.com/ofertas?q=tecnico+educacion+infantil&l=Toledo",
-    "scrapedAt": "2026-09-02T22:51:25.246Z",
+    "scrapedAt": "2026-09-03T17:03:47.777Z",
     "source": "Indeed",
     "description": "Buscamos Educador/a Infantil (FP TSEI) para incorporación a equipo pedagógico de 0 a 3 años en Toledo. Responsable de rutinas de alimentación, descanso, actividades plásticas y estimulación temprana.",
     "requirements": [
@@ -988,7 +1075,7 @@
     "requirements": [
       "Técnico de Educación infantil."
     ],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs",
     "companyDesc": "Colegio privado concertado",
     "dates": "27-08-2026 a 11-09-2026",
@@ -1018,7 +1105,7 @@
     "requirements": [
       "Requisitos esenciales:\n- Doble titulación universitaria en Educación Primaria y Educación Infantil, o equivalente.\n- DECA en vigor.\n- Experiencia docente previa en Educación Infantil y Educación Primaria.\n- Inglés C1.\n- Habilidades para la gestión del aula y un enfoque centrado en el alumno.\n- Capacidad de adaptación y flexibilidad para trabajar en ambas etapas educativas.\n- Capacidad de trabajo en equipo y buenas habilidades de comunicación.\n- Compromiso con la educación inclusiva y con la protección, el bienestar y el desarrollo integral del alumnado.\n\nSe valorará positivamente:\n- Experiencia en ambas etapas educativas.\n- Experiencia en entornos educativos multiculturales.\n- Capacidad para desenvolverse con flexibilidad entre Educación Infantil y Primaria."
     ],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:47.956Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "27-08-2026 a 11-09-2026",
@@ -1048,7 +1135,7 @@
     "requirements": [
       "LENGUA INGLESA COMO LENGUA MATERNA"
     ],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "26-08-2026 a 25-09-2026",
@@ -1077,7 +1164,7 @@
       "Grado en Educación Infantil.\nCertificado de Nivel de Inglés C1 (en todas las destrezas) o habilitación lingüistica de la CAM en vigor.\nDECA (se valorará).",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs",
     "companyWeb": "https://www.greenwichschool.es",
     "companyDesc": "Colegio concertado bilingüe en Alcobendas",
@@ -1109,7 +1196,7 @@
     "requirements": [
       "Titulación para poder impartir las asignaturas de francés y lengua en Infantil y Primaria."
     ],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.129Z",
     "source": "Colejobs",
     "companyWeb": "https://colegiovilladegrinon.com/",
     "companyDesc": "El Colegio Villa de Griñón abrió sus puertas en el curso 1990/91. Llevamos más de 30 años proporcionando a nuestros alumnos una educación completa y de calidad.\nDesde los 0 años hasta la universidad. Ed. Infantil, Primaria, Secundaria y Bachillerato.\nPretendemos que el proceso de enseñanza – aprendizaje de nuestros alumnos se realice de manera consensuada y fluida entre las familias y los profesores.",
@@ -1140,7 +1227,7 @@
     "requirements": [
       "C1 homologado en idioma inglés"
     ],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.129Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "24-08-2026 a 08-09-2026",
@@ -1157,6 +1244,89 @@
     }
   },
   {
+    "id": "profesor-primaria-ingles-y-pt-n4332sT38kfj9XHtxi4iE",
+    "title": "PROFESOR PRIMARIA-INGLÉS Y PT",
+    "companyName": "Colegio San Javier",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/796795MdfvtKUZ5XqtyVy7J.png",
+    "companyType": "Colegio",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "Jornada completa",
+    "contract": "Contrato de sustitución",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-primaria-ingles-y-pt-n4332sT38kfj9XHtxi4iE/",
+    "publishDate": "03 septiembre de 2026",
+    "requirements": [
+      "- GRADO EDUCACIÓN PRIMARIA \n- PEDAGOGÍA TERAPEÚTICA\n- C1"
+    ],
+    "scrapedAt": "2026-09-03T17:01:35.098Z",
+    "source": "Colejobs",
+    "companyWeb": "www.colegiosanjavier.es",
+    "companyDesc": "El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "dates": "03-09-2026 a 18-09-2026",
+    "description": "<strong>Descripción: </strong>El Colegio San Javier es un centro concertado bilingüe de educación Infantil, Primaria y Secundaria. Nuestro principal objetivo es sacar lo mejor de cada alumno. Las líneas de actuación que dan eficacia a nuestra labor formativa, son la atención personalizada y la colaboración y participación de las familias.",
+    "salary": "Según convenio",
+    "convenioInfo": {
+      "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
+      "applicableCategory": "Personal Complementario / Aula",
+      "referenceSalary": "Tablas salariales de la Comunidad de Madrid (pago delegado)",
+      "stage": "3-6_años"
+    }
+  },
+  {
+    "id": "profesor-a-de-dibujo-tecnico-expresion-artistica-y-edplastica-visual-y-audiovisual-n3359xKW3fusXLZPc9FJE",
+    "title": "PROFESOR/A DE DIBUJO TÉCNICO, EXPRESIÓN ARTÍSTICA Y ED.PLÁSTICA, VISUAL Y AUDIOVISUAL",
+    "companyName": "Colegio Villa de Griñón",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/591_grinon.png",
+    "companyType": "Colegio",
+    "location": "Griñón",
+    "province": "Madrid",
+    "hours": "Jornada completa",
+    "contract": "Sustitución",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-dibujo-tecnico-expresion-artistica-y-edplastica-visual-y-audiovisual-n3359xKW3fusXLZPc9FJE/",
+    "publishDate": "03 septiembre de 2026",
+    "requirements": [
+      "Titulación para poder impartir las materias solicitadas.",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-09-03T17:01:35.098Z",
+    "source": "Colejobs",
+    "companyWeb": "https://colegiovilladegrinon.com/",
+    "companyDesc": "El Colegio Villa de Griñón abrió sus puertas en el curso 1990/91. Llevamos más de 30 años proporcionando a nuestros alumnos una educación completa y de calidad.\nDesde los 0 años hasta la universidad. Ed. Infantil, Primaria, Secundaria y Bachillerato.\nPretendemos que el proceso de enseñanza – aprendizaje de nuestros alumnos se realice de manera consensuada y fluida entre las familias y los profesores.",
+    "dates": "03-09-2026 a 18-09-2026",
+    "description": "<strong>Descripción: </strong>El Colegio Villa de Griñón abrió sus puertas en el curso 1990/91. Llevamos más de 30 años proporcionando a nuestros alumnos una educación completa y de calidad.\nDesde los 0 años hasta la universidad. Ed. Infantil, Primaria, Secundaria y Bachillerato.\nPretendemos que el proceso de enseñanza – aprendizaje de nuestros alumnos se realice de manera consensuada y fluida entre las familias y los profesores.",
+    "salary": "Según convenio",
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo de Enseñanza Privada / Infantil",
+      "applicableCategory": "Maestro/a de Educación Infantil (3-6 años)",
+      "referenceSalary": "Según convenio de enseñanza privada",
+      "stage": "3-6_años"
+    }
+  },
+  {
+    "id": "docente-de-lengua-y-literatura-en-4-de-eso-n2440eFy7tW2YAWF5U6Kr",
+    "title": "DOCENTE DE LENGUA Y LITERATURA EN 4º DE ESO",
+    "companyName": "Colegio Alameda International School",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/786783ZzdyHvNFRDAsHgqEv.png",
+    "companyType": "Colegio",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "Completa",
+    "contract": "Sustitución larga por baja médica",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/docente-de-lengua-y-literatura-en-4-de-eso-n2440eFy7tW2YAWF5U6Kr/",
+    "publishDate": "03 septiembre de 2026",
+    "requirements": [
+      "- Máster del Profesorado\n- CAP\n- Experiencia en Bachillerato Internacional\n- Experiencia en la gestión de Monografías y Evaluaciones Internas",
+      "Master Formación del Profesorado o C.A.P."
+    ],
+    "scrapedAt": "2026-09-03T17:01:35.098Z",
+    "source": "Colejobs",
+    "companyWeb": "https://www.colegio-alameda.com/",
+    "companyDesc": "Alameda International School es una entidad privada, gestionada por una institución familiar de tercera generación no vinculada a ninguna organización política, social o religiosa, que imparte todos los niveles educativos desde 2 años hasta 2º de Bachillerato Nacional e Internacional y Formación Profesional.\n\nDesde sus orígenes, el Proyecto Educativo de Alameda International School se sintetiza en la idea de “impulsar talentos” capaces de realizar su proyecto vital en un clima de confianza, autonomía, responsabilidad y valoración del esfuerzo; de aplicar los conocimientos a la resolución de problemas que plantea la sociedad en continuo cambio; de iniciar y mantener relaciones socio-afectivas amparadas en los valores de respeto y tolerancia, en suma, construir personas que alcancen su plenitud mediante el trabajo y el equilibrio emocional.",
+    "dates": "03-09-2026 a 17-11-2026",
+    "description": "<strong>Descripción: </strong>Alameda International School es una entidad privada, gestionada por una institución familiar de tercera generación no vinculada a ninguna organización política, social o religiosa, que imparte todos los niveles educativos desde 2 años hasta 2º de Bachillerato Nacional e Internacional y Formación Profesional.\n\nDesde sus orígenes, el Proyecto Educativo de Alameda International School se sintetiza en la idea de “impulsar talentos” capaces de realizar su proyecto vital en un clima de confianza, autonomía, responsabilidad y valoración del esfuerzo; de aplicar los conocimientos a la resolución de problemas que plantea la sociedad en continuo cambio; de iniciar y mantener relaciones socio-afectivas amparadas en los valores de respeto y tolerancia, en suma, construir personas que alcancen su plenitud mediante el trabajo y el equilibrio emocional.",
+    "salary": "Según convenio de la Educación Privada"
+  },
+  {
     "id": "profesor-de-eso-matematicas-y-fisica-y-quimica-n4329aJpI7AL4PjJUUXIw",
     "title": "PROFESOR DE ESO MATEMÁTICAS Y FISICA Y QUÍMICA",
     "companyName": "Colegio Concertado / Privado",
@@ -1171,7 +1341,7 @@
       "MASTER EN FORMACIÓN DEL PROFESORADO",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.579Z",
+    "scrapedAt": "2026-09-03T17:01:35.098Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "02-09-2026 a 17-09-2026",
@@ -1200,59 +1370,13 @@
       "Requisitos\nGrado o Licenciatura en Biología, Ciencias Biológicas o titulación equivalente.\nMáster Universitario en Formación del Profesorado (o CAP).\nExperiencia previa impartiendo Biología en ESO y Bachillerato.\nINGLÉS: Mínimo C1\nDominio de herramientas digitales aplicadas a la enseñanza.\nCapacidad de trabajo en equipo, organización y excelentes habilidades de comunicación.\n\nSe valorará\nExperiencia en preparación de alumnado para la PAU.\nExperiencia docente en centros bilingües o internacionales.\nExperiencia impartiendo Biología en inglés.\nParticipación en proyectos de innovación educativa.\nConocimiento de metodologías activas y herramientas digitales aplicadas a la enseñanza.\n\nSe ofrece\nIncorporación a un colegio privado con un proyecto educativo consolidado.\nIntegración en un equipo docente comprometido y colaborativo.\nFormación y desarrollo profesional.\nJornada y condiciones económicas acordes con la experiencia y el perfil aportado.\nSi cuentas con experiencia docente, tienes un buen nivel de inglés y te apasiona la enseñanza de la Biología, nos encantará conocerte.\n\nCompromiso del ISP con los principios de protección\nISP se compromete a salvaguardar y promover el bienestar de los niños y los jóvenes y espera que todo el personal y los voluntarios compartan este compromiso. Todos los titulares de puestos están sujetos a los procedimientos de investigación apropiados y a una comprobación satisfactoria de antecedentes penales o equivalente que cubra los 10 años anteriores de historial laboral.\n\nCompromiso del ISP con la diversidad, la equidad, la inclusión y la pertenencia\nISP se compromete a reforzar nuestra cultura inclusiva identificando, contratando, desarrollando y reteniendo a compañeros de equipo de alto rendimiento independientemente de su sexo, etnia, orientación sexual y expresión de género, edad, estado de discapacidad, neurodivergencia, origen socioeconómico u otras características demográficas. Animamos encarecidamente a los candidatos que compartan nuestra visión y principios y estén interesados en contribuir al éxito de ISP a través de este puesto a que presenten su candidatura.",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.579Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://fontenebroschool.com/",
     "companyDesc": "Fontenebro School es un colegio internacional de 1 a 18 años, ubicado en Moralzarzal, en la Sierra de Madrid, que ofrece una educación bilingüe con currículo internacional hasta 4º ESO. Nuestro proyecto educativo está orientado a la excelencia académica, al desarrollo de habilidades, talentos y competencias para la vida, en inglés y español.",
     "dates": "02-09-2026 a 17-09-2026",
     "description": "<strong>Descripción: </strong>Fontenebro School es un colegio internacional de 1 a 18 años, ubicado en Moralzarzal, en la Sierra de Madrid, que ofrece una educación bilingüe con currículo internacional hasta 4º ESO. Nuestro proyecto educativo está orientado a la excelencia académica, al desarrollo de habilidades, talentos y competencias para la vida, en inglés y español.",
     "salary": "28000-28500"
-  },
-  {
-    "id": "history-teacher-n4326VFkdT4eecTpNMySa",
-    "title": "HISTORY TEACHER",
-    "companyName": "Grupo Montessori",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/787557nNyDUcEFDMLLusZsF.png",
-    "companyType": "Colegio",
-    "location": "Alpedrete",
-    "province": "Madrid",
-    "hours": "Part time",
-    "contract": "Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/history-teacher-n4326VFkdT4eecTpNMySa/",
-    "publishDate": "02 septiembre de 2026",
-    "requirements": [
-      "-Qualified teacher status or equivalent teaching qualification.\n-Degree in History or a related subject.\n-Previous experience teaching History, preferably within a British or international school.\n-Good knowledge of the British National Curriculum.\n-Excellent communication and classroom-management skills.\n-A genuine passion for teaching and supporting students’ academic development.\n-Fluent English is essential.\n-Experience teaching IGCSE and/or A Level History would be highly valued."
-    ],
-    "scrapedAt": "2026-09-02T22:49:49.579Z",
-    "source": "Colejobs",
-    "companyWeb": "https://britishmontessori.es/",
-    "companyDesc": "Colegio británico que imparte el curriculum del Reino Unido.",
-    "dates": "02-09-2026 a 17-09-2026",
-    "description": "<strong>Descripción: </strong>Colegio británico que imparte el curriculum del Reino Unido.",
-    "salary": "Según convenio"
-  },
-  {
-    "id": "administrativo-departamento-de-recursos-humanos-n4325MxBz34qpj8uvv9rL",
-    "title": "ADMINISTRATIVO DEPARTAMENTO DE RECURSOS HUMANOS",
-    "companyName": "Grupo Montessori",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/787557nNyDUcEFDMLLusZsF.png",
-    "companyType": "Colegio",
-    "location": "Alpedrete",
-    "province": "Madrid",
-    "hours": "Jornada completa",
-    "contract": "Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/administrativo-departamento-de-recursos-humanos-n4325MxBz34qpj8uvv9rL/",
-    "publishDate": "02 septiembre de 2026",
-    "requirements": [
-      "-Experiencia previa en puestos administrativos y/o de Recursos Humanos.\n-Buen manejo de Microsoft Office, especialmente Excel.\n-Capacidad de organización, atención al detalle y gestión de documentación.\n-Buenas habilidades de comunicación y trabajo en equipo.\n-Se valorará experiencia previa en el sector educativo.\n-Se valorará positivamente un buen nivel de inglés."
-    ],
-    "scrapedAt": "2026-09-02T22:49:49.579Z",
-    "source": "Colejobs",
-    "companyWeb": "https://britishmontessori.es/",
-    "companyDesc": "Colegio británico que imparte el curriculum del Reino Unido.",
-    "dates": "02-09-2026 a 17-09-2026",
-    "description": "<strong>Descripción: </strong>Colegio británico que imparte el curriculum del Reino Unido.",
-    "salary": "Según convenio"
   },
   {
     "id": "profesor-a-de-cultura-clasica-y-lengua-castellana-n43248LgEQ7YXveyyEWP6",
@@ -1270,7 +1394,7 @@
       "Grado en Filología Clásica, Humanidades,  o equivalente.\n24 créditos en Lengua Castellana\n24 créditos en Cultura Clásica.\nMáster del Profesorado de Secundaria, Bachillerato y FP.",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.579Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.fuhem.es/",
     "companyDesc": "FUHEM es una fundación independiente sin ánimo de lucro que promueve la justicia social, la profundización de la democracia y la sostenibilidad ambiental, a través de la actividad educativa y del trabajo en temas ecosociales. Actualmente tiene una plantilla de 430 personas, una importante actividad investigadora y divulgativa y en el ámbito educativo, tiene 4 centros educativos, CEM Hipatia, Lourdes, Montserrat y la escuela infantil Pippi Langstrump.\nFUHEM promueve activamente la igualdad de oportunidades y se esfuerza en crear espacios de trabajo seguros e inclusivos donde las personas puedan ser ellas mismas y tener las mismas oportunidades.",
@@ -1298,7 +1422,7 @@
     "requirements": [
       "-Bachelor degree in economy, business or related\n-C1-C2 English level\n-CAP or Master in secondary education"
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "02-09-2026 a 17-09-2026",
@@ -1326,7 +1450,7 @@
       "Formación: \n- Licenciatura o Grado en Economía, ADE o similar. \n- CAP / Máster del Profesorado. \n\nExperiencia: \n- Experiencia previa en colegios como docente de economía y matemáticas. \n\nCompetencias: \n- Trabajo en equipo. \n- Orientación a los alumnos y sus familias. \n- Flexibilidad y adaptación a cambios. \n- Organización y planificación.",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyDesc": "",
     "dates": "02-09-2026 a 17-09-2026",
@@ -1349,7 +1473,7 @@
       "Colegio concertado con ideario católico busca docente para necesita cubrir vacante para profesor de inglés de Bachillerato y ESO, jornada 100%, contrato indefinido y horario 9:00-17:00. Se valorará muy positivamente experiencia en 2º bachillerato.",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.colegiopenalvento.es/",
     "companyDesc": "El Colegio Peñalvento es un colegio mixto, privado concertado que nació en el curso 2007-2008 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
@@ -1379,7 +1503,7 @@
       "Poder impartir filosofía",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.colegiomontesclaros.es/",
     "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
@@ -1409,7 +1533,7 @@
       "MÁSTER DEL PROFESORADO",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.colegiomontesclaros.es/",
     "companyDesc": "El Colegio Montesclaros es un colegio mixto, privado concertado que nació en el curso 2009-2010 promovido por el Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y de una atención personalizada.",
@@ -1439,7 +1563,7 @@
       "MASTER DE FORMACIÓN DE PROFESORADO O C.A.P\nNIVEL DE INGLÉS ALTO, SI ES POSIBLE ACREDITACIÓN C1\nDISPONIBILIDAD INMEDIATA",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.antaneschool.com/",
     "companyDesc": "Antanes School es un colegio mixto, privado concertado perteneciente al Grupo Educare con el objetivo principal de ayudar a desarrollar en sus alumnos las capacidades intelectuales y los valores humanos y espirituales mediante un conjunto de procesos de calidad y una atención personalizada.",
@@ -1469,7 +1593,7 @@
       "• Titulación correspondiente para impartir clases en IB.\n• Certificado de nivel de inglés C1 o C2 (imprescindible).\n• Experiencia previa en IB será tenida en cuenta.",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.099Z",
     "source": "Colejobs",
     "companyWeb": "https://www.cnsschoenstatt.es/",
     "companyDesc": "Colegio católico privado, mixto diferenciado.",
@@ -1494,7 +1618,7 @@
       "Master Formación del Profesorado o C.A.P.",
       "Más información: https://ceu.wd3.myworkdayjobs.com/es/col/job/Madrid/Profesor-a-de-matemticas-ESO-Bachillerato-SUSTITUCIN_R5831"
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.100Z",
     "source": "Colejobs",
     "companyWeb": "https://www.ceu.es",
     "companyDesc": "La Fundación Universitaria San Pablo CEU, conocida como CEU (siglas de Centro de Estudios Universitarios), es una institución con la forma jurídica de fundación dedicada a la educación, fundada por la Asociación Católica de Propagandistas (ACdP).",
@@ -1518,7 +1642,7 @@
       "REQUISITOS MÍNIMOS\n - Licenciatura en Bellas artes o equivalente más C.A.P. o Master de la Eso para para secundaria.\n\n -Nivel C1 inglés acreditado -Experiencia docente demostrable",
       "Master Formación del Profesorado o C.A.P."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.580Z",
+    "scrapedAt": "2026-09-03T17:01:35.100Z",
     "source": "Colejobs",
     "companyWeb": "https://trinitycollegessreyes.es/",
     "companyDesc": "Trinity College San Sebastián de los Reyes es un colegio concertado plurilingüe que proporciona una educación en valores y una sólida formación académica.",
@@ -1547,7 +1671,7 @@
     "requirements": [
       "- Mención en Música\n- C1 o habilitación lingüística"
     ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
+    "scrapedAt": "2026-09-03T17:01:35.100Z",
     "source": "Colejobs",
     "companyWeb": "https://colegioseiantavilla.com/",
     "companyDesc": "Colegio concertado bilingüe perteneciente al Grupo SEI. Desde 0 años hasta la universidad",
@@ -1576,7 +1700,7 @@
     "requirements": [
       "Requisitos:\n\n- Grado en Primaria, imprescindible con mención en inglés.\n\n- Imprescindible certificado del C1 de inglés acreditado en todas las destrezas o habilitación lingüística de la Comunidad de Madrid\n\n- Valorable DECA.\n\n- Experiencia de al menos un año impartiendo docencia de inglés en primaria."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
+    "scrapedAt": "2026-09-03T17:01:35.101Z",
     "source": "Colejobs",
     "companyWeb": "https://www.ceu.es",
     "companyDesc": "La Fundación Universitaria San Pablo CEU, conocida como CEU (siglas de Centro de Estudios Universitarios), es una institución con la forma jurídica de fundación dedicada a la educación, fundada por la Asociación Católica de Propagandistas (ACdP).",
@@ -1599,7 +1723,7 @@
     "requirements": [
       "Requisitos:\n\n- Grado en Primaria, imprescindible con mención en inglés.\n\n- Imprescindible certificado del C1 de inglés acreditado en todas las destrezas o habilitación lingüística de la Comunidad de Madrid\n\n- Valorable DECA.\n\n- Experiencia de al menos un año impartiendo docencia de inglés en primaria."
     ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
+    "scrapedAt": "2026-09-03T17:01:35.101Z",
     "source": "Colejobs",
     "companyWeb": "https://www.ceu.es",
     "companyDesc": "La Fundación Universitaria San Pablo CEU, conocida como CEU (siglas de Centro de Estudios Universitarios), es una institución con la forma jurídica de fundación dedicada a la educación, fundada por la Asociación Católica de Propagandistas (ACdP).",
@@ -1608,83 +1732,20 @@
     "salary": "Por convenio"
   },
   {
-    "id": "profespr-a-frances-secundaria-n4305zaFsJjaiafavGI7C",
-    "title": "PROFESPR/A FRANCÉS SECUNDARIA",
-    "companyName": "Colegio Mater Immaculata",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/10481047bHWMGUeVXTUN6CH6.png",
+    "id": "profesor-a-de-ingles-para-secundaria-n4331XPAHmq4WeawzJ7us",
+    "title": "PROFESOR/A DE INGLÉS PARA SECUNDARIA",
+    "companyName": "Colegio Internacional Ausias March",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/11541153bxecJq35LGJGm5Kp.png",
     "companyType": "Colegio",
-    "location": "Madrid",
+    "location": "Picassent, Valencia",
     "province": "Madrid",
-    "hours": "15 horas",
-    "contract": "Vacante, indefinida",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/profespr-a-frances-secundaria-n4305zaFsJjaiafavGI7C/",
-    "publishDate": "01 septiembre de 2026",
-    "requirements": [
-      "Se precisa titulación habilitante y Máster del profesorado o similar.",
-      "Master Formación del Profesorado o C.A.P."
-    ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
-    "source": "Colejobs",
-    "companyWeb": "https://www.colegiomater.com/",
-    "companyDesc": "Colegio concertado en la zona de Ciudad Lineal",
-    "dates": "01-09-2026 a 16-09-2026",
-    "description": "<strong>Descripción: </strong>Colegio concertado en la zona de Ciudad Lineal",
-    "salary": "según convenio Educación Secundaria Obligatoria concertada y Bachillerato privado",
-    "convenioInfo": {
-      "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
-      "applicableCategory": "Personal Complementario / Aula",
-      "referenceSalary": "Tablas salariales de la Comunidad de Madrid (pago delegado)",
-      "stage": "3-6_años"
-    }
-  },
-  {
-    "id": "profesor-a-de-plastica-eso-bach-sustitucion-n4304pXTwXTX4hFNiLv67",
-    "title": "PROFESOR/A DE PLÁSTICA ESO/BACH. SUSTITUCIÓN",
-    "companyName": "Fundación Universitaria San Pablo CEU",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/6646202WrW6qJbbegM8vwCF.png",
-    "companyType": "Colegio",
-    "location": "Boadilla del Monte",
-    "province": "Madrid",
-    "hours": "Completa",
-    "contract": "Temporal",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-plastica-eso-bach-sustitucion-n4304pXTwXTX4hFNiLv67/",
-    "publishDate": "01 septiembre de 2026",
-    "requirements": [
-      "- Licenciatura/Grado en Bellas Artes, Arquitectura u otros grados que habilite para impartir la/s asignaturas requeridas)\n\n- Curso de Adaptación Pedagógica (CAP) o Máster en Formación del Profesorado con especialidad en el área a impartir",
-      "Master Formación del Profesorado o C.A.P.",
-      "Más información: https://ceu.wd3.myworkdayjobs.com/es/col/job/Boadilla-del-Monte/Profesor-a-de-Plstica-ESO-Bach-SUSTITUCIN_R5847"
-    ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
-    "source": "Colejobs",
-    "companyWeb": "https://www.ceu.es",
-    "companyDesc": "La Fundación Universitaria San Pablo CEU, conocida como CEU (siglas de Centro de Estudios Universitarios), es una institución con la forma jurídica de fundación dedicada a la educación, fundada por la Asociación Católica de Propagandistas (ACdP).",
-    "dates": "01-09-2026 a 16-09-2026",
-    "description": "<strong>Descripción: </strong>La Fundación Universitaria San Pablo CEU, conocida como CEU (siglas de Centro de Estudios Universitarios), es una institución con la forma jurídica de fundación dedicada a la educación, fundada por la Asociación Católica de Propagandistas (ACdP).",
-    "salary": "."
-  },
-  {
-    "id": "profesor-a-secundaria-frances-y-lengua-n4302TZqvYZEJwpkhkv4g",
-    "title": "PROFESOR/A SECUNDARIA FRANCÉS Y LENGUA",
-    "companyName": "Trinity College Boadilla",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/587569E9NPrWd4DFDNwIh9a.png",
-    "companyType": "Colegio",
-    "location": "Boadilla del Monte",
-    "province": "Madrid",
-    "hours": "Jornada Completa",
-    "contract": "Contrato Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-secundaria-frances-y-lengua-n4302TZqvYZEJwpkhkv4g/",
-    "publishDate": "01 septiembre de 2026",
-    "requirements": [
-      "Requisitos imprescindibles:\n\n•\tTitulación requerida para impartir en Secundaria (Licenciatura /Grado)\n•\tCAP o Master Profesorado Secundaria\n•\tNivel alto Francés\n•\tExperiencia como docente en Secundaria de Francés y Lengua de mínimo 1 año",
-      "Master Formación del Profesorado o C.A.P."
-    ],
-    "scrapedAt": "2026-09-02T22:49:49.581Z",
-    "source": "Colejobs",
-    "companyWeb": "https://trinitycollegeboadilla.es/",
-    "companyDesc": "Trinity College Boadilla es un colegio privado en Boadilla del Monte. Educación en valores y una sólida formación académica.",
-    "dates": "01-09-2026 a 16-09-2026",
-    "description": "<strong>Descripción: </strong>Trinity College Boadilla es un colegio privado en Boadilla del Monte. Educación en valores y una sólida formación académica.",
-    "salary": "28.733,74 euros anuales"
+    "hours": "Jornada completa",
+    "contract": "sustitución de larga duración",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-ingles-para-secundaria-n4331XPAHmq4WeawzJ7us/",
+    "publishDate": "03 septiembre de 2026",
+    "requirements": [],
+    "scrapedAt": "2026-09-03T17:01:37.677Z",
+    "source": "Colejobs"
   },
   {
     "id": "profesor-de-educacion-fisica-primaria-y-eso-cafd-n43235xySNvTJ72FV8JLh",
@@ -1699,7 +1760,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-educacion-fisica-primaria-y-eso-cafd-n43235xySNvTJ72FV8JLh/",
     "publishDate": "02 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:51.706Z",
+    "scrapedAt": "2026-09-03T17:01:37.677Z",
     "source": "Colejobs"
   },
   {
@@ -1715,7 +1776,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-matematicas-fyq-y-digitalizacion-baja-paternal-colegio-corazon-de-maria-zamora-n4319z99dLFvHGwkaL95G/",
     "publishDate": "02 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:51.706Z",
+    "scrapedAt": "2026-09-03T17:01:37.677Z",
     "source": "Colejobs"
   },
   {
@@ -1731,7 +1792,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-matematicas-tecnologia-y-plastica-n4315ApYd5HNGgfvNZCPZ/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:51.706Z",
+    "scrapedAt": "2026-09-03T17:01:37.677Z",
     "source": "Colejobs"
   },
   {
@@ -1740,14 +1801,14 @@
     "companyName": "SEK International Schools",
     "companyLogo": "https://www.colejobs.es/imagenes/empresas/618543IZKmXeBJ6EtHBh3r5.jpg",
     "companyType": "Colegio",
-    "location": "Barcelona",
+    "location": "Garriga, La, Barcelona",
     "province": "Madrid",
     "hours": "Fulltime",
     "contract": "Temporary contract",
     "url": "https://www.colejobs.es/ofertas-de-empleo/design-technology-and-mathematics-teacher-paternity-leave-cover-dp-n4313jHUMez3WSzGIsuPy/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:51.706Z",
+    "scrapedAt": "2026-09-03T17:01:39.778Z",
     "source": "Colejobs"
   },
   {
@@ -1763,7 +1824,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-stem-primaria-horas-apoyo-rema-colegio-claret-fuensanta-n4312ByFhFq6iYcyxZHDb/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:51.706Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1779,7 +1840,55 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maestra-o-primaria-musica-e-ingles-n43064itfSTyaFQupKJHX/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.165Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
+    "source": "Colejobs"
+  },
+  {
+    "id": "profespr-a-frances-secundaria-n4305zaFsJjaiafavGI7C",
+    "title": "PROFESPR/A FRANCÉS SECUNDARIA",
+    "companyName": "Colegio Mater Immaculata",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/10481047bHWMGUeVXTUN6CH6.png",
+    "companyType": "Colegio",
+    "location": "Madrid",
+    "province": "Madrid",
+    "hours": "15 horas",
+    "contract": "Vacante, indefinida",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profespr-a-frances-secundaria-n4305zaFsJjaiafavGI7C/",
+    "publishDate": "01 septiembre de 2026",
+    "requirements": [],
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
+    "source": "Colejobs"
+  },
+  {
+    "id": "profesor-a-de-plastica-eso-bach-sustitucion-n4304pXTwXTX4hFNiLv67",
+    "title": "PROFESOR/A DE PLÁSTICA ESO/BACH. SUSTITUCIÓN",
+    "companyName": "Fundación Universitaria San Pablo CEU",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/6646202WrW6qJbbegM8vwCF.png",
+    "companyType": "Colegio",
+    "location": "Boadilla del Monte, Madrid",
+    "province": "Madrid",
+    "hours": "Completa",
+    "contract": "Temporal",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-plastica-eso-bach-sustitucion-n4304pXTwXTX4hFNiLv67/",
+    "publishDate": "01 septiembre de 2026",
+    "requirements": [],
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
+    "source": "Colejobs"
+  },
+  {
+    "id": "profesor-a-secundaria-frances-y-lengua-n4302TZqvYZEJwpkhkv4g",
+    "title": "PROFESOR/A SECUNDARIA FRANCÉS Y LENGUA",
+    "companyName": "Trinity College Boadilla",
+    "companyLogo": "https://www.colejobs.es/imagenes/empresas/587569E9NPrWd4DFDNwIh9a.png",
+    "companyType": "Colegio",
+    "location": "Boadilla del Monte, Madrid",
+    "province": "Madrid",
+    "hours": "Jornada Completa",
+    "contract": "Contrato Indefinido",
+    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-secundaria-frances-y-lengua-n4302TZqvYZEJwpkhkv4g/",
+    "publishDate": "01 septiembre de 2026",
+    "requirements": [],
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1795,7 +1904,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-gh-eso-n4301iiv2JzTfre7gfdxM/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.165Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1811,7 +1920,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-primaria-musica-ingles-n4300j5DyFVe2weczwmAC/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1827,7 +1936,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-secundaria-matematicas-n4108N8uHuIHPtEU2CyD9/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1843,7 +1952,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-economia-bachillerato-y-matematicas-eso-n4299VFiJxXMgbQes3uIX/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1859,7 +1968,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/chemistry-biology-teacher-n4298ss8R9WfmRCEfgxI9/",
     "publishDate": "01 septiembre de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1874,7 +1983,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-jornada-completa-vacante-n4297vKqdFsiGk7kZK3dI/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -1896,7 +2005,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/enfermero-a-centro-escolar-n429546TfDDahIUBvR3pE/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:39.779Z",
     "source": "Colejobs"
   },
   {
@@ -1912,7 +2021,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/vacante-profesor-de-economia-y-matematicas-jornada-completa-n4294ygKJIdg2AkxUcJVu/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:41.897Z",
     "source": "Colejobs"
   },
   {
@@ -1928,7 +2037,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ciencias-tecnologia-y-digitalizacion-n959TtSeqcppvb6asIBqa/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:41.897Z",
     "source": "Colejobs"
   },
   {
@@ -1944,7 +2053,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-frances-y-lengua-castellana-n4293GciTp7BBzbdYmPxD/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:41.897Z",
     "source": "Colejobs"
   },
   {
@@ -1956,11 +2065,11 @@
     "location": "Madrid",
     "province": "Madrid",
     "hours": "Parcial, 24h lectivas a la semana; de L-V en el marco horario de 8:30 a 15:30h + una tarde de 16:30 a 18:30h",
-    "contract": "Interinidad curso completo con posibilidad de indefinido",
+    "contract": "Indefinido",
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-tecnologia-y-matematicas-centro-lourdes-n4292PxYBa969PQB3LR33/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:54.166Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -1976,7 +2085,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-historia-y-geografia-colegio-claret-madrid-n4291BcVLXsxuLYmSAhGd/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.441Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -1991,7 +2100,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-ingles-y-lengua-y-literatura-eso-11-horas-n4087CK7pcy7g6vEPaJx5/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.441Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2013,7 +2122,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/vacante-profesor-a-ciencias-secundaria-matematicas-fisica-y-quimica-computacion-tecnologia-y-digitalizacion-en-ingles-pdc-n4288cvtBvpr9Kzpj7CK2/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.441Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2029,7 +2138,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/early-years-teacher-pyp-n42878SGRPAaDkvSqQkQw/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.441Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2045,7 +2154,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-aleman-y-de-adquisicion-de-espanol-espanol-para-extranjeros-sustitucion-n4285jNvjqJvsRTZXGeUJ/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.441Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2061,23 +2170,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-tecnologia-dibujo-eso-y-bachillerato-n2413iFq4Er7NJZqkMxm5/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
-    "source": "Colejobs"
-  },
-  {
-    "id": "profesor-de-tecnologia-y-digitalizacion-eso-n4283RavIxSu2K8pLFzmH",
-    "title": "PROFESOR DE TECNOLOGÍA Y DIGITALIZACIÓN (ESO)",
-    "companyName": "Colegio San Jaime",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/664650EwN5WaX9ARivRvFmI.png",
-    "companyType": "Colegio",
-    "location": "Majadahonda, Madrid",
-    "province": "Madrid",
-    "hours": "Completa",
-    "contract": "Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-tecnologia-y-digitalizacion-eso-n4283RavIxSu2K8pLFzmH/",
-    "publishDate": "31 agosto de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2093,7 +2186,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-para-impartir-biologia-y-fisica-y-quimica-en-secundaria-y-bachillerato-n4196vrcg4dBHchIRBXTk/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2108,7 +2201,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-academia-n4282bwxCSDMDXY7rX8xa/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2124,29 +2217,8 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/vacante-profesor-matematicas-secundaria-n4281etm49L2khD6PeFxE/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
-  },
-  {
-    "id": "secondary-english-teacher-n4280QY4UM5mtUHfBIMtL",
-    "title": "SECONDARY ENGLISH TEACHER",
-    "companyName": "Colegio Católico",
-    "companyType": "Colegio Catolico",
-    "location": "Boadilla del Monte, Madrid",
-    "province": "Madrid",
-    "hours": "Completa",
-    "contract": "Temporal",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/secondary-english-teacher-n4280QY4UM5mtUHfBIMtL/",
-    "publishDate": "31 agosto de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
-    "source": "Colejobs",
-    "convenioInfo": {
-      "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
-      "applicableCategory": "Personal Complementario / Aula",
-      "referenceSalary": "Tablas salariales de la Comunidad de Madrid (pago delegado)",
-      "stage": "3-6_años"
-    }
   },
   {
     "id": "grado-en-quimica-n609Ey8tDuSDMzk2vCSpW",
@@ -2160,7 +2232,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/grado-en-quimica-n609Ey8tDuSDMzk2vCSpW/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2176,7 +2248,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/primary-english-teacher-substitution-n4279dcYrM4uuZyYqgxHi/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.898Z",
     "source": "Colejobs"
   },
   {
@@ -2192,7 +2264,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-de-primaria-de-catalan-n4278uDLNuhv4Jbvd67ru/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.899Z",
     "source": "Colejobs"
   },
   {
@@ -2208,7 +2280,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/vacante-de-educacion-primaria-prioridad-de-torrejon-de-ardoz-10-horas-mas-complementarias-n4277SeQEJ9gUHB6RGCkK/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.899Z",
     "source": "Colejobs"
   },
   {
@@ -2224,7 +2296,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-matematicas-y-tecnologia-eso-n4276sKLhXpb6rdtfyKdv/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:41.899Z",
     "source": "Colejobs"
   },
   {
@@ -2240,7 +2312,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-religion-eso-n4275pTN3VtkUJG7viY4A/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.442Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs"
   },
   {
@@ -2255,7 +2327,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-ingles-secundaria-con-c1-de-ingles-n891Q897IGzweK2wPsH3f/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:56.443Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2277,7 +2349,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-matematicas-eso-y-bachillerato-n2634UZ82r4UgczBUJwz7/",
     "publishDate": "31 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.467Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2299,7 +2371,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/tecnico-a-en-integracion-social-–-aula-tea-n4273zXZeVFveMDY7kEaC/",
     "publishDate": "30 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs"
   },
   {
@@ -2315,7 +2387,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-matematicas-fisica-y-quimica-tecnologia-n3196jf8ATWzmiQMMTUAX/",
     "publishDate": "30 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs"
   },
   {
@@ -2330,7 +2402,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-geografia-e-historia-y-lengua-jornada-completa-n4272dagN4EiLeIexdxPG/",
     "publishDate": "29 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2352,7 +2424,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-lengua-y-literatura-secundaria-y-bachillerato-n4190mXuKFBUgTP5HNvBp/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.755Z",
     "source": "Colejobs"
   },
   {
@@ -2368,7 +2440,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-en-eso-y-bachillerato-sustitucion-n2331sgrUPvskeguGupZA/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2384,7 +2456,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-tic-n3998T34uq3y37w49GvEd/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2400,7 +2472,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-en-secundaria-y-bachillerato-n3997e9wUt8k5DA5uhqk5/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2415,7 +2487,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-informatica-n42454q7dUHRQJfKB67De/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2431,7 +2503,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/head-of-student-wellbeing-inclusion-and-guidance-n4267WtmgVrhd2bytSIe6/",
     "publishDate": "28 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2447,7 +2519,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/tecnico-de-integracion-social-n4266p5GATyqE2VDWgGug/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.468Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2462,7 +2534,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-ed-primaria-c1-40-de-la-jornada-n4257FRrzbxhpYyKm3kd9/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2484,7 +2556,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-educacion-primaria-con-mencion-en-educacion-fisica-e-ingles-n4262i3KZEppYZpiyTD2u/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2499,7 +2571,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-educacion-primaria-con-mencion-en-educacion-fisica-e-ingles-n4258uKRTENEmS8h99FZy/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2521,7 +2593,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-proyecto-creacion-e-investigacion-musical-en-secundaria-n4256KrAvdYpwYGs3EvD5/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs"
   },
   {
@@ -2536,7 +2608,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-ccss-i-y-economia-en-bachillerato-gestion-empresarial-en-el-programa-del-diploma-del-ib-economia-y-emprendimiento-4-eso-n4255Zf57gDLISSqW6eEB/",
     "publishDate": "27 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:49:58.469Z",
+    "scrapedAt": "2026-09-03T17:01:44.756Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2558,7 +2630,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-frances-eso-n42522zNQJUdFubIycTZX/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.489Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2574,7 +2646,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/elementary-teacher-kindergarten-grade-5-n4250tPr2iJ4csLCu5de4/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.489Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2590,7 +2662,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-tecnologia-n4029qFSJ2B5NmdIXJQYt/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.489Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2606,7 +2678,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/candidaturas-espontaneas-colegio-mestral-ibiza-posiciones-academicas-n4145Rs4barRfJMZf8FEC/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.489Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2622,7 +2694,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-economia-y-formacion-y-orientacion-profesional-n4249EZyYx2Cbz8vqsDFz/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.489Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2638,23 +2710,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ingles-lengua-castellana-n4128CQH2kr4DA882jpbB/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
-    "source": "Colejobs"
-  },
-  {
-    "id": "responsable-de-orientacion-profesional-y-vocacional-n2340q5cAJIp9aezcELMi",
-    "title": "RESPONSABLE DE ORIENTACIÓN PROFESIONAL Y VOCACIONAL",
-    "companyName": "Colegio Alameda International School",
-    "companyLogo": "https://www.colejobs.es/imagenes/empresas/786783ZzdyHvNFRDAsHgqEv.png",
-    "companyType": "Colegio",
-    "location": "Madrid",
-    "province": "Madrid",
-    "hours": "Completa",
-    "contract": "Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/responsable-de-orientacion-profesional-y-vocacional-n2340q5cAJIp9aezcELMi/",
-    "publishDate": "26 agosto de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2670,7 +2726,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/english-teacher-myp-dp-n3907fuM3YPG2TAsSGRET/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2686,7 +2742,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-plastica-y-computacion-tecnologia-n4248zzRzHjp8f7viS8Ty/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2702,7 +2758,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-religion-secundaria-y-bachillerato-n3959bba2zEu8HmAUmuRS/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2718,7 +2774,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-historia-secundaria-n4246CeVauvK3Z5x4KtZ7/",
     "publishDate": "26 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2734,7 +2790,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/temporary-teacher-of-economics-n3956QxF6qvc8aQrVZFem/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2750,7 +2806,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-de-aleman-n38036Ddw4syeg55dxVfe/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2766,7 +2822,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/boarding-staff-n3972hrThw9mWjJ7CTFYV/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2782,7 +2838,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maths-teacher-in-myp-secondary-and-diploma-n4243CGiXTQsR4WJZV3wP/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2798,7 +2854,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-ed-primaria-con-c1-en-las-4-destrezas-sustitucion-3-meses-n4242kTvSaLPgKEAMUwpA/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.957Z",
     "source": "Colejobs"
   },
   {
@@ -2814,7 +2870,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/business-management-teacher-–-ib-dp-and-ib-myp-n4241CLg6mujy3xXZyu7r/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:47.958Z",
     "source": "Colejobs"
   },
   {
@@ -2829,7 +2885,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/encargado-a-de-limpieza-colegio-aranda-de-duero-n3994gdjk3shG2H3xNSSi/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:00.490Z",
+    "scrapedAt": "2026-09-03T17:01:50.129Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2851,7 +2907,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-ciencias-colegio-corazon-de-maria-zamora-n4134fBcrjgjQ6PfYgdSf/",
     "publishDate": "25 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.586Z",
+    "scrapedAt": "2026-09-03T17:01:50.129Z",
     "source": "Colejobs"
   },
   {
@@ -2867,28 +2923,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-geografia-e-historia-en-colegio-concertado-catolico-n4240WgfpZN7XALm8uszu/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
-    "source": "Colejobs",
-    "convenioInfo": {
-      "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
-      "applicableCategory": "Personal Complementario / Aula",
-      "referenceSalary": "Tablas salariales de la Comunidad de Madrid (pago delegado)",
-      "stage": "3-6_años"
-    }
-  },
-  {
-    "id": "profesor-de-educacion-fisica-para-educacion-secundaria-n4237dB552HcmcbdDu46s",
-    "title": "PROFESOR DE EDUCACIÓN FÍSICA PARA EDUCACIÓN SECUNDARIA",
-    "companyName": "Colegio Concertado",
-    "companyType": "Colegio Concertado",
-    "location": "Madrid",
-    "province": "Madrid",
-    "hours": "Parcial. Media jornada",
-    "contract": "Indefinido",
-    "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-educacion-fisica-para-educacion-secundaria-n4237dB552HcmcbdDu46s/",
-    "publishDate": "24 agosto de 2026",
-    "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.129Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -2910,7 +2945,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-cfgm-atencion-personas-situacion-dependencia-intervencion-sociocomunitaria-y-servicios-comunidad-n4105jZwsIFL2EWs4TzJN/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -2926,7 +2961,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-titular-de-fisica-y-quimica-en-la-eso-pai-y-en-1-de-bachillerato-lomloe-n4233aEHJ9S7QgMSEpjqP/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -2942,7 +2977,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/conserje-centro-montserrat-n4232MxriLjZpkg2ATpUz/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -2958,7 +2993,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-de-tecnologia-fisica-y-quimica-n4229J4BUQfxJK4tY95EJ/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -2974,7 +3009,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/docente-de-fisica-matematicas-y-fisica-y-quimica-n42282tbxhINsSVux5iuZ/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -2990,7 +3025,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/sustitucion-de-lengua-jornada-completa-n4227bSebgACWLQcpudjQ/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3006,7 +3041,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-matematicas-ed-secundaria-80%-de-jornada-contrato-indefinido-n4226E54ErgbMitsFBjNX/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3022,7 +3057,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-biologia-fisica-y-quimica-y-refuerzo-de-matematicas-eso-n4137Hd92NGYCgiARDPLU/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3037,7 +3072,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maestro-a-primaria-mencion-en-pt-y-al-con-c1-en-todas-las-destrezas-n463axT2gvGJyF2ubYjAV/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -3059,7 +3094,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maestro-a-de-educacion-primaria-mencion-en-ingles-c1-n1729ZGY28wrm9rX6MLqL/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.587Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3075,7 +3110,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maestro-a-primaria-con-mencion-o-especialidad-musica-y-c1-ingles-n2191L6Bv8kXdhDJug3GJ/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.588Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3091,7 +3126,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-a-pt-eso-colegio-claret-fuensanta-n4192mhu2xIJW3IBv2c5Q/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.588Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3107,7 +3142,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/vacante-profesor-a-lengua-y-latn-en-eso-14-horas-lectivas-n4225cZmvuqRDeR89jP9r/",
     "publishDate": "24 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.588Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs"
   },
   {
@@ -3122,7 +3157,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/maestra-de-primaria-con-ingles-n4224jwZxb44whjetfVXh/",
     "publishDate": "23 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.588Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -3143,7 +3178,7 @@
     "url": "https://www.colejobs.es/ofertas-de-empleo/profesor-de-matematicas-y-tecnologia-en-eso-n4222yfRITp97qUKc9C45/",
     "publishDate": "23 agosto de 2026",
     "requirements": [],
-    "scrapedAt": "2026-09-02T22:50:02.588Z",
+    "scrapedAt": "2026-09-03T17:01:50.130Z",
     "source": "Colejobs",
     "convenioInfo": {
       "convenioName": "VII Convenio Colectivo de Enseñanza Concertada",
@@ -3153,12 +3188,79 @@
     }
   },
   {
+    "id": "bolsa-madrid-educador-infantil-laboral",
+    "title": "Bolsa de Trabajo: Educador de Centros de Educación Infantil (0-3 años)",
+    "companyName": "Comunidad de Madrid - Dirección General de la Función Pública",
+    "companyLogo": "https://www.comunidad.madrid/sites/default/files/logo_cam.png",
+    "companyType": "Bolsa Pública / Personal Laboral",
+    "companyWeb": "https://www.comunidad.madrid/empleo/educador-educacion-infantil-2023",
+    "companyDesc": "Bolsa de trabajo abierta y permanente de personal laboral de la Comunidad de Madrid (Grupo III, Nivel 6, Área C).",
+    "location": "Comunidad de Madrid",
+    "province": "Madrid",
+    "hours": "Jornada completa o parcial según sustitución",
+    "contract": "Interinidad / Sustitución funcionarial",
+    "salary": "1.550€ - 1.850€ Bruto/mes (Tablas Convenio Colectivo Personal Laboral CAM)",
+    "publishDate": "Convocatoria Activa / Abierta",
+    "url": "https://www.comunidad.madrid/empleo/educador-educacion-infantil-2023",
+    "scrapedAt": "2026-09-03T17:03:48.488Z",
+    "source": "Bolsa Empleo Madrid",
+    "description": "Convocatoria y gestión continuada de la Bolsa de Empleo de la categoría Educador/a Infantil en las Escuelas Infantiles de gestión directa de la Comunidad de Madrid. Atiende a niños de 0 a 3 años de edad en centros públicos de la red regional.",
+    "requirements": [
+      "Título oficial de Técnico Superior en Educación Infantil (TSEI), Técnico Especialista en Jardín de Infancia (FP II) o equivalente.",
+      "Nacionalidad española o de los estados miembros de la UE.",
+      "Certificado negativo del Registro Central de Delincuentes Sexuales.",
+      "Inscripción o baremación telemática en el portal de empleo público de la Comunidad de Madrid."
+    ],
+    "certificationTags": [
+      "TSEI"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo Estatal de Centros de Asistencia y Educación Infantil (0-3 años)",
+      "applicableCategory": "Educador/a Infantil (Grupo II)",
+      "referenceSalary": "1.200€ - 1.450€ Bruto/mes (según tablas actualizadas)",
+      "stage": "0-3_años"
+    }
+  },
+  {
+    "id": "bolsa-madrid-bolsa-unica-permanente",
+    "title": "Bolsa Única Permanente de Personal Laboral: Educadores Infantiles",
+    "companyName": "Comunidad de Madrid - Dirección General de la Función Pública",
+    "companyLogo": "https://www.comunidad.madrid/sites/default/files/logo_cam.png",
+    "companyType": "Bolsa Pública / Personal Laboral",
+    "companyWeb": "https://www.comunidad.madrid/empleo/bolsas-unicas-permanentemente-abiertas",
+    "companyDesc": "Portal de tramitación y consulta de estado de aspirantes de la Bolsa Única de la CAM.",
+    "location": "Comunidad de Madrid",
+    "province": "Madrid",
+    "hours": "Sustituciones y vacantes temporales",
+    "contract": "Personal laboral temporal",
+    "salary": "1.550€ - 1.850€ Bruto/mes",
+    "publishDate": "Convocatoria Abierta",
+    "url": "https://www.comunidad.madrid/empleo/bolsas-unicas-permanentemente-abiertas",
+    "scrapedAt": "2026-09-03T17:03:48.488Z",
+    "source": "Bolsa Empleo Madrid",
+    "description": "Portal específico de gestión de bloques de bolsa abierta para la selección y contratación de personal laboral temporal en la categoría de Educador Infantil y personal de apoyo en centros públicos de la Comunidad de Madrid.",
+    "requirements": [
+      "Técnico Superior en Educación Infantil (TSEI) o equivalente.",
+      "Acreditación de méritos de experiencia y formación continuada.",
+      "Disponibilidad para sustituciones en la red asistencial de la Comunidad de Madrid."
+    ],
+    "certificationTags": [
+      "TSEI"
+    ],
+    "convenioInfo": {
+      "convenioName": "Convenio Colectivo de Enseñanza Privada / Infantil",
+      "applicableCategory": "Maestro/a de Educación Infantil (3-6 años)",
+      "referenceSalary": "Según convenio de enseñanza privada",
+      "stage": "3-6_años"
+    }
+  },
+  {
     "id": "bolsa-madrid-maestros-interinos-infantil",
     "title": "Bolsa de Docentes Interinos: Cuerpo de Maestros (Especialidad Infantil)",
     "companyName": "Comunidad de Madrid - Consejería de Educación, Ciencia y Universidades",
     "companyLogo": "https://www.comunidad.madrid/sites/default/files/logo_cam.png",
     "companyType": "Bolsa Pública Docente",
-    "companyWeb": "https://www.comunidad.madrid/servicios/educacion/profesorado-interino-2025-2026",
+    "companyWeb": "https://www.comunidad.madrid/educacion/profesorado-interino",
     "companyDesc": "Gestión y llamamientos de la lista de aspirantes a interinidad docente en centros públicos de la Comunidad de Madrid.",
     "location": "Comunidad de Madrid",
     "province": "Madrid",
@@ -3166,8 +3268,8 @@
     "contract": "Interino Docente",
     "salary": "2.100€ - 2.450€ Bruto/mes (según retribuciones docentes CAM)",
     "publishDate": "Curso 2026/2027",
-    "url": "https://www.comunidad.madrid/servicios/educacion/profesorado-interino-2025-2026",
-    "scrapedAt": "2026-09-02T22:51:26.672Z",
+    "url": "https://www.comunidad.madrid/educacion/profesorado-interino",
+    "scrapedAt": "2026-09-03T17:03:48.488Z",
     "source": "Bolsa Empleo Madrid",
     "description": "Listas de interinidad para puestos de Maestro/a de Educación Infantil (2º ciclo 3-6 años) en Colegios Públicos de Educación Infantil y Primaria (CEIP). Asignación de sustituciones y vacantes mediante la plataforma PADI.",
     "requirements": [
@@ -3191,7 +3293,7 @@
     "companyName": "Junta de Comunidades de Castilla-La Mancha (JCCM) - Toledo",
     "companyLogo": "https://empleopublico.castillalamancha.es/sites/all/themes/jccm_base/logo.png",
     "companyType": "Bolsa Pública / Personal Laboral",
-    "companyWeb": "https://empleopublico.castillalamancha.es/",
+    "companyWeb": "https://bolsasempleopublico.castillalamancha.es/",
     "companyDesc": "Servicio de Empleo Público de Castilla-La Mancha para escuelas infantiles y centros autonómicos en Toledo.",
     "location": "Toledo",
     "province": "Toledo",
@@ -3199,8 +3301,8 @@
     "contract": "Interinidad / Relevo temporal",
     "salary": "1.450€ - 1.700€ Bruto/mes (VIII Convenio Colectivo Personal Laboral JCCM)",
     "publishDate": "Convocatoria Activa",
-    "url": "https://empleopublico.castillalamancha.es/",
-    "scrapedAt": "2026-09-02T22:51:26.672Z",
+    "url": "https://bolsasempleopublico.castillalamancha.es/",
+    "scrapedAt": "2026-09-03T17:03:48.488Z",
     "source": "Bolsa Empleo Toledo",
     "description": "Bolsa de empleo autonómica para cubrir plazas temporales de Técnico/a Especialista en Jardín de Infancia (Grupo III) y Educador/a Infantil en las Escuelas Infantiles dependientes de la Junta en la provincia de Toledo y sedes comarcales (Talavera de la Reina, Illescas, Seseña).",
     "requirements": [
@@ -3221,11 +3323,11 @@
   },
   {
     "id": "bolsa-toledo-ayto-escuelas-infantiles",
-    "title": "Bolsa de Trabajo Municipal: Educadores y Técnicos de Escuelas Infantiles Municipales",
-    "companyName": "Ayuntamiento de Toledo / Patronato Municipal",
+    "title": "Bolsa de Trabajo Municipal: Técnicos y Educadores Infantiles (Plan Corresponsables / Escuelas)",
+    "companyName": "Ayuntamiento de Toledo / Concejalía de Asuntos Sociales y Familia",
     "companyLogo": "https://www.toledo.es/wp-content/themes/toledo/images/escudo.png",
     "companyType": "Bolsa Municipal",
-    "companyWeb": "https://www.toledo.es/servicios-municipales/empleo-publico/",
+    "companyWeb": "https://www.toledo.es/empleo_publico/proceso-selectivo-para-la-constitucion-de-una-bolsa-de-trabajo-de-tecnico-a-social-plan-corresponsables-subgrupo-a2-grupo-profesional-ii/",
     "companyDesc": "Convocatorias y bolsas de empleo público del Excmo. Ayuntamiento de Toledo.",
     "location": "Toledo (Ciudad y Pedanías)",
     "province": "Toledo",
@@ -3233,12 +3335,12 @@
     "contract": "Laboral temporal",
     "salary": "1.350€ - 1.600€ Bruto/mes (Convenio Personal Laboral Ayto. Toledo)",
     "publishDate": "Convocatoria Abierta",
-    "url": "https://www.toledo.es/servicios-municipales/empleo-publico/",
-    "scrapedAt": "2026-09-02T22:51:26.672Z",
+    "url": "https://www.toledo.es/empleo_publico/proceso-selectivo-para-la-constitucion-de-una-bolsa-de-trabajo-de-tecnico-a-social-plan-corresponsables-subgrupo-a2-grupo-profesional-ii/",
+    "scrapedAt": "2026-09-03T17:03:48.488Z",
     "source": "Bolsa Empleo Toledo",
-    "description": "Bolsa de trabajo para contrataciones temporales en las Escuelas Infantiles Municipales de Toledo (Ana María Matute y Gloria Fuertes). Labores de aula 0-3 años, estimulación psicomotriz, higiene infantil y proyectos lúdico-educativos.",
+    "description": "Proceso selectivo y constitución de bolsa de trabajo municipal para atención a la infancia, conciliación y dinamización familiar en Toledo. Intervención con menores de 0 a 14 años en espacios lúdicos y escuelas municipales.",
     "requirements": [
-      "Título de Grado en Educación Infantil o FP Técnico Superior en Educación Infantil (TSEI).",
+      "Título de Grado en Educación Infantil, Educación Social o FP Técnico Superior en Educación Infantil (TSEI).",
       "Abono de tasas de examen o justificante de exención.",
       "Certificado negativo de delitos de naturaleza sexual.",
       "Inscripción telemática mediante certificado digital en el Registro General del Ayuntamiento de Toledo."
@@ -3248,10 +3350,10 @@
       "Magisterio_Infantil"
     ],
     "convenioInfo": {
-      "convenioName": "Convenio Colectivo Estatal de Centros de Asistencia y Educación Infantil (0-3 años)",
-      "applicableCategory": "Educador/a Infantil (Grupo II)",
-      "referenceSalary": "1.200€ - 1.450€ Bruto/mes (según tablas actualizadas)",
-      "stage": "0-3_años"
+      "convenioName": "Convenio Colectivo de Enseñanza Privada / Infantil",
+      "applicableCategory": "Maestro/a de Educación Infantil (3-6 años)",
+      "referenceSalary": "Según convenio de enseñanza privada",
+      "stage": "3-6_años"
     }
   }
 ]

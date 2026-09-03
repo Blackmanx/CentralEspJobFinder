@@ -16,5 +16,8 @@ lerna-debug.log*
 
 # local database and uploaded curriculum files
 user_states.json
+public/data/jobs.json
+public/data/user_states.json
 public/data/global_cv.bin
 public/data/global_cv_meta.json
+public/data/email_ratelimit.json

@@ -140,16 +140,6 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
       <!-- Main Body -->
       <div style="padding: 24px;">
 
-        <!-- Section 0: Bolsas de Empleo Oficiales (Madrid y Toledo) -->
-        ${bolsasJobs.length > 0 ? `
-          <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 16px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 6px; margin-bottom: 14px;">
-              🏛️ Bolsas de Empleo Público Oficiales (Madrid y Toledo) (${bolsasJobs.length})
-            </h2>
-            ${bolsasJobs.map(formatCard).join('')}
-          </div>
-        ` : ''}
-        
         <!-- Section 1: TSEI (0-3) -->
         <div style="margin-bottom: 28px;">
           <h2 style="font-size: 16px; color: #0369a1; border-bottom: 2px solid #bae6fd; padding-bottom: 6px; margin-bottom: 14px;">
@@ -168,11 +158,21 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
         <!-- Section 3: Otras plazas infantiles y colegios -->
         ${otherInfantil.length > 0 ? `
-          <div style="margin-bottom: 24px;">
+          <div style="margin-bottom: 28px;">
             <h2 style="font-size: 16px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 6px; margin-bottom: 14px;">
               📚 Otras Ofertas en Colegios y Escuelas Infantiles (${otherInfantil.length})
             </h2>
             ${otherInfantil.slice(0, 10).map(formatCard).join('')}
+          </div>
+        ` : ''}
+
+        <!-- Section 4: Bolsas de Empleo Oficiales (Madrid y Toledo) - Al final del correo -->
+        ${bolsasJobs.length > 0 ? `
+          <div style="margin-bottom: 24px;">
+            <h2 style="font-size: 16px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 6px; margin-bottom: 14px;">
+              🏛️ Bolsas de Empleo Público Oficiales (Madrid y Toledo) (${bolsasJobs.length})
+            </h2>
+            ${bolsasJobs.map(formatCard).join('')}
           </div>
         ` : ''}
 

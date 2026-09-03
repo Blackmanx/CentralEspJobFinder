@@ -19,42 +19,73 @@ export const clean = (text: string): string => {
     .trim();
 };
 
+import * as cheerio from 'cheerio';
+
 export async function validateLink(url: string, source: string): Promise<boolean> {
   try {
     const response = await axios.get(url, {
       headers: {
-        'User-Agent': getRandomUserAgent()
+        'User-Agent': getRandomUserAgent(),
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'es-ES,es;q=0.9'
       },
-      timeout: 7000,
+      timeout: 8000,
       validateStatus: () => true
     });
 
-    if (response.status === 404) {
+    // Check HTTP status code
+    if (response.status === 404 || response.status === 410) {
       return false;
     }
 
-    if ((source === 'Indeed' || source === 'Infojobs') && (response.status === 403 || response.status === 400)) {
+    // Platforms with anti-bot shields: allow 403/400 if bot detected
+    if ((source === 'Indeed' || source === 'Infojobs') && (response.status === 403 || response.status === 400 || response.status === 401)) {
       return true;
     }
 
     const html = response.data;
     if (typeof html === 'string') {
-      const lowerHtml = html.toLowerCase();
-      const closedIndicators = [
-        'error 404',
+      const $ = cheerio.load(html);
+      const title = $('title').text().toLowerCase();
+      const h1 = $('h1').text().toLowerCase();
+      const bodyText = $('body').text().toLowerCase().replace(/\s+/g, ' ');
+
+      // Check for 404 in HTML Title or Heading (avoids false positives in script tags)
+      const notFoundKeywords = [
+        '404',
         'página no encontrada',
+        'pagina no encontrada',
+        'not found',
+        'página no existe',
+        'pagina no existe',
+        'recurso no encontrado'
+      ];
+
+      for (const kw of notFoundKeywords) {
+        if (title.includes(kw) || h1.includes(kw)) {
+          return false;
+        }
+      }
+
+      // Check for closed or expired job listings
+      const closedIndicators = [
         'oferta no disponible',
         'oferta caducada',
         'ya no está disponible',
+        'esta oferta ha caducado',
+        'el contenido solicitado no existe',
         'convocatoria cerrada',
-        'proceso finalizado'
+        'el proceso ha finalizado',
+        'plazo de solicitud cerrado'
       ];
+
       for (const indicator of closedIndicators) {
-        if (lowerHtml.includes(indicator)) {
+        if (title.includes(indicator) || h1.includes(indicator) || bodyText.includes(indicator)) {
           return false;
         }
       }
     }
+
     return true;
   } catch (error) {
     console.error(`Error al validar link ${url}:`, error instanceof Error ? error.message : error);

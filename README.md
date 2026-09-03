@@ -1,6 +1,6 @@
-# CentralEspJobFinder
+# JobCrawling
 
-CentralEspJobFinder es una plataforma web inteligente y automatizada para la agregación, filtrado y gestión de ofertas de empleo docente en la Comunidad de Madrid y provincias colindantes (Segovia, Ávila y Castilla-La Mancha). El sistema cuenta con filtros estrictos de idoneidad, soporte para bilingüismo (exclusión de requisitos de inglés nivel C2 no alternativos), optimización asistida por IA de currículums (con anonimización local de datos personales) y automatización de candidaturas.
+JobCrawling es una plataforma web inteligente y automatizada para la agregación, filtrado y gestión de ofertas de empleo docente, técnico de educación infantil y bolsas de empleo oficiales en la Comunidad de Madrid, Toledo y provincias colindantes. El sistema cuenta con filtros estrictos de idoneidad, soporte para bilingüismo, notificaciones automáticas por correo SMTP, optimización asistida por IA de currículums (con anonimización local de datos personales) y sincronización con servidor / Raspberry Pi.
 
 ---
 

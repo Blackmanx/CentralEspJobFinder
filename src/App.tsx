@@ -616,7 +616,7 @@ export default function App() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>
-              CentralEspJobFinder
+              JobCrawling
             </h2>
           </div>
           <span style={{ 
@@ -630,10 +630,10 @@ export default function App() {
             display: 'inline-block',
             marginTop: '6px'
           }}>
-            Madrid y Alrededores
+            Madrid, Toledo y Alrededores
           </span>
           <p style={{ marginTop: '12px' }}>
-            Gestión local de ofertas de empleo docente en centros privados y concertados.
+            Gestión local de ofertas de empleo docente, infantil y bolsas públicas.
           </p>
         </div>
 

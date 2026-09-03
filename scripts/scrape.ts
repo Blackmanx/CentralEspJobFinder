@@ -41,8 +41,8 @@ function filterGeographicArea(job: ScrapedJob): boolean {
 
 export async function runAllScrapers() {
   console.log('===========================================================');
-  console.log('CentralEspJobFinder - Multi-Source Scraping Engine (v2.0)');
-  console.log('Target: Vacantes Docentes y Técnico de Educación Infantil');
+  console.log('JobCrawling - Multi-Source Scraping Engine (v2.0)');
+  console.log('Target: Vacantes Docentes, Técnico Infantil y Bolsas de Empleo');
   console.log('===========================================================\n');
 
   try {

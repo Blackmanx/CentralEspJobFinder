@@ -22,7 +22,7 @@ function getEmailConfig(): EmailConfig {
   const smtpSecure = process.env.SMTP_SECURE === 'true' || smtpPort === 465;
   const smtpUser = process.env.SMTP_USER || '';
   const smtpPass = process.env.SMTP_PASS || '';
-  const emailFrom = process.env.EMAIL_FROM || smtpUser || 'centralesp-jobfinder@noreply.com';
+  const emailFrom = process.env.EMAIL_FROM || smtpUser || 'jobcrawling@noreply.com';
   const emailTo = process.env.EMAIL_TO || process.env.DEFAULT_RECIPIENT_EMAIL || '';
 
   return {
@@ -101,16 +101,16 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   <html>
   <head>
     <meta charset="utf-8">
-    <title>Resumen de Ofertas de Empleo - CentralEspJobFinder</title>
+    <title>Resumen de Ofertas de Empleo - JobCrawling</title>
   </head>
   <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 24px; color: #1e293b;">
     <div style="max-width: 680px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
       
       <!-- Header -->
       <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 28px 24px; color: #ffffff; text-align: center;">
-        <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">CentralEspJobFinder</h1>
+        <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">JobCrawling</h1>
         <p style="margin: 6px 0 0 0; font-size: 14px; color: #94a3b8;">
-          Boletín de Ofertas: Educación Infantil, TSEI, Monitores y Ocio
+          Boletín de Ofertas: Educación Infantil, TSEI, Bolsas Oficiales y Monitores
         </p>
         <div style="margin-top: 14px; display: inline-block; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #e2e8f0;">
           📅 ${new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -180,8 +180,8 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
       <!-- Footer -->
       <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 24px; font-size: 12px; color: #94a3b8; text-align: center;">
-        <p style="margin: 0 0 6px 0;">Este correo fue generado automáticamente por CentralEspJobFinder en Raspberry Pi / Servidor Local.</p>
-        <p style="margin: 0;">Destinatario configurado: <strong>${recipientEmail}</strong></p>
+        <p style="margin: 0 0 6px 0;">Este correo fue generado automáticamente por JobCrawling en Raspberry Pi / Servidor Local.</p>
+        <p style="margin: 0;">Destinatario(s): <strong>${recipientEmail}</strong></p>
       </div>
 
     </div>
@@ -192,9 +192,9 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
 export async function sendJobsEmail(customRecipient?: string): Promise<{ success: boolean; message: string }> {
   const config = getEmailConfig();
-  const recipient = customRecipient || config.emailTo;
+  const rawRecipient = customRecipient || config.emailTo;
 
-  if (!recipient) {
+  if (!rawRecipient) {
     throw new Error('No se ha especificado un email destinatario. Configura EMAIL_TO en .env o pásalo como argumento: --to tu_email@dominio.com');
   }
 
@@ -202,11 +202,14 @@ export async function sendJobsEmail(customRecipient?: string): Promise<{ success
     throw new Error('Faltan credenciales SMTP (SMTP_USER / SMTP_PASS) en el archivo .env.');
   }
 
+  // Support multiple recipients separated by comma or semicolon
+  const recipients = rawRecipient.split(/[,;]+/).map(r => r.trim()).filter(Boolean);
+
   const jobsPath = path.join(process.cwd(), 'public/data/jobs.json');
   const fileContent = await fs.readFile(jobsPath, 'utf-8');
   const jobs: Job[] = JSON.parse(fileContent);
 
-  console.log(`Preparando envío de correo para ${jobs.length} ofertas a: ${recipient}...`);
+  console.log(`Preparando envío de correo para ${jobs.length} ofertas a: ${recipients.join(', ')}...`);
 
   const transporter = nodemailer.createTransport({
     host: config.smtpHost,
@@ -218,35 +221,41 @@ export async function sendJobsEmail(customRecipient?: string): Promise<{ success
     }
   });
 
-  const htmlContent = generateEmailHtml(jobs, recipient);
   const tseiCount = jobs.filter(j => j.certificationTags?.includes('TSEI')).length;
   const monitorCount = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio')).length;
   const subject = `Boletín Diario de Empleo Infantil y TSEI: ${tseiCount} vacantes 0-3 y ${monitorCount} monitores`;
 
-  // Provide high quality plain text alternative to score high on anti-spam filters
-  const textAlternative = `Boletín de Ofertas CentralEspJobFinder
+  const sentIds: string[] = [];
+
+  for (const recipient of recipients) {
+    const htmlContent = generateEmailHtml(jobs, recipient);
+
+    const textAlternative = `Boletín de Ofertas JobCrawling
 Resumen de Empleo: ${tseiCount} vacantes TSEI / 0-3 años y ${monitorCount} puestos de Monitores y Ocio.
 
 Visita la plataforma o consulta la versión HTML del mensaje para ver los enlaces directos de inscripción y los convenios colectivos aplicables.
 
 Destinatario: ${recipient}
-CentralEspJobFinder`;
+JobCrawling`;
 
-  const info = await transporter.sendMail({
-    from: `"CentralEsp JobFinder" <${config.emailFrom}>`,
-    to: recipient,
-    subject,
-    text: textAlternative,
-    html: htmlContent,
-    headers: {
-      'List-Unsubscribe': `<mailto:${config.emailFrom}?subject=unsubscribe>`,
-      'X-Entity-Ref-ID': Date.now().toString(),
-      'Precedence': 'bulk'
-    }
-  });
+    const info = await transporter.sendMail({
+      from: `"JobCrawling" <${config.emailFrom}>`,
+      to: recipient,
+      subject,
+      text: textAlternative,
+      html: htmlContent,
+      headers: {
+        'List-Unsubscribe': `<mailto:${config.emailFrom}?subject=unsubscribe>`,
+        'X-Entity-Ref-ID': Date.now().toString(),
+        'Precedence': 'bulk'
+      }
+    });
 
-  console.log(`✅ Correo enviado exitosamente (ID: ${info.messageId})`);
-  return { success: true, message: `Correo enviado a ${recipient} con ID: ${info.messageId}` };
+    console.log(`✅ Correo enviado exitosamente a ${recipient} (ID: ${info.messageId})`);
+    sentIds.push(info.messageId);
+  }
+
+  return { success: true, message: `Correo enviado a ${recipients.join(', ')} con IDs: ${sentIds.join(', ')}` };
 }
 
 // CLI execution handling

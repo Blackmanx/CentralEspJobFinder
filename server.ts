@@ -21,7 +21,19 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, callback) => {
+    const allowedMimeTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const allowedExtensions = /\.(pdf|docx)$/i;
+    if (allowedMimeTypes.includes(file.mimetype) && allowedExtensions.test(file.originalname)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Formato de archivo no soportado. Por favor, sube un archivo PDF o DOCX.'));
+    }
+  }
+});
 
 // Helper to locally anonymize CV text before sending it to the Gemini API
 const anonymizeText = (text: string): string => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { ScrapedJob } from './types';
-import { clean, getRandomUserAgent } from './utils';
+import { clean, getRandomUserAgent, normalizeUrl } from './utils';
 
 // Specific high-yield search terms for Técnico de Educación Infantil, Monitores and Childhood Education
 const SEARCH_QUERIES = [
@@ -20,20 +20,17 @@ const SEARCH_QUERIES = [
   'monitor ruta escolar'
 ];
 
-const REGIONS_CONFIG = [
-  { name: 'Madrid', provinceParam: 'provinceIds=33' },
-  { name: 'Toledo', provinceParam: 'provinceIds=48' }
-];
+const REGIONS_CONFIG = [{ name: 'España', provinceParam: '' }];
 
 export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
-  console.log('=== [Infojobs] Iniciando extracción de vacantes específicas de Infantil (Madrid y Toledo) ===');
+  console.log('=== [Infojobs] Iniciando extracción nacional de vacantes de Infantil ===');
   const results: ScrapedJob[] = [];
   const seenUrls = new Set<string>();
 
   for (const region of REGIONS_CONFIG) {
     for (const query of SEARCH_QUERIES) {
       const encoded = encodeURIComponent(query);
-      const searchUrl = `https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword=${encoded}&${region.provinceParam}`;
+      const searchUrl = `https://www.infojobs.net/jobsearch/search-results/list.xhtml?keyword=${encoded}${region.provinceParam ? `&${region.provinceParam}` : ''}`;
 
       try {
         console.log(`[Infojobs - ${region.name}] Buscando: "${query}"...`);
@@ -52,7 +49,7 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
         let href = $(el).attr('href');
         if (!href) return;
         if (href.startsWith('//')) href = 'https:' + href;
-        const cleanUrl = href.split('?')[0];
+        const cleanUrl = normalizeUrl(href);
         if (seenUrls.has(cleanUrl)) return;
         seenUrls.add(cleanUrl);
 
@@ -65,6 +62,11 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
         if (nonEducationalKeywords.some(kw => lowerTitle.includes(kw))) {
           return;
         }
+        const infantWorkKeywords = [
+          'infantil', 'educa', 'tsei', 'monitor', 'ocio', 'comedor', 'extraescolar',
+          'ludoteca', 'animad', 'guarder', 'casal', 'maestr', 'profesor', 'kids', 'camp'
+        ];
+        if (!infantWorkKeywords.some(keyword => lowerTitle.includes(keyword))) return;
 
         // Container lookup for metadata
         const card = $(el).closest('.ij-OfferCardContent-description, [class*="OfferCardContent"]');
@@ -82,9 +84,9 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
         });
 
         // Determine location and contract from tokens
-        let location = 'Madrid';
+        let location = 'España';
         for (const token of metaTokens) {
-          if (token.toLowerCase().includes('madrid') || token.toLowerCase().includes('rozas') || token.toLowerCase().includes('alcobendas') || token.toLowerCase().includes('getafe') || token.toLowerCase().includes('alcorcón') || token.toLowerCase().includes('leganés')) {
+          if (/españa|madrid|barcelona|valencia|sevilla|bilbao|zaragoza|alicante|málaga|malaga|islas|canarias|castilla|galicia|asturias|navarra|rioja|cantabria|aragón|aragon|murcia|extremadura|andalucía|andalucia|país vasco|pais vasco|baleares|comunidad valenciana/i.test(token)) {
             location = token;
             break;
           }
@@ -120,15 +122,15 @@ export async function scrapeInfojobs(): Promise<ScrapedJob[]> {
           title,
           companyName,
           companyType,
-          location: region.name === 'Toledo' && location === 'Madrid' ? 'Toledo' : location,
-          province: region.name,
+          location,
+          province: location,
           hours,
           contract,
           url: cleanUrl,
           publishDate: 'Reciente',
           scrapedAt: new Date().toISOString(),
           source: 'Infojobs',
-          description: `Oferta activa publicada en InfoJobs para el puesto de ${title}. Puesto orientado a la atención educativa, dinamización o cuidado infantil en ${region.name}. Revisa los detalles y postúlate directamente en el enlace oficial.`,
+          description: `Oferta activa publicada en InfoJobs para el puesto de ${title}. Puesto orientado a la atención educativa, dinamización o cuidado infantil en España. Revisa los detalles y postúlate directamente en el enlace oficial.`,
           requirements
         });
       });

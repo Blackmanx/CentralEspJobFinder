@@ -1,16 +1,12 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { ScrapedJob } from './types';
-import { clean, delay, getRandomUserAgent } from './utils';
+import { clean, delay, getRandomUserAgent, normalizeUrl, validateLink } from './utils';
 
 const BASE_URL = 'https://www.colejobs.es';
-const TARGET_REGIONS = [
-  'madrid',
-  'segovia',
-  'avila',
-  'toledo',
-  'guadalajara'
-];
+// The unfiltered, paginated listing covers every Spanish province and is
+// fresher than some of the regional archive pages.
+const TARGET_REGIONS = ['all'];
 
 async function scrapeJobDetails(jobUrl: string): Promise<Partial<ScrapedJob>> {
   try {
@@ -108,7 +104,7 @@ export async function scrapeColejobs(): Promise<ScrapedJob[]> {
   const seenUrls = new Set<string>();
 
   for (const region of TARGET_REGIONS) {
-    const regionUrl = `${BASE_URL}/ofertas-de-empleo/${region}/`;
+    const regionUrl = region === 'all' ? `${BASE_URL}/ofertas-de-empleo/` : `${BASE_URL}/ofertas-de-empleo/${region}/`;
     try {
       console.log(`[Colejobs] Explorando región: ${regionUrl}`);
       const response = await axios.get(regionUrl, {
@@ -144,7 +140,7 @@ export async function scrapeColejobs(): Promise<ScrapedJob[]> {
           const a = page$(article).find('a').first();
           const href = a.attr('href');
           if (href && href.includes('ofertas-de-empleo/')) {
-            const fullJobUrl = href.startsWith('http') ? href : `${BASE_URL}/${href}`;
+            const fullJobUrl = normalizeUrl(href.startsWith('http') ? href : `${BASE_URL}/${href}`);
             if (seenUrls.has(fullJobUrl)) return;
 
             const title = clean(page$(article).find('h3').text());
@@ -194,6 +190,18 @@ export async function scrapeColejobs(): Promise<ScrapedJob[]> {
   }
 
   console.log(`[Colejobs] Encontradas ${jobListings.length} ofertas en los listados.`);
+
+  // Check listing URLs before doing detail requests. Colejobs retires old
+  // postings while leaving their slugs in some regional pagination pages.
+  const validListings: ScrapedJob[] = [];
+  for (let i = 0; i < jobListings.length; i += 8) {
+    const batch = jobListings.slice(i, i + 8);
+    const checks = await Promise.all(batch.map(job => validateLink(job.url, 'Colejobs')));
+    batch.forEach((job, index) => { if (checks[index]) validListings.push(job); });
+  }
+  jobListings.length = 0;
+  jobListings.push(...validListings);
+  console.log(`[Colejobs] ${jobListings.length} fichas directas accesibles antes de enriquecer.`);
 
   // Enrich details with politeness delay for top jobs (especially priority early childhood & recent offers)
   const detailedJobs: ScrapedJob[] = [];

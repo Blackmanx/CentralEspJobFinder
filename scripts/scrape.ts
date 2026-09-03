@@ -6,8 +6,12 @@ import { scrapeColejobs } from './scrapers/colejobs';
 import { scrapeInfojobs } from './scrapers/infojobs';
 import { scrapeIndeed } from './scrapers/indeed';
 import { scrapeInfoempleo } from './scrapers/infoempleo';
-import { scrapeBolsasEmpleo } from './scrapers/bolsas';
 import { scrapeUnedBici } from './scrapers/uned';
+import { scrapeColegios } from './scrapers/colegios';
+import { scrapeAdministracionPublica } from './scrapers/administracionPublica';
+import { scrapeMadrid } from './scrapers/madrid';
+import { scrapeSNE } from './scrapers/sne';
+import { isConcreteJobUrl, normalizeUrl, validateLink } from './scrapers/utils';
 
 const DATA_DIR = path.join(process.cwd(), 'public', 'data');
 const DATA_FILE = path.join(DATA_DIR, 'jobs.json');
@@ -21,43 +25,37 @@ function filterC2Requirement(job: ScrapedJob): boolean {
     return true; // No C2 mentioned, keep
   }
 
-  // If C2 is mentioned, check if C1 or B2 or native alternative is also acceptable
-  const admitsAlternatives = fullText.includes('c1') || fullText.includes('b2') || fullText.includes('o superior') || fullText.includes('valorable');
+  // If C2 is mentioned, keep only explicit equivalent alternatives.
+  const admitsAlternatives = /\bc1\b|\bb2\b|nivel nativo|nativo|cualquiera de los niveles|o superior/.test(fullText);
   return admitsAlternatives;
-}
-
-// Ensure geography belongs to central Spain regions
-function filterGeographicArea(job: ScrapedJob): boolean {
-  const allowedKeywords = [
-    'madrid', 
-    'segovia', 'avila', 'ávila', 
-    'toledo', 'guadalajara', 'cuenca', 'ciudad real', 'albacete', 
-    'castilla la mancha', 'castilla-la mancha'
-  ];
-
-  const loc = `${job.location || ''} ${job.province || ''}`.toLowerCase();
-  if (!loc.trim()) return true; // If unspecified, preserve
-  return allowedKeywords.some(kw => loc.includes(kw));
 }
 
 // Strict filter to exclude international jobs (e.g. Germany, Ireland, UK, etc.)
 function filterExcludeForeignCountries(job: ScrapedJob): boolean {
-  const fullText = `${job.title} ${job.description || ''} ${(job.requirements || []).join(' ')} ${job.location || ''} ${job.province || ''}`.toLowerCase();
+  // Inspect only job title and geographic fields. Requirements/descriptions
+  // can legitimately mention English, France, Germany, etc. as subjects or
+  // languages while the workplace is in Spain.
+  const locationText = `${job.title} ${job.location || ''} ${job.province || ''}`.toLowerCase();
   const foreignKeywords = [
     'alemania', 'germany', 'deutschland', 
     'irlanda', 'ireland', 'dublin', 'dublín',
     'reino unido', 'united kingdom', 'uk', 'londres', 'london',
-    'francia', 'france', 'holanda', 'países bajos', 'netherlands'
+    'francia', 'france', 'holanda', 'países bajos', 'netherlands',
+    'italia', 'italy', 'portugal', 'belgica', 'bélgica', 'suiza', 'switzerland',
+    'polonia', 'poland', 'paises nordicos', 'escandinavia'
   ];
 
-  const isForeign = foreignKeywords.some(kw => fullText.includes(kw));
+  const isForeign = foreignKeywords.some(kw => {
+    const expression = kw === 'uk' ? /(^|[^a-záéíóúüñ])uk([^a-záéíóúüñ]|$)/i : new RegExp(kw, 'i');
+    return expression.test(locationText);
+  });
   return !isForeign;
 }
 
 // Strict date filter: Exclude commercial offers published more than 3 weeks ago (21 days)
 // (UNED BICI research contracts already manage their own 3-4 months quarterly window)
 function filterRecentDate(job: ScrapedJob): boolean {
-  if (job.source?.includes('UNED')) return true;
+  if (job.source?.includes('UNED') || job.source?.includes('Administración') || job.source?.includes('Oficina Virtual')) return true;
   // If no date or marked as Reciente / Convocatoria / Curso, keep it
   if (!job.publishDate) return true;
   const pDateLower = job.publishDate.toLowerCase();
@@ -121,19 +119,24 @@ export async function runAllScrapers() {
     // 1. Scrape Colejobs (Educational portal)
     const colejobsList = await scrapeColejobs();
 
-    // 2. Scrape Infojobs (Focus on Técnico de Educación Infantil / Primer Ciclo en Madrid y Toledo)
+    // 2. Scrape Infojobs nationwide (direct offer URLs only)
     const infojobsList = await scrapeInfojobs();
 
-    // 3. Scrape Indeed (Targeted TSEI / 0-3 verified vacancies en Madrid y Toledo)
+    // 3. Indeed is intentionally empty while its anti-bot response prevents verification
     const indeedList = await scrapeIndeed();
 
-    // 4. Scrape Infoempleo (Teaching & support vacancies)
+    // 4. Infoempleo is intentionally empty while its SEO pages do not expose stable details
     const infoempleoList = await scrapeInfoempleo();
 
-    // 5. Scrape Official Educational & Childhood Job Banks (Bolsas de Empleo Madrid y Toledo)
-    const bolsasList = await scrapeBolsasEmpleo();
+    // 5. Official, concrete public calls and current Madrid employment offers
+    const administracionList = await scrapeAdministracionPublica();
+    const madridList = await scrapeMadrid();
+    const sneList = await scrapeSNE();
 
-    // 6. Scrape UNED BICI (Research contracts on early childhood & education)
+    // 6. Nationwide private/concerted early-childhood vacancies
+    const colegiosList = await scrapeColegios();
+
+    // 7. UNED BICI (research contracts on early childhood & education)
     const unedList = await scrapeUnedBici();
 
     // Combine all sources
@@ -142,7 +145,10 @@ export async function runAllScrapers() {
       ...indeedList,
       ...colejobsList,
       ...infoempleoList,
-      ...bolsasList,
+      ...administracionList,
+      ...madridList,
+      ...sneList,
+      ...colegiosList,
       ...unedList
     ];
 
@@ -153,7 +159,8 @@ export async function runAllScrapers() {
     const deduplicated: ScrapedJob[] = [];
 
     for (const job of allScraped) {
-      const cleanUrl = job.url.split('?')[0].toLowerCase();
+      if (!isConcreteJobUrl(job.url, job.source || '')) continue;
+      const cleanUrl = normalizeUrl(job.url).toLowerCase();
       const titleKey = `${job.title.toLowerCase().trim()}_${job.companyName.toLowerCase().trim()}`;
       
       if (seenMap.has(cleanUrl) || seenMap.has(titleKey)) {
@@ -165,15 +172,22 @@ export async function runAllScrapers() {
       deduplicated.push(job);
     }
 
-    // Apply strict quality filters (Geographic, No Foreign/Alemania/Irlanda, Max 3 weeks, & English C2)
-    const filteredJobs = deduplicated
-      .filter(filterGeographicArea)
+    // Apply strict quality filters (Spain, freshness, and English C2 requirements)
+    const eligibleJobs = deduplicated
       .filter(filterExcludeForeignCountries)
       .filter(filterRecentDate)
-      .filter(filterC2Requirement)
-      .map(classifyAndEnrichJob);
+      .filter(filterC2Requirement);
 
-    console.log(`Total ofertas tras deduplicación y filtros de idoneidad: ${filteredJobs.length}`);
+    // Final gate: every published URL must be a reachable concrete detail page.
+    const verifiedJobs: ScrapedJob[] = [];
+    for (let i = 0; i < eligibleJobs.length; i += 8) {
+      const batch = eligibleJobs.slice(i, i + 8);
+      const checks = await Promise.all(batch.map(job => validateLink(job.url, job.source || 'Fuente')));
+      batch.forEach((job, index) => { if (checks[index]) verifiedJobs.push(job); });
+    }
+    const filteredJobs = verifiedJobs.map(classifyAndEnrichJob);
+
+    console.log(`Total ofertas tras deduplicación, filtros y validación de enlaces: ${filteredJobs.length}`);
 
     // Write final dataset
     await fs.writeFile(DATA_FILE, JSON.stringify(filteredJobs, null, 2), 'utf-8');

@@ -37,6 +37,13 @@ function getEmailConfig(): EmailConfig {
 }
 
 export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
+  const escapeHtml = (value: unknown): string => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
   const total = jobs.length;
   const tseiJobs = jobs.filter(j => j.certificationTags?.includes('TSEI'));
   const monitorJobs = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio'));
@@ -52,8 +59,22 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   );
 
   const formatCard = (job: Job) => {
+    const source = escapeHtml(job.source || 'Portal');
+    const url = escapeHtml(job.url);
+    const title = escapeHtml(job.title);
+    const companyName = escapeHtml(job.companyName);
+    const companyType = escapeHtml(job.companyType || '');
+    const location = escapeHtml(job.location || 'España');
+    const hours = escapeHtml(job.hours || 'Jornada completa');
+    const salary = escapeHtml(job.salary || 'Según convenio');
+    const publishDate = escapeHtml(job.publishDate || 'Reciente');
+    const convenio = job.convenioInfo ? {
+      name: escapeHtml(job.convenioInfo.convenioName),
+      category: escapeHtml(job.convenioInfo.applicableCategory || ''),
+      referenceSalary: escapeHtml(job.convenioInfo.referenceSalary || '')
+    } : null;
     const badges = [
-      job.source ? `<span style="background-color: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">${job.source}</span>` : '',
+      job.source ? `<span style="background-color: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">${source}</span>` : '',
       job.certificationTags?.map(t => {
         const label = t === 'TSEI' ? 'FP TSEI' : t === 'Monitor_Ocio' ? 'Monitor Ocio' : t === 'Magisterio_Infantil' ? 'Grado Infantil' : 'Auxiliar';
         const color = t === 'TSEI' ? '#0284c7; background-color: #e0f2fe' : t === 'Monitor_Ocio' ? '#c2410c; background-color: #ffedd5' : '#4f46e5; background-color: #ede9fe';
@@ -61,11 +82,11 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
       }).join(' ') || ''
     ].filter(Boolean).join(' ');
 
-    const convenioBlock = job.convenioInfo ? `
+    const convenioBlock = convenio ? `
       <div style="margin-top: 6px; padding: 6px 10px; background-color: #f8fafc; border-left: 3px solid #0284c7; font-size: 11px; color: #475569; border-radius: 0 4px 4px 0;">
-        <strong>Convenio:</strong> ${job.convenioInfo.convenioName}
-        ${job.convenioInfo.applicableCategory ? ` | <strong>Cat:</strong> ${job.convenioInfo.applicableCategory}` : ''}
-        ${job.convenioInfo.referenceSalary ? ` | <strong>Baremación:</strong> ${job.convenioInfo.referenceSalary}` : ''}
+        <strong>Convenio:</strong> ${convenio.name}
+        ${convenio.category ? ` | <strong>Cat:</strong> ${convenio.category}` : ''}
+        ${convenio.referenceSalary ? ` | <strong>Baremación:</strong> ${convenio.referenceSalary}` : ''}
       </div>
     ` : '';
 
@@ -75,23 +96,23 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
           ${badges}
         </div>
         <h3 style="margin: 0 0 3px 0; font-size: 15px; color: #0f172a;">
-          <a href="${job.url}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
-            ${job.title} &rarr;
+          <a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: none; font-weight: 600;">
+            ${title} &rarr;
           </a>
         </h3>
         <p style="margin: 0 0 6px 0; font-size: 12px; color: #64748b;">
-          <strong>${job.companyName}</strong> ${job.companyType ? `• <em>${job.companyType}</em>` : ''}
+          <strong>${companyName}</strong> ${job.companyType ? `• <em>${companyType}</em>` : ''}
         </p>
         <div style="font-size: 11px; color: #334155; margin-bottom: 6px;">
-          📍 ${job.location || 'Madrid'} &nbsp;|&nbsp; 
-          ⏱️ ${job.hours || 'Jornada completa'} &nbsp;|&nbsp; 
-          💶 ${job.salary || 'Según convenio'} &nbsp;|&nbsp; 
-          📅 ${job.publishDate || 'Reciente'}
+          📍 ${location} &nbsp;|&nbsp;
+          ⏱️ ${hours} &nbsp;|&nbsp;
+          💶 ${salary} &nbsp;|&nbsp;
+          📅 ${publishDate}
         </div>
         ${convenioBlock}
         <div style="margin-top: 8px; text-align: right;">
-          <a href="${job.url}" target="_blank" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 5px; text-decoration: none;">
-            Ver y Postular en ${job.source || 'Portal'} &raquo;
+          <a href="${url}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 5px; text-decoration: none;">
+            Ver y Postular en ${source} &raquo;
           </a>
         </div>
       </div>
@@ -206,7 +227,7 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
       <!-- Footer -->
       <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 20px; font-size: 11px; color: #94a3b8; text-align: center;">
         <p style="margin: 0 0 4px 0;">Este resumen fue generado automáticamente por JobCrawling.</p>
-        <p style="margin: 0 0 6px 0;">Destinatario: <strong>${recipientEmail}</strong></p>
+        <p style="margin: 0 0 6px 0;">Destinatario: <strong>${escapeHtml(recipientEmail)}</strong></p>
         <p style="margin: 0;"><a href="https://jobcrawling.sajl.cc" style="color: #0284c7; text-decoration: none; font-weight: 600;">Acceder a JobCrawling Portal Web</a></p>
       </div>
 

@@ -9,6 +9,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "scrape": "tsx scripts/scrape.ts",
+    "validate:links": "tsx scripts/validate-links.ts",
     "notify:email": "tsx scripts/emailNotifier.ts",
     "scrape:email": "tsx scripts/scrape.ts && tsx scripts/emailNotifier.ts"
   },

@@ -78,6 +78,7 @@ export async function scrapeUnedBici(): Promise<ScrapedJob[]> {
         if (!href || !href.includes('bici') || !href.includes('.htm')) return;
 
         const lower = text.toLowerCase();
+        if (/designa|candidata elegida|candidato elegido|resoluci[oó]n de adjudicaci[oó]n/.test(lower)) return;
         // Target keywords on early childhood, education, literacy, children
         const isEducationOrInfancy =
           lower.includes('educa') ||

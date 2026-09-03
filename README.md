@@ -1,16 +1,13 @@
 # JobCrawling
 
-JobCrawling es una plataforma web inteligente y automatizada para la agregación, filtrado y gestión de ofertas de empleo docente, técnico de educación infantil y bolsas de empleo oficiales en la Comunidad de Madrid, Toledo y provincias colindantes. El sistema cuenta con filtros estrictos de idoneidad, soporte para bilingüismo, notificaciones automáticas por correo SMTP, optimización asistida por IA de currículums (con anonimización local de datos personales) y sincronización con servidor / Raspberry Pi.
+JobCrawling es una plataforma web inteligente y automatizada para la agregación, filtrado y gestión de ofertas de empleo docente, técnico de educación infantil, monitor y bolsas de empleo oficiales en toda España. Incluye fuentes privadas, concertadas y oficiales, con cobertura reforzada de Madrid y Castilla-La Mancha. El sistema cuenta con filtros estrictos de idoneidad, verificación de enlaces de detalle, notificaciones automáticas por correo SMTP, optimización asistida por IA de currículums (con anonimización local de datos personales) y sincronización con servidor / Raspberry Pi.
 
 ---
 
 ## Características Principales
 
 ### 1. Agregador de Vacantes Multi-Fuente
-El motor de scraping de la plataforma indexa y unifica ofertas procedentes de tres portales de empleo diferenciados:
-* **Colejobs**: Portal especializado en educación privada y concertada.
-* **Indeed**: Plataforma generalista enfocada a vacantes en centros infantiles (primer ciclo 0-3 años).
-* **Escuelas Católicas**: Bolsa de empleo docente de centros concertados religiosos y diocesanos.
+El motor indexa ofertas de InfoJobs, Colejobs, Colegios.es, el Sistema Nacional de Empleo y la Oficina Virtual de Empleo de Madrid. También consulta convocatorias de Administración Pública y UNED BICI cuando hay fichas vigentes y accesibles. JobToday e Indeed no se publican mientras su protección anti-bot impida verificar el detalle para un usuario normal.
 
 ### 2. Clasificación de Ámbitos (Multi-Scope)
 Permite alternar las vacantes listadas según las siguientes especialidades:
@@ -20,7 +17,7 @@ Permite alternar las vacantes listadas según las siguientes especialidades:
 * **Todos los Ámbitos**: Muestra la totalidad de las vacantes indexadas.
 
 ### 3. Filtro Geográfico y de Idiomas
-* **Restricción Territorial**: Excluye automáticamente ofertas situadas fuera del ámbito de la Comunidad de Madrid, Segovia, Ávila y Castilla-La Mancha.
+* **Restricción Territorial**: Mantiene ofertas de España y excluye ubicaciones internacionales identificadas.
 * **Filtro de Inglés C2**: Excluye ofertas que exigen un nivel de inglés C2 (Proficiency/CPE) a menos que se admita C1/B2 como alternativa equivalente en la descripción.
 
 ### 4. Visualizador y Optimizador de CV Fullscreen

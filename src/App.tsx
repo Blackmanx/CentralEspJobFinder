@@ -667,10 +667,10 @@ export default function App() {
             </button>
           </div>
           <span className="sidebar-badge">
-            Madrid, Toledo y Alrededores
+            España · Ofertas Infantiles
           </span>
           <p className="sidebar-desc">
-            Portal local de empleo docente, educación infantil y convocatorias públicas.
+            Portal nacional de empleo docente, educación infantil y convocatorias públicas.
           </p>
         </div>
 
@@ -749,7 +749,7 @@ export default function App() {
             >
               <option value="infantil">🧸 Educación Infantil / TSEI (Defecto)</option>
               <option value="monitor_ocio">🎨 Monitores, Ocio y Comedor Infantil</option>
-              <option value="bolsas">🏛️ Bolsas de Empleo Público (Madrid y Toledo)</option>
+              <option value="bolsas">🏛️ Bolsas de Empleo Público (España)</option>
               <option value="uned">🎓 UNED BICI: Contratos de Investigación</option>
               <option value="docente_otros">📚 Otros Puestos Docentes (Primaria, Secundaria...)</option>
               <option value="apoyo_otros">🏢 Apoyo / Administración (Limpieza, Conserjería...)</option>

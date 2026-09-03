@@ -21,27 +21,102 @@ export const clean = (text: string): string => {
 
 import * as cheerio from 'cheerio';
 
-export async function validateLink(url: string, source: string): Promise<boolean> {
+/** Remove tracking parameters without removing identifiers needed by detail pages. */
+export function normalizeUrl(url: string): string {
   try {
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': getRandomUserAgent(),
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'es-ES,es;q=0.9'
-      },
-      timeout: 8000,
-      validateStatus: () => true
-    });
-
-    // Check HTTP status code
-    if (response.status === 404 || response.status === 410) {
-      return false;
+    const parsed = new URL(url);
+    for (const key of [...parsed.searchParams.keys()]) {
+      if (/^(utm_|ref$|source$|campaign$|applicationorigin$|page$|sortby$)/i.test(key)) {
+        parsed.searchParams.delete(key);
+      }
     }
+    // Keep path/query value casing: Colejobs uses case-sensitive offer tokens.
+    return parsed.toString();
+  } catch {
+    return url.trim();
+  }
+}
 
-    // Platforms with anti-bot shields: allow 403/400 if bot detected
-    if ((source === 'Indeed' || source === 'Infojobs') && (response.status === 403 || response.status === 400 || response.status === 401)) {
-      return true;
+/** Only accept links that identify one offer/call, never a search or category page. */
+export function isConcreteJobUrl(url: string, source = ''): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return false;
+  }
+
+  if (!['http:', 'https:'].includes(parsed.protocol)) return false;
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+  const path = parsed.pathname.toLowerCase();
+  const sourceName = source.toLowerCase();
+
+  if (sourceName.includes('infojobs') || host === 'infojobs.net') {
+    return host === 'infojobs.net' && /\/of-i[a-z0-9]+\/?$/.test(path);
+  }
+  if (sourceName.includes('colejobs') || host === 'colejobs.es') {
+    return host === 'colejobs.es' && /\/ofertas-de-empleo\/[^/]+-n[a-z0-9]+\/?$/.test(path);
+  }
+  if (sourceName.includes('colegios') || host === 'colegios.es') {
+    return host === 'colegios.es' && /\/empleoprofesores\/[^/]+-\d{8}\/?$/.test(path);
+  }
+  if (sourceName.includes('infoempleo') || host === 'infoempleo.com') {
+    return host === 'infoempleo.com' && /\/ofertas-trabajo\/[^/]+\/[^/]+\/\d+\/?$/.test(path);
+  }
+  if (sourceName.includes('indeed') || host === 'indeed.com' || host.endsWith('.indeed.com')) {
+    return host.endsWith('indeed.com') && path.endsWith('/viewjob') && Boolean(parsed.searchParams.get('jk'));
+  }
+  if (sourceName.includes('madrid') || host === 'oficinavirtualempleo.comunidad.madrid') {
+    return host === 'oficinavirtualempleo.comunidad.madrid' &&
+      path.includes('/areapublica/ofertas/detalleoferta/') && Boolean(parsed.searchParams.get('id'));
+  }
+  if (sourceName.includes('administración') || sourceName.includes('administracion') || host === 'administracion.gob.es') {
+    return host === 'administracion.gob.es' && path.endsWith('/detalleempleo.htm') && Boolean(parsed.searchParams.get('idConvocatoria'));
+  }
+  if (sourceName.includes('uned') || host === 'uned.es' || host === 'www2.uned.es') {
+    return (host === 'uned.es' || host === 'www2.uned.es') && path.includes('/bici/') && path.endsWith('.htm');
+  }
+  if (sourceName.includes('sa empleo') || host === 'saempleo.es') {
+    return host === 'saempleo.es' && path.includes('/detalle-oferta') && Boolean(parsed.searchParams.get('ofertaid'));
+  }
+  if (sourceName.includes('sistema nacional') || host === 'sistemanacionalempleo.es') {
+    return host === 'sistemanacionalempleo.es' && path.includes('/ofertadifusionweb/detalleoferta.do') &&
+      Boolean(parsed.searchParams.get('id')) && Boolean(parsed.searchParams.get('idFlujo'));
+  }
+  return false;
+}
+
+export async function validateLink(url: string, source: string): Promise<boolean> {
+  if (!isConcreteJobUrl(url, source)) {
+    console.warn(`[${source}] URL descartada por no ser una ficha de oferta: ${url}`);
+    return false;
+  }
+
+  try {
+    let response: Awaited<ReturnType<typeof axios.get>> | undefined;
+    for (let attempt = 0; attempt < 2 && !response; attempt++) {
+      try {
+        response = await axios.get(url, {
+          headers: {
+            'User-Agent': getRandomUserAgent(),
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'es-ES,es;q=0.9'
+          },
+          timeout: 15000,
+          validateStatus: () => true
+        });
+      } catch (error) {
+        if (attempt === 1) throw error;
+        await delay(500);
+      }
     }
+    if (!response) return false;
+
+    // A normal user must receive the detail page; bot-blocked responses are not valid.
+    if (response.status < 200 || response.status >= 300) return false;
+
+    const finalUrl = response.request?.res?.responseUrl;
+    if (typeof finalUrl === 'string' && !isConcreteJobUrl(finalUrl, source)) return false;
 
     const html = response.data;
     if (typeof html === 'string') {
@@ -76,7 +151,9 @@ export async function validateLink(url: string, source: string): Promise<boolean
         'el contenido solicitado no existe',
         'convocatoria cerrada',
         'el proceso ha finalizado',
-        'plazo de solicitud cerrado'
+        'plazo de solicitud cerrado',
+        'oferta cerrada',
+        'oferta finalizada'
       ];
 
       for (const indicator of closedIndicators) {

@@ -248,7 +248,7 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-  const [selectedScope, setSelectedScope] = useState<'infantil' | 'monitor_ocio' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
+  const [selectedScope, setSelectedScope] = useState<'infantil' | 'monitor_ocio' | 'bolsas' | 'uned' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
 
   // Fetch Jobs Data
   const loadJobs = async () => {
@@ -577,14 +577,18 @@ export default function App() {
                      job.title.toLowerCase().includes('comedor') ||
                      job.title.toLowerCase().includes('ocio') ||
                      job.title.toLowerCase().includes('ludoteca');
-    } else if ((selectedScope as string) === 'bolsas') {
-      matchesScope = job.source?.includes('Bolsa') === true || 
+    } else if (selectedScope === 'bolsas') {
+      matchesScope = (job.source?.includes('Bolsa') === true || 
                      job.companyType?.toLowerCase().includes('bolsa') === true ||
-                     job.title.toLowerCase().includes('bolsa');
+                     job.title.toLowerCase().includes('bolsa')) && !job.source?.includes('UNED');
+    } else if (selectedScope === 'uned') {
+      matchesScope = job.source?.includes('UNED') === true ||
+                     job.companyName?.toLowerCase().includes('uned') === true ||
+                     job.url.includes('uned.es');
     } else if (selectedScope === 'docente_otros') {
-      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa');
+      matchesScope = getJobScope(job) === 'docente_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa') && !job.source?.includes('UNED');
     } else if (selectedScope === 'apoyo_otros') {
-      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa');
+      matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !job.source?.includes('Bolsa') && !job.source?.includes('UNED');
     }
 
     return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
@@ -599,6 +603,8 @@ export default function App() {
   const stats = {
     total: jobs.length,
     infantil: jobs.filter(isInfantilJob).length,
+    bolsas: jobs.filter(j => (j.source?.includes('Bolsa') || j.companyType?.toLowerCase().includes('bolsa')) && !j.source?.includes('UNED')).length,
+    uned: jobs.filter(j => j.source?.includes('UNED') || j.companyName?.toLowerCase().includes('uned')).length,
     applied: Object.values(userStates).filter((s) => s.status === 'applied').length,
     interviewing: Object.values(userStates).filter((s) => s.status === 'interviewing').length,
     offered: Object.values(userStates).filter((s) => s.status === 'offered').length,
@@ -709,11 +715,13 @@ export default function App() {
               value={selectedScope}
               onChange={(e) => setSelectedScope(e.target.value as any)}
             >
-              <option value="infantil">Educación Infantil / TSEI (Defecto)</option>
-              <option value="monitor_ocio">Monitores, Ocio y Comedor Infantil</option>
-              <option value="docente_otros">Otros Puestos Docentes (Primaria, Secundaria...)</option>
-              <option value="apoyo_otros">Apoyo / Administración (Limpieza, Conserjería...)</option>
-              <option value="all">Todos los Ámbitos</option>
+              <option value="infantil">🧸 Educación Infantil / TSEI (Defecto)</option>
+              <option value="monitor_ocio">🎨 Monitores, Ocio y Comedor Infantil</option>
+              <option value="bolsas">🏛️ Bolsas de Empleo Público (Madrid y Toledo)</option>
+              <option value="uned">🎓 UNED BICI: Contratos de Investigación</option>
+              <option value="docente_otros">📚 Otros Puestos Docentes (Primaria, Secundaria...)</option>
+              <option value="apoyo_otros">🏢 Apoyo / Administración (Limpieza, Conserjería...)</option>
+              <option value="all">🌐 Todos los Ámbitos</option>
             </select>
           </div>
 
@@ -1134,21 +1142,38 @@ export default function App() {
                   🎨 Monitores y Ocio Infantil
                 </button>
                 <button
-                  onClick={() => setSelectedScope('bolsas' as any)}
+                  onClick={() => setSelectedScope('bolsas')}
                   style={{
                     padding: '4px 10px',
                     borderRadius: '20px',
                     fontSize: '0.72rem',
-                    fontWeight: (selectedScope as string) === 'bolsas' ? 700 : 500,
+                    fontWeight: selectedScope === 'bolsas' ? 700 : 500,
                     border: '1px solid',
-                    borderColor: (selectedScope as string) === 'bolsas' ? '#059669' : 'var(--border-color)',
-                    backgroundColor: (selectedScope as string) === 'bolsas' ? 'rgba(5, 150, 105, 0.15)' : 'var(--bg-element)',
-                    color: (selectedScope as string) === 'bolsas' ? '#059669' : 'var(--text-secondary)',
+                    borderColor: selectedScope === 'bolsas' ? '#059669' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'bolsas' ? 'rgba(5, 150, 105, 0.15)' : 'var(--bg-element)',
+                    color: selectedScope === 'bolsas' ? '#059669' : 'var(--text-secondary)',
                     cursor: 'pointer',
                     transition: 'all 0.15s ease'
                   }}
                 >
-                  🏛️ Bolsas de Empleo (Madrid/Toledo)
+                  🏛️ Bolsas Oficiales ({stats.bolsas})
+                </button>
+                <button
+                  onClick={() => setSelectedScope('uned')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.72rem',
+                    fontWeight: selectedScope === 'uned' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: selectedScope === 'uned' ? '#b45309' : 'var(--border-color)',
+                    backgroundColor: selectedScope === 'uned' ? 'rgba(217, 119, 6, 0.15)' : 'var(--bg-element)',
+                    color: selectedScope === 'uned' ? '#b45309' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  🎓 UNED BICI ({stats.uned})
                 </button>
                 <button
                   onClick={() => setSelectedScope('docente_otros')}

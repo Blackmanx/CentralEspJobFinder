@@ -53,44 +53,44 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
   const formatCard = (job: Job) => {
     const badges = [
-      job.source ? `<span style="background-color: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase;">${job.source}</span>` : '',
+      job.source ? `<span style="background-color: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase;">${job.source}</span>` : '',
       job.certificationTags?.map(t => {
         const label = t === 'TSEI' ? 'FP TSEI' : t === 'Monitor_Ocio' ? 'Monitor Ocio' : t === 'Magisterio_Infantil' ? 'Grado Infantil' : 'Auxiliar';
         const color = t === 'TSEI' ? '#0284c7; background-color: #e0f2fe' : t === 'Monitor_Ocio' ? '#c2410c; background-color: #ffedd5' : '#4f46e5; background-color: #ede9fe';
-        return `<span style="background-color: ${color}; color: ${color.split(';')[0]}; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;">${label}</span>`;
+        return `<span style="background-color: ${color}; color: ${color.split(';')[0]}; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold;">${label}</span>`;
       }).join(' ') || ''
     ].filter(Boolean).join(' ');
 
     const convenioBlock = job.convenioInfo ? `
-      <div style="margin-top: 8px; padding: 8px 12px; background-color: #f8fafc; border-left: 3px solid #0284c7; font-size: 12px; color: #475569; border-radius: 0 4px 4px 0;">
-        <strong>Convenio:</strong> ${job.convenioInfo.convenioName} <br/>
-        ${job.convenioInfo.applicableCategory ? `<strong>Categoría:</strong> ${job.convenioInfo.applicableCategory} | ` : ''}
-        ${job.convenioInfo.referenceSalary ? `<strong>Baremación:</strong> ${job.convenioInfo.referenceSalary}` : ''}
+      <div style="margin-top: 6px; padding: 6px 10px; background-color: #f8fafc; border-left: 3px solid #0284c7; font-size: 11px; color: #475569; border-radius: 0 4px 4px 0;">
+        <strong>Convenio:</strong> ${job.convenioInfo.convenioName}
+        ${job.convenioInfo.applicableCategory ? ` | <strong>Cat:</strong> ${job.convenioInfo.applicableCategory}` : ''}
+        ${job.convenioInfo.referenceSalary ? ` | <strong>Baremación:</strong> ${job.convenioInfo.referenceSalary}` : ''}
       </div>
     ` : '';
 
     return `
-      <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-        <div style="margin-bottom: 6px;">
+      <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+        <div style="margin-bottom: 5px;">
           ${badges}
         </div>
-        <h3 style="margin: 0 0 4px 0; font-size: 16px; color: #0f172a;">
+        <h3 style="margin: 0 0 3px 0; font-size: 15px; color: #0f172a;">
           <a href="${job.url}" target="_blank" style="color: #2563eb; text-decoration: none; font-weight: 600;">
             ${job.title} &rarr;
           </a>
         </h3>
-        <p style="margin: 0 0 8px 0; font-size: 13px; color: #64748b; font-weight: 500;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; color: #64748b;">
           <strong>${job.companyName}</strong> ${job.companyType ? `• <em>${job.companyType}</em>` : ''}
         </p>
-        <div style="font-size: 12px; color: #334155; margin-bottom: 8px;">
-          📍 <strong>Ubicación:</strong> ${job.location || 'Madrid'} &nbsp;|&nbsp; 
-          ⏱️ <strong>Jornada:</strong> ${job.hours || 'N/D'} &nbsp;|&nbsp; 
-          💶 <strong>Salario:</strong> ${job.salary || 'Según convenio'} &nbsp;|&nbsp; 
-          📅 <strong>Fecha:</strong> ${job.publishDate || 'Reciente'}
+        <div style="font-size: 11px; color: #334155; margin-bottom: 6px;">
+          📍 ${job.location || 'Madrid'} &nbsp;|&nbsp; 
+          ⏱️ ${job.hours || 'Jornada completa'} &nbsp;|&nbsp; 
+          💶 ${job.salary || 'Según convenio'} &nbsp;|&nbsp; 
+          📅 ${job.publishDate || 'Reciente'}
         </div>
         ${convenioBlock}
-        <div style="margin-top: 10px; text-align: right;">
-          <a href="${job.url}" target="_blank" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; text-decoration: none;">
+        <div style="margin-top: 8px; text-align: right;">
+          <a href="${job.url}" target="_blank" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 5px; text-decoration: none;">
             Ver y Postular en ${job.source || 'Portal'} &raquo;
           </a>
         </div>
@@ -105,77 +105,86 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
     <meta charset="utf-8">
     <title>Resumen de Ofertas de Empleo - JobCrawling</title>
   </head>
-  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 24px; color: #1e293b;">
+  <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 20px; color: #1e293b;">
     <div style="max-width: 680px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
       
       <!-- Header -->
-      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 28px 24px; color: #ffffff; text-align: center;">
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 24px; color: #ffffff; text-align: center;">
         <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">JobCrawling</h1>
-        <p style="margin: 6px 0 0 0; font-size: 14px; color: #94a3b8;">
-          Boletín de Ofertas: Educación Infantil, TSEI, Bolsas Oficiales y Monitores
+        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">
+          Boletín de Ofertas: Educación Infantil, TSEI, UNED BICI, Bolsas Oficiales y Monitores
         </p>
-        <div style="margin-top: 14px; display: inline-block; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #e2e8f0;">
+        <div style="margin-top: 12px; display: inline-block; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #e2e8f0;">
           📅 ${new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+        </div>
+
+        <!-- Web Portal Banner Link -->
+        <div style="margin-top: 16px;">
+          <a href="https://jobcrawling.sajl.cc" target="_blank" style="display: inline-block; background-color: #0284c7; color: #ffffff; font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            🌐 Abrir Portal Web Completo (${total} ofertas activas) &raquo;
+          </a>
         </div>
       </div>
 
       <!-- Quick Metrics Bar -->
-      <div style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 14px 24px; display: flex; justify-content: space-around; text-align: center;">
+      <div style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 12px 18px; display: flex; justify-content: space-around; text-align: center;">
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #0284c7; display: block;">${tseiJobs.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">TSEI / 0-3</span>
+          <span style="font-size: 16px; font-weight: 700; color: #0284c7; display: block;">${tseiJobs.length}</span>
+          <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">TSEI / 0-3</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #b45309; display: block;">${unedJobs.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">UNED BICI</span>
+          <span style="font-size: 16px; font-weight: 700; color: #b45309; display: block;">${unedJobs.length}</span>
+          <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">UNED BICI</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #059669; display: block;">${bolsasJobs.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bolsas Oficiales</span>
+          <span style="font-size: 16px; font-weight: 700; color: #059669; display: block;">${bolsasJobs.length}</span>
+          <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bolsas Oficiales</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #ea580c; display: block;">${toledoJobs.length}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Toledo</span>
+          <span style="font-size: 16px; font-weight: 700; color: #ea580c; display: block;">${toledoJobs.length}</span>
+          <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">Toledo</span>
         </div>
         <div>
-          <span style="font-size: 18px; font-weight: 700; color: #0f172a; display: block;">${total}</span>
-          <span style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600;">Total Base</span>
+          <span style="font-size: 16px; font-weight: 700; color: #0f172a; display: block;">${total}</span>
+          <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600;">Total Base</span>
         </div>
       </div>
 
       <!-- Main Body -->
-      <div style="padding: 24px;">
+      <div style="padding: 20px;">
 
         <!-- Section 1: TSEI (0-3) -->
-        <div style="margin-bottom: 28px;">
-          <h2 style="font-size: 16px; color: #0369a1; border-bottom: 2px solid #bae6fd; padding-bottom: 6px; margin-bottom: 14px;">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-size: 15px; color: #0369a1; border-bottom: 2px solid #bae6fd; padding-bottom: 5px; margin-bottom: 12px;">
             🧸 Vacantes para Técnico de Educación Infantil (TSEI / 0-3 años) (${tseiJobs.length})
           </h2>
-          ${tseiJobs.length > 0 ? tseiJobs.map(formatCard).join('') : '<p style="font-size: 13px; color: #64748b;">No hay nuevas ofertas directas de TSEI en esta tanda.</p>'}
+          ${tseiJobs.length > 0 ? tseiJobs.map(formatCard).join('') : '<p style="font-size: 12px; color: #64748b;">No hay nuevas ofertas directas de TSEI en esta tanda.</p>'}
         </div>
 
         <!-- Section 2: Monitores y Comedores -->
-        <div style="margin-bottom: 28px;">
-          <h2 style="font-size: 16px; color: #c2410c; border-bottom: 2px solid #fed7aa; padding-bottom: 6px; margin-bottom: 14px;">
+        <div style="margin-bottom: 24px;">
+          <h2 style="font-size: 15px; color: #c2410c; border-bottom: 2px solid #fed7aa; padding-bottom: 5px; margin-bottom: 12px;">
             🎨 Vacantes de Monitores, Ocio y Comedor Infantil (${monitorJobs.length})
           </h2>
-          ${monitorJobs.length > 0 ? monitorJobs.map(formatCard).join('') : '<p style="font-size: 13px; color: #64748b;">No hay nuevas ofertas de monitores en esta tanda.</p>'}
+          ${monitorJobs.length > 0 ? monitorJobs.slice(0, 10).map(formatCard).join('') : '<p style="font-size: 12px; color: #64748b;">No hay nuevas ofertas de monitores en esta tanda.</p>'}
+          ${monitorJobs.length > 10 ? `<div style="text-align: center; margin-top: 8px;"><a href="https://jobcrawling.sajl.cc" style="font-size: 12px; color: #c2410c; text-decoration: underline;">+ Ver las ${monitorJobs.length - 10} ofertas restantes de monitores en la app web &raquo;</a></div>` : ''}
         </div>
 
         <!-- Section 3: Otras plazas infantiles y colegios -->
         ${otherInfantil.length > 0 ? `
-          <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 16px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 6px; margin-bottom: 14px;">
+          <div style="margin-bottom: 24px;">
+            <h2 style="font-size: 15px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px; margin-bottom: 12px;">
               📚 Otras Ofertas en Colegios y Escuelas Infantiles (${otherInfantil.length})
             </h2>
-            ${otherInfantil.slice(0, 10).map(formatCard).join('')}
+            ${otherInfantil.slice(0, 6).map(formatCard).join('')}
+            ${otherInfantil.length > 6 ? `<div style="text-align: center; margin-top: 8px;"><a href="https://jobcrawling.sajl.cc" style="font-size: 12px; color: #4338ca; text-decoration: underline;">+ Ver las ${otherInfantil.length - 6} ofertas restantes en la app web &raquo;</a></div>` : ''}
           </div>
         ` : ''}
 
         <!-- Section 4: UNED BICI - Contratos de Investigación en Educación / Infancia -->
         ${unedJobs.length > 0 ? `
-          <div style="margin-bottom: 28px;">
-            <h2 style="font-size: 16px; color: #b45309; border-bottom: 2px solid #fde68a; padding-bottom: 6px; margin-bottom: 14px;">
+          <div style="margin-bottom: 24px;">
+            <h2 style="font-size: 15px; color: #b45309; border-bottom: 2px solid #fde68a; padding-bottom: 5px; margin-bottom: 12px;">
               🎓 UNED BICI: Contratos de Investigación en Educación e Infancia (${unedJobs.length})
             </h2>
             ${unedJobs.map(formatCard).join('')}
@@ -184,8 +193,8 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
 
         <!-- Section 5: Bolsas de Empleo Oficiales (Madrid y Toledo) - Al final del correo -->
         ${bolsasJobs.length > 0 ? `
-          <div style="margin-bottom: 24px;">
-            <h2 style="font-size: 16px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 6px; margin-bottom: 14px;">
+          <div style="margin-bottom: 20px;">
+            <h2 style="font-size: 15px; color: #047857; border-bottom: 2px solid #a7f3d0; padding-bottom: 5px; margin-bottom: 12px;">
               🏛️ Bolsas de Empleo Público Oficiales (Madrid y Toledo) (${bolsasJobs.length})
             </h2>
             ${bolsasJobs.map(formatCard).join('')}
@@ -195,9 +204,10 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
       </div>
 
       <!-- Footer -->
-      <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 24px; font-size: 12px; color: #94a3b8; text-align: center;">
-        <p style="margin: 0 0 6px 0;">Este correo fue generado automáticamente por JobCrawling en Raspberry Pi / Servidor Local.</p>
-        <p style="margin: 0;">Destinatario(s): <strong>${recipientEmail}</strong></p>
+      <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 20px; font-size: 11px; color: #94a3b8; text-align: center;">
+        <p style="margin: 0 0 4px 0;">Este correo fue generado automáticamente por JobCrawling en Raspberry Pi / Servidor Local.</p>
+        <p style="margin: 0 0 6px 0;">Destinatario(s): <strong>${recipientEmail}</strong></p>
+        <p style="margin: 0;"><a href="https://jobcrawling.sajl.cc" style="color: #0284c7; text-decoration: none; font-weight: 600;">Acceder a JobCrawling Portal Web</a></p>
       </div>
 
     </div>

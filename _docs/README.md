@@ -28,11 +28,8 @@ Bienvenido a la documentación técnica interna de **JobCrawling**. Esta documen
    - Los scripts de sincronización (`run_jobfinder.sh`) no deben ejecutar `git reset --hard` para evitar perder configuraciones locales o datos de ejecución (`user_states.json`).
 4. **Rotación de Logs Obligatoria**:
    - Todo log generado por ejecuciones desatendidas debe estar acotado con rotación (máx 5MB) para no saturar el almacenamiento de la Raspberry Pi.
-5. **Notificación Post-Cambios**:
-   - Al finalizar cualquier conjunto de cambios en el repositorio, es mandatorio ejecutar:
-     ```bash
-     npm run notify:email -- --to velsi12blackman@gmail.com
-     ```
-   - **NUNCA** enviar manualmente a `lalaboom400@gmail.com` (reservado para el cron de producción).
+5. **Notificación por Correo**:
+   - Ejecutar `npm run notify:email -- --to velsi12blackman@gmail.com` **ÚNICAMENTE** si el cambio o feature está directamente relacionado con el sistema de correos o formato del digest de vacantes.
+   - **NUNCA** enviar manualmente a `lalaboom400@gmail.com` (reservado exclusivamente para el cron diario de producción).
 6. **Mantenimiento Continuo de `_docs/`**:
    - Cualquier cambio en arquitectura, endpoints, scraping, despliegue o variables de entorno debe reflejarse inmediatamente en esta carpeta `_docs/`.

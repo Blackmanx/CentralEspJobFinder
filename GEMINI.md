@@ -1,9 +1,8 @@
 # JobCrawling - Gemini & AI Workspace Context
 
-## Notificaciones Automáticas tras Cambios
-- Al finalizar cualquier conjunto de cambios o refactorizaciones en este repositorio, el modelo DEBE disparar un correo con el estado actual de las ofertas a:
-  `velsi12blackman@gmail.com`
-  utilizando el comando: `npm run notify:email -- --to velsi12blackman@gmail.com`
+## Notificaciones por Correo Electrónico
+- ÚNICAMENTE disparar un correo con `npm run notify:email -- --to velsi12blackman@gmail.com` cuando se esté implementando o corrigiendo una funcionalidad directamente relacionada con el sistema de correos (`scripts/emailNotifier.ts`) o digest de vacantes.
+- NO enviar correos tras cambios de UI, backend general, refactorizaciones o documentación.
 - NUNCA enviar manualmente a `lalaboom400@gmail.com`; ese destinatario solo recibe correos a través del cron diario en la Raspberry Pi.
 
 ## Ubicación y Despliegue

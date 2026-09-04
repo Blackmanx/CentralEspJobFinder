@@ -27,10 +27,11 @@ Antes de realizar un commit o considerar finalizada una tarea, verificar:
 - [ ] **Validación de links**: Si se modificaron scrapers, ejecutar `npm run validate:links`.
 - [ ] **Documentación actualizada**: Revisar y actualizar los archivos relevantes en `_docs/`.
 - [ ] **Commit según Conventional Commits**: Formato `feat(...)`, `fix(...)`, `docs(...)`, `chore(...)`.
-- [ ] **Notificación al desarrollador**: Ejecutar:
+- [ ] **Notificación al desarrollador (Solo si aplica)**: ÚNICAMENTE si la tarea involucró cambios en el sistema de correos (`scripts/emailNotifier.ts`), validar el envío con:
   ```bash
   npm run notify:email -- --to velsi12blackman@gmail.com
   ```
+  *(No ejecutar para cambios generales de UI, docs o backend).*
 - [ ] **Prohibido enviar a producción**: NUNCA enviar manualmente a `lalaboom400@gmail.com`.
 
 ---

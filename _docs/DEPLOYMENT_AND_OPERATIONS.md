@@ -48,8 +48,9 @@ Para evitar que los archivos de log (`jobfinder.log`, `jobfinder_cron.log`) llen
 - **Producción (Automática diaria)**: `lalaboom400@gmail.com`.
   - Este correo **SOLO** se envía a través del cron diario en la Raspberry Pi.
   - **NUNCA** ejecutar manualmente un envío de prueba hacia esta dirección.
-- **Desarrollo / Post-Modificaciones**: `velsi12blackman@gmail.com`.
-  - Tras cualquier conjunto de cambios o refactorizaciones, el agente o desarrollador DEBE ejecutar:
+- **Desarrollo / Testing de Correos**: `velsi12blackman@gmail.com`.
+  - Se utiliza para probar el formato o lógica del mailing mediante:
     ```bash
     npm run notify:email -- --to velsi12blackman@gmail.com
     ```
+  - **Condición de uso**: ÚNICAMENTE debe dispararse si la tarea o cambio realizado afecta directamente al módulo de correos (`scripts/emailNotifier.ts`) o a la estructura de la plantilla de email. No enviar para cambios de frontend, base de datos o backend general.

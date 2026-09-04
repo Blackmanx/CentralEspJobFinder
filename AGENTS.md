@@ -32,7 +32,7 @@ Use strict TypeScript, two-space indentation, semicolons, and single quotes. Use
 
 Copy `.env.example` to `.env`; keep API keys, SMTP credentials, and personal data out of Git. CV data is anonymized locally. The Pi deployment is `/home/pi/JobCrawling`, runs `/home/pi/run_jobfinder.sh` daily at `0 10 * * *`, and uses `Europe/Madrid`. Validate locally before copying files; preserve its `.env` and runtime data.
 
-After every repository change, immediately run `npm run notify:email -- --to velsi12blackman@gmail.com`. Never manually send to `lalaboom400@gmail.com`; that address is handled only by the Raspberry Pi automation.
+Only run `npm run notify:email -- --to velsi12blackman@gmail.com` when working specifically on a feature or bugfix related to the email notification system (`scripts/emailNotifier.ts`) or job digest formatting. Do NOT send notification emails for unrelated frontend, backend, or documentation changes. Never manually send to `lalaboom400@gmail.com`; that address is handled only by the Raspberry Pi daily automation.
 
 ## Commits and Pull Requests
 

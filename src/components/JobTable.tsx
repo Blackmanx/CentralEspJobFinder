@@ -15,6 +15,7 @@ import {
   Award,
   ExternalLink
 } from 'lucide-react';
+import { getJobFreshness } from '../utils/jobFreshness';
 
 interface JobTableProps {
   jobs: Job[];
@@ -94,36 +95,43 @@ export const JobTable: React.FC<JobTableProps> = ({
             {jobs.map((job) => {
             const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
             const isSelected = selectedJobId === job.id;
+            const freshness = getJobFreshness(job);
             
             return (
-              <tr key={job.id} className={isSelected ? 'selected' : ''}>
+              <tr 
+                key={job.id} 
+                className={isSelected ? 'selected' : ''}
+                style={{
+                  borderLeft: freshness.rowBorderColor ? `3px solid ${freshness.rowBorderColor}` : undefined
+                }}
+              >
                   {/* Job Title */}
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                       <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
                         {job.title}
                       </span>
-                      {(() => {
-                        const diffTime = Math.abs(new Date().getTime() - new Date(job.scrapedAt).getTime());
-                        const diffHours = diffTime / (1000 * 60 * 60);
-                        if (diffHours <= 24) {
-                          return (
-                            <span style={{
-                              backgroundColor: 'rgba(16, 185, 129, 0.12)',
-                              color: '#10b981',
-                              fontSize: '0.65rem',
-                              fontWeight: 'bold',
-                              padding: '2px 6px',
-                              borderRadius: '4px',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.05em'
-                            }}>
-                              Nuevo
-                            </span>
-                          );
-                        }
-                        return null;
-                      })()}
+                      <span 
+                        title={`Detectada: ${freshness.timeAgoLabel}`}
+                        style={{
+                          backgroundColor: freshness.bgColor,
+                          color: freshness.color,
+                          border: `1px solid ${freshness.borderColor}`,
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        {freshness.isToday && <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />}
+                        {freshness.isYesterday && <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />}
+                        {freshness.badgeLabel}
+                      </span>
                       <BiciAgeBadge job={job} />
                       {state.cvAnalysis && (
                         <span style={{
@@ -251,11 +259,18 @@ export const JobTable: React.FC<JobTableProps> = ({
                     </div>
                   </td>
                   
-                  {/* Publish Date */}
+                  {/* Publish / Scraped Date */}
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)' }}>
-                      <Calendar size={14} />
-                      <span style={{ whiteSpace: 'nowrap' }}>{job.publishDate || 'Reciente'}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Calendar size={13} style={{ color: freshness.color }} />
+                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: freshness.color }}>
+                          {freshness.badgeLabel}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                        {freshness.timeAgoLabel}
+                      </span>
                     </div>
                   </td>
                   
@@ -446,6 +461,7 @@ export const JobTable: React.FC<JobTableProps> = ({
       <div className="visible-mobile card-grid">
         {jobs.map((job) => {
           const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
+          const freshness = getJobFreshness(job);
           
           return (
             <div 
@@ -456,7 +472,8 @@ export const JobTable: React.FC<JobTableProps> = ({
                 marginBottom: '12px', 
                 display: 'flex', 
                 flexDirection: 'column', 
-                gap: '12px' 
+                gap: '12px',
+                borderLeft: freshness.rowBorderColor ? `3px solid ${freshness.rowBorderColor}` : undefined
               }}
             >
               {/* Header: Title and Status */}
@@ -464,27 +481,24 @@ export const JobTable: React.FC<JobTableProps> = ({
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
-                    {(() => {
-                      const diffTime = Math.abs(new Date().getTime() - new Date(job.scrapedAt).getTime());
-                      const diffHours = diffTime / (1000 * 60 * 60);
-                      if (diffHours <= 24) {
-                        return (
-                          <span style={{
-                            backgroundColor: 'rgba(16, 185, 129, 0.12)',
-                            color: '#10b981',
-                            fontSize: '0.6rem',
-                            fontWeight: 'bold',
-                            padding: '1px 5px',
-                            borderRadius: '3px',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
-                          }}>
-                            Nuevo
-                          </span>
-                        );
-                      }
-                      return null;
-                    })()}
+                    <span style={{
+                      backgroundColor: freshness.bgColor,
+                      color: freshness.color,
+                      border: `1px solid ${freshness.borderColor}`,
+                      fontSize: '0.62rem',
+                      fontWeight: 700,
+                      padding: '1px 5px',
+                      borderRadius: '3px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '3px'
+                    }}>
+                      {freshness.isToday && <span style={{ display: 'inline-block', width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#10b981' }} />}
+                      {freshness.isYesterday && <span style={{ display: 'inline-block', width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />}
+                      {freshness.badgeLabel}
+                    </span>
                     <BiciAgeBadge job={job} />
                     {state.cvAnalysis && (
                       <span style={{
@@ -626,8 +640,8 @@ export const JobTable: React.FC<JobTableProps> = ({
                   <span>{job.salary || 'S/C'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Calendar size={12} />
-                  <span>{job.publishDate || 'Reciente'}</span>
+                  <Calendar size={12} style={{ color: freshness.color }} />
+                  <span style={{ color: freshness.color, fontWeight: 600 }}>{freshness.timeAgoLabel}</span>
                 </div>
               </div>
 

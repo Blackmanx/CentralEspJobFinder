@@ -44,8 +44,9 @@ El sistema está dividido en tres capas principales que colaboran entre sí:
 - **Tecnologías**: React 18, TypeScript, Vite, Leaflet, CSS nativo con variables de diseño (`src/index.css`).
 - **Componentes Clave**:
   - `src/App.tsx`: Shell de la aplicación, carga inicial de datos, filtrado global, gestión de modales y escáner automático en segundo plano.
-  - `src/components/JobTable.tsx`: Tabla reactiva con ordenación, paginación, filtros por estado (`not_applied`, `applied`, `interviewing`, etc.) y badges contextuales.
-  - `src/components/JobDrawer.tsx`: Panel lateral deslizante (o pantalla completa) con detalles de la oferta, mapa interactivo Leaflet de la ubicación del centro, visualizador del CV cargado localmente, y ejecutor de análisis de adecuación y generación de cartas de presentación.
+  - `src/components/JobTable.tsx`: Tabla reactiva con ordenación cronológica por frescura (`scrapedAt`), paginación, filtros por estado (`not_applied`, `applied`, `interviewing`, etc.) y badges visuales de frescura (verde para "Nueva Hoy", azul para "Ayer", ámbar para recientes).
+  - `src/components/JobDrawer.tsx`: Panel lateral deslizante (o pantalla completa) con detalles de la oferta, badge de antigüedad/novedad, mapa interactivo Leaflet de la ubicación del centro, visualizador del CV cargado localmente, y ejecutor de análisis de adecuación y generación de cartas de presentación.
+  - `src/utils/jobFreshness.ts`: Módulo utilitario que clasifica la antigüedad de cada oferta (`today`, `yesterday`, `recent`, `older`) calculando colores, etiquetas de tiempo relativo ("Nueva Hoy", "Ayer", "Hace Xd") y bordes identificativos.
   - `src/types/job.ts`: Modelos de datos TypeScript (`Job`, `UserJobState`, `ApplicationStatus`).
 
 ### 2.1 Gestión de CV en el Cliente

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Job, ApplicationStatus, UserJobState } from '../types/job';
 import { isOfficialPublicJob } from '../jobCategories';
+import { getJobFreshness } from '../utils/jobFreshness';
 import { 
   X, 
   MapPin, 
@@ -210,6 +211,8 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
 
   if (!job) return null;
 
+  const freshness = getJobFreshness(job);
+
   const handleSaveState = () => {
     onUpdateState(job.id, status, notes, status === 'interviewing' ? interviewDate : undefined);
     setIsSaved(true);
@@ -388,6 +391,25 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                     <ExternalLink size={10} />
                   </a>
                 )}
+                <span 
+                  style={{
+                    backgroundColor: freshness.bgColor,
+                    color: freshness.color,
+                    border: `1px solid ${freshness.borderColor}`,
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    letterSpacing: '0.03em',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px'
+                  }}
+                  title={`Registrada: ${freshness.timeAgoLabel}`}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: freshness.color }} />
+                  {freshness.badgeLabel} • {freshness.timeAgoLabel}
+                </span>
                 {job.certificationTags?.map((tag) => (
                   <span key={tag} style={{
                     backgroundColor: tag === 'TSEI' ? 'rgba(14, 165, 233, 0.15)' :
@@ -517,6 +539,16 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               <div>
                 <span className="text-muted" style={{ display: 'block', fontSize: '0.75rem' }}>Tipo Contrato</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>{job.contract || 'Vacante'}</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <Clock size={18} style={{ color: freshness.color }} />
+              <div>
+                <span className="text-muted" style={{ display: 'block', fontSize: '0.75rem' }}>Antigüedad</span>
+                <span style={{ fontSize: '0.875rem', fontWeight: 600, color: freshness.color }}>
+                  {freshness.badgeLabel} ({freshness.timeAgoLabel})
+                </span>
               </div>
             </div>
           </div>

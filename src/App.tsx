@@ -3,6 +3,7 @@ import { Job, ApplicationStatus, UserJobState, LocalStorageAppState } from './ty
 import { JobTable } from './components/JobTable';
 import { JobDrawer } from './components/JobDrawer';
 import { isOfficialPublicJob, isUnedJob } from './jobCategories';
+import { getJobFreshness } from './utils/jobFreshness';
 import {
   AUTONOMOUS_COMMUNITIES,
   getAutonomousCommunity,
@@ -270,6 +271,7 @@ export default function App() {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedScope, setSelectedScope] = useState<'infantil' | 'monitor_ocio' | 'bolsas' | 'uned' | 'docente_otros' | 'apoyo_otros' | 'all'>('infantil');
+  const [freshnessFilter, setFreshnessFilter] = useState<'all' | 'today' | 'recent'>('all');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Fetch Jobs Data
@@ -615,7 +617,20 @@ export default function App() {
       matchesScope = getJobScope(job) === 'apoyo_otros' && !job.certificationTags?.includes('Monitor_Ocio') && !isOfficialPublicJob(job) && !isUnedJob(job);
     }
 
-    return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope;
+    // 6. Freshness Filter
+    let matchesFreshness = true;
+    if (freshnessFilter === 'today') {
+      matchesFreshness = getJobFreshness(job).isToday;
+    } else if (freshnessFilter === 'recent') {
+      const f = getJobFreshness(job);
+      matchesFreshness = f.isToday || f.isYesterday;
+    }
+
+    return matchesSearch && matchesLocation && matchesType && matchesStatus && matchesScope && matchesFreshness;
+  }).sort((a, b) => {
+    const timeA = new Date(a.scrapedAt || a.publishDate || a.dates || 0).getTime();
+    const timeB = new Date(b.scrapedAt || b.publishDate || b.dates || 0).getTime();
+    return timeB - timeA;
   });
 
   // Group municipalities by autonomous community while preserving precise filtering.
@@ -641,6 +656,11 @@ export default function App() {
     infantil: locationScopedJobs.filter(isInfantilJob).length,
     bolsas: locationScopedJobs.filter(j => isOfficialPublicJob(j) && !isUnedJob(j)).length,
     uned: locationScopedJobs.filter(j => isUnedJob(j) || j.companyName?.toLowerCase().includes('uned')).length,
+    today: locationScopedJobs.filter(j => getJobFreshness(j).isToday).length,
+    recent: locationScopedJobs.filter(j => {
+      const f = getJobFreshness(j);
+      return f.isToday || f.isYesterday;
+    }).length,
     applied: Object.values(userStates).filter((s) => s.status === 'applied').length,
     interviewing: Object.values(userStates).filter((s) => s.status === 'interviewing').length,
     offered: Object.values(userStates).filter((s) => s.status === 'offered').length,
@@ -781,6 +801,19 @@ export default function App() {
               <option value="docente_otros">📚 Otros Puestos Docentes (Primaria, Secundaria...)</option>
               <option value="apoyo_otros">🏢 Apoyo / Administración (Limpieza, Conserjería...)</option>
               <option value="all">🌐 Todos los Ámbitos</option>
+            </select>
+          </div>
+
+          {/* Freshness Select Filter */}
+          <div>
+            <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '6px' }}>Antigüedad / Novedad</label>
+            <select
+              value={freshnessFilter}
+              onChange={(e) => setFreshnessFilter(e.target.value as any)}
+            >
+              <option value="all">Todas las ofertas ({locationScopedJobs.length})</option>
+              <option value="today">🟢 Nuevas de hoy ({stats.today})</option>
+              <option value="recent">🔵 Últimas 48h ({stats.recent})</option>
             </select>
           </div>
 
@@ -1204,7 +1237,7 @@ export default function App() {
               </div>
 
               {/* Fast Scope Filter Chips */}
-              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', paddingBottom: '8px' }}>
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', paddingBottom: '8px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => setSelectedScope('infantil')}
                   style={{
@@ -1306,6 +1339,72 @@ export default function App() {
                   }}
                 >
                   Todos
+                </button>
+              </div>
+
+              {/* Fast Freshness Filter Chips */}
+              <div style={{ display: 'flex', gap: '6px', alignItems: 'center', paddingBottom: '10px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', marginRight: '2px' }}>
+                  Novedad:
+                </span>
+                <button
+                  onClick={() => setFreshnessFilter('all')}
+                  style={{
+                    padding: '3px 9px',
+                    borderRadius: '16px',
+                    fontSize: '0.7rem',
+                    fontWeight: freshnessFilter === 'all' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: freshnessFilter === 'all' ? 'var(--text-primary)' : 'var(--border-color)',
+                    backgroundColor: freshnessFilter === 'all' ? 'var(--bg-element)' : 'transparent',
+                    color: freshnessFilter === 'all' ? 'var(--text-primary)' : 'var(--text-muted)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  Todas ({locationScopedJobs.length})
+                </button>
+                <button
+                  onClick={() => setFreshnessFilter('today')}
+                  style={{
+                    padding: '3px 9px',
+                    borderRadius: '16px',
+                    fontSize: '0.7rem',
+                    fontWeight: freshnessFilter === 'today' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: freshnessFilter === 'today' ? '#10b981' : 'var(--border-color)',
+                    backgroundColor: freshnessFilter === 'today' ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-element)',
+                    color: freshnessFilter === 'today' ? '#10b981' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+                  Nuevas hoy ({stats.today})
+                </button>
+                <button
+                  onClick={() => setFreshnessFilter('recent')}
+                  style={{
+                    padding: '3px 9px',
+                    borderRadius: '16px',
+                    fontSize: '0.7rem',
+                    fontWeight: freshnessFilter === 'recent' ? 700 : 500,
+                    border: '1px solid',
+                    borderColor: freshnessFilter === 'recent' ? '#3b82f6' : 'var(--border-color)',
+                    backgroundColor: freshnessFilter === 'recent' ? 'rgba(59, 130, 246, 0.15)' : 'var(--bg-element)',
+                    color: freshnessFilter === 'recent' ? '#3b82f6' : 'var(--text-secondary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />
+                  Últimas 48h ({stats.recent})
                 </button>
               </div>
             </div>

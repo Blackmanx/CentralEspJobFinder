@@ -15,7 +15,7 @@ import {
   Award,
   ExternalLink
 } from 'lucide-react';
-import { getJobFreshness } from '../utils/jobFreshness';
+import { groupJobsByDate, formatJobDate } from '../utils/jobFreshness';
 
 interface JobTableProps {
   jobs: Job[];
@@ -73,6 +73,8 @@ export const JobTable: React.FC<JobTableProps> = ({
     );
   }
 
+  const dateGroups = groupJobsByDate(jobs);
+
   return (
     <div className="animate-fade-in" style={{ marginTop: '1.5rem' }}>
       
@@ -92,48 +94,58 @@ export const JobTable: React.FC<JobTableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {jobs.map((job) => {
-            const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
-            const isSelected = selectedJobId === job.id;
-            const freshness = getJobFreshness(job);
-            
-            return (
-              <tr 
-                key={job.id} 
-                className={isSelected ? 'selected' : ''}
-                style={{
-                  borderLeft: freshness.rowBorderColor ? `3px solid ${freshness.rowBorderColor}` : undefined
-                }}
-              >
-                  {/* Job Title */}
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-                        {job.title}
+            {dateGroups.map((group) => (
+              <React.Fragment key={`group-${group.key}`}>
+                <tr style={{ backgroundColor: group.isToday ? 'rgba(16, 185, 129, 0.08)' : group.isYesterday ? 'rgba(59, 130, 246, 0.08)' : 'var(--bg-tertiary)' }}>
+                  <td colSpan={8} style={{
+                    padding: '8px 16px',
+                    borderTop: '1px solid var(--border-color)',
+                    borderBottom: '1px solid var(--border-color)',
+                    borderLeft: `4px solid ${group.color}`
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Calendar size={14} style={{ color: group.color }} />
+                        <span style={{ fontWeight: 700, fontSize: '0.84rem', color: group.color }}>
+                          {group.title}
+                        </span>
+                        {group.subTitle && (
+                          <span style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                            • {group.subTitle}
+                          </span>
+                        )}
+                      </div>
+                      <span style={{
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                        padding: '2px 8px',
+                        borderRadius: '10px',
+                        backgroundColor: 'var(--bg-element)',
+                        color: 'var(--text-secondary)',
+                        border: '1px solid var(--border-color)'
+                      }}>
+                        {group.jobs.length} {group.jobs.length === 1 ? 'oferta' : 'ofertas'}
                       </span>
-                      <span 
-                        title={`Detectada: ${freshness.timeAgoLabel}`}
-                        style={{
-                          backgroundColor: freshness.bgColor,
-                          color: freshness.color,
-                          border: `1px solid ${freshness.borderColor}`,
-                          fontSize: '0.65rem',
-                          fontWeight: 700,
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.04em',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
-                        {freshness.isToday && <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />}
-                        {freshness.isYesterday && <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />}
-                        {freshness.badgeLabel}
-                      </span>
-                      <BiciAgeBadge job={job} />
-                      {state.cvAnalysis && (
+                    </div>
+                  </td>
+                </tr>
+                {group.jobs.map((job) => {
+                  const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
+                  const isSelected = selectedJobId === job.id;
+                  
+                  return (
+                    <tr 
+                      key={job.id} 
+                      className={isSelected ? 'selected' : ''}
+                    >
+                      {/* Job Title */}
+                      <td>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                            {job.title}
+                          </span>
+                          <BiciAgeBadge job={job} />
+                          {state.cvAnalysis && (
                         <span style={{
                           backgroundColor: 'rgba(245, 158, 11, 0.12)',
                           color: '#f59e0b',
@@ -261,15 +273,10 @@ export const JobTable: React.FC<JobTableProps> = ({
                   
                   {/* Publish / Scraped Date */}
                   <td>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <Calendar size={13} style={{ color: freshness.color }} />
-                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: freshness.color }}>
-                          {freshness.badgeLabel}
-                        </span>
-                      </div>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                        {freshness.timeAgoLabel}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--text-secondary)' }}>
+                      <Calendar size={13} className="text-muted" />
+                      <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>
+                        {formatJobDate(job)}
                       </span>
                     </div>
                   </td>
@@ -450,57 +457,76 @@ export const JobTable: React.FC<JobTableProps> = ({
                       </button>
                     </div>
                   </td>
-                </tr>
-              );
-            })}
+                    </tr>
+                  );
+                })}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
       </div>
 
       {/* Mobile Card Grid (Hidden on desktop) */}
       <div className="visible-mobile card-grid">
-        {jobs.map((job) => {
-          const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
-          const freshness = getJobFreshness(job);
-          
-          return (
-            <div 
-              key={job.id} 
-              className="glass-card" 
-              style={{ 
-                padding: '16px', 
-                marginBottom: '12px', 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '12px',
-                borderLeft: freshness.rowBorderColor ? `3px solid ${freshness.rowBorderColor}` : undefined
-              }}
-            >
-              {/* Header: Title and Status */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-                    <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
-                    <span style={{
-                      backgroundColor: freshness.bgColor,
-                      color: freshness.color,
-                      border: `1px solid ${freshness.borderColor}`,
-                      fontSize: '0.62rem',
-                      fontWeight: 700,
-                      padding: '1px 5px',
-                      borderRadius: '3px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '3px'
-                    }}>
-                      {freshness.isToday && <span style={{ display: 'inline-block', width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#10b981' }} />}
-                      {freshness.isYesterday && <span style={{ display: 'inline-block', width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />}
-                      {freshness.badgeLabel}
-                    </span>
-                    <BiciAgeBadge job={job} />
-                    {state.cvAnalysis && (
+        {dateGroups.map((group) => (
+          <div key={`mobile-group-${group.key}`} style={{ marginBottom: '20px' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '8px 12px',
+              marginBottom: '10px',
+              backgroundColor: group.isToday ? 'rgba(16, 185, 129, 0.08)' : group.isYesterday ? 'rgba(59, 130, 246, 0.08)' : 'var(--bg-tertiary)',
+              borderRadius: '8px',
+              border: '1px solid var(--border-color)',
+              borderLeft: `4px solid ${group.color}`
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Calendar size={14} style={{ color: group.color }} />
+                <span style={{ fontWeight: 700, fontSize: '0.85rem', color: group.color }}>
+                  {group.title}
+                </span>
+                {group.subTitle && (
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                    • {group.subTitle}
+                  </span>
+                )}
+              </div>
+              <span style={{
+                fontSize: '0.7rem',
+                fontWeight: 600,
+                padding: '2px 7px',
+                borderRadius: '10px',
+                backgroundColor: 'var(--bg-element)',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border-color)'
+              }}>
+                {group.jobs.length} {group.jobs.length === 1 ? 'oferta' : 'ofertas'}
+              </span>
+            </div>
+
+            {group.jobs.map((job) => {
+              const state = userStates[job.id] || { status: 'not_applied', notes: '', updatedAt: '' };
+              
+              return (
+                <div 
+                  key={job.id} 
+                  className="glass-card" 
+                  style={{ 
+                    padding: '16px', 
+                    marginBottom: '12px', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: '12px'
+                  }}
+                >
+                  {/* Header: Title and Status */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                        <h4 style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{job.title}</h4>
+                        <BiciAgeBadge job={job} />
+                        {state.cvAnalysis && (
                       <span style={{
                         backgroundColor: 'rgba(245, 158, 11, 0.12)',
                         color: '#f59e0b',
@@ -640,9 +666,9 @@ export const JobTable: React.FC<JobTableProps> = ({
                   <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{job.salary || 'S/C'}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
-                  <Calendar size={12} style={{ color: freshness.color, flexShrink: 0 }} />
-                  <span style={{ color: freshness.color, fontWeight: 600, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
-                    {freshness.timeAgoLabel}
+                  <Calendar size={12} className="text-muted" style={{ flexShrink: 0 }} />
+                  <span style={{ fontSize: '0.78rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    {formatJobDate(job)}
                   </span>
                 </div>
               </div>
@@ -792,6 +818,8 @@ export const JobTable: React.FC<JobTableProps> = ({
           );
         })}
       </div>
+    ))}
+  </div>
 
       {/* CSS injected directly for responsive hiding of mobile view */}
       <style dangerouslySetInnerHTML={{__html: `

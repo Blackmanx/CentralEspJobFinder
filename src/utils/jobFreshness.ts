@@ -1,3 +1,5 @@
+import { Job } from '../types/job';
+
 export type FreshnessCategory = 'today' | 'yesterday' | 'recent' | 'older';
 
 export interface JobFreshness {
@@ -117,4 +119,89 @@ export function getJobFreshness(job: { scrapedAt?: string; publishDate?: string;
     isToday: false,
     isYesterday: false
   };
+}
+
+export interface JobDateGroup {
+  key: string;
+  title: string;
+  subTitle?: string;
+  isToday: boolean;
+  isYesterday: boolean;
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  jobs: Job[];
+}
+
+export function groupJobsByDate(jobs: Job[]): JobDateGroup[] {
+  const groupsMap = new Map<string, JobDateGroup>();
+  const now = new Date();
+
+  jobs.forEach((job) => {
+    const freshness = getJobFreshness(job);
+    const dateStr = job.scrapedAt || job.publishDate || job.dates;
+    
+    let key: string;
+    let title: string;
+    let subTitle: string | undefined;
+
+    if (freshness.isToday) {
+      key = 'today';
+      title = 'Hoy';
+      subTitle = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+    } else if (freshness.isYesterday) {
+      key = 'yesterday';
+      title = 'Ayer';
+      const y = new Date(now);
+      y.setDate(y.getDate() - 1);
+      subTitle = y.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+    } else if (freshness.category === 'recent' && dateStr) {
+      const d = new Date(dateStr);
+      if (!isNaN(d.getTime())) {
+        key = d.toISOString().slice(0, 10);
+        const dayName = d.toLocaleDateString('es-ES', { weekday: 'long' });
+        const dayFormatted = d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long' });
+        title = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+        subTitle = dayFormatted;
+      } else {
+        key = 'recent';
+        title = 'Esta semana';
+      }
+    } else {
+      key = 'older';
+      title = 'Ofertas anteriores (+1 semana)';
+    }
+
+    if (!groupsMap.has(key)) {
+      groupsMap.set(key, {
+        key,
+        title,
+        subTitle,
+        isToday: freshness.isToday,
+        isYesterday: freshness.isYesterday,
+        color: freshness.color,
+        bgColor: freshness.bgColor,
+        borderColor: freshness.borderColor,
+        jobs: []
+      });
+    }
+
+    groupsMap.get(key)!.jobs.push(job);
+  });
+
+  return Array.from(groupsMap.values());
+}
+
+export function formatJobDate(job: { scrapedAt?: string; publishDate?: string; dates?: string }): string {
+  if (job.publishDate && job.publishDate.trim()) {
+    return job.publishDate;
+  }
+  const dateStr = job.scrapedAt || job.dates;
+  if (dateStr) {
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+  }
+  return 'Sin fecha';
 }

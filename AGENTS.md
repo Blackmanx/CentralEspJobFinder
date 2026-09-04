@@ -37,3 +37,8 @@ After every repository change, immediately run `npm run notify:email -- --to vel
 ## Commits and Pull Requests
 
 Follow the established Conventional Commit style, such as `feat(scrape): ...`, `fix(mobile): ...`, `refactor(email): ...`, or `chore(cron): ...`. PRs should explain the behavior change, list validation performed, link relevant issues, and include screenshots for UI changes. Note any scraper-source, `.env`, deployment, or recipient impact explicitly.
+
+## Technical Documentation Maintenance (`_docs/`)
+
+- Any modification affecting system architecture, API endpoints (`server.ts`), privacy and CV processing policies, scraping modules, or deployment/cron scripts MUST be accompanied by an update to the relevant files in `_docs/`.
+- Ensure `_docs/README.md`, `ARCHITECTURE.md`, `PRIVACY_AND_CV_HANDLING.md`, `SCRAPING_AND_DATA_PIPELINE.md`, `DEPLOYMENT_AND_OPERATIONS.md`, and `MAINTENANCE_GUIDELINES.md` always reflect the current truth of the codebase.

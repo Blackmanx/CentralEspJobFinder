@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import { clientCVToFile, saveClientCV, ClientCV } from '../utils/clientCVStorage';
 
 // Configure Leaflet Default Icon using CDN resources to ensure Vite processes it correctly
 const DefaultIcon = L.icon({
@@ -82,6 +83,8 @@ interface JobDrawerProps {
   userState: UserJobState;
   onUpdateState: (jobId: string, status: ApplicationStatus, notes: string, interviewDate?: string, cvAnalysis?: { summary: string; annotatedCV: string; }) => void;
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void;
+  clientCV?: ClientCV | null;
+  onClientCVChange?: (cv: ClientCV | null) => void;
 }
 
 // Helper component to center Leaflet map on coordinate changes
@@ -98,7 +101,9 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   onClose,
   userState,
   onUpdateState,
-  showToast
+  showToast,
+  clientCV,
+  onClientCVChange
 }) => {
   const [status, setStatus] = useState<ApplicationStatus>('not_applied');
   const [notes, setNotes] = useState('');
@@ -128,34 +133,27 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   // Object URL for live PDF previsualization
   const [pdfUrl, setPdfUrl] = useState<string>('');
 
-  const [globalCVStatus, setGlobalCVStatus] = useState<{ exists: boolean; originalname?: string; mimetype?: string } | null>(null);
-
   useEffect(() => {
-    const checkGlobal = async () => {
-      try {
-        const res = await fetch('/api/global-cv');
-        if (res.ok) {
-          const data = await res.json();
-          setGlobalCVStatus(data);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    checkGlobal();
-  }, [job]);
-
-  useEffect(() => {
+    let url = '';
     if (cvFile && cvFile.type === 'application/pdf') {
-      const url = URL.createObjectURL(cvFile);
+      url = URL.createObjectURL(cvFile);
       setPdfUrl(url);
-      return () => URL.revokeObjectURL(url);
-    } else if (globalCVStatus?.exists && globalCVStatus.mimetype === 'application/pdf') {
-      setPdfUrl('/api/global-cv/download');
+    } else if (clientCV && (clientCV.type === 'application/pdf' || clientCV.name.toLowerCase().endsWith('.pdf'))) {
+      try {
+        const file = clientCVToFile(clientCV);
+        url = URL.createObjectURL(file);
+        setPdfUrl(url);
+      } catch (err) {
+        console.error('Error generating PDF preview URL from client CV:', err);
+      }
     } else {
       setPdfUrl('');
     }
-  }, [cvFile, globalCVStatus]);
+
+    return () => {
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [cvFile, clientCV]);
 
   // Keep track of the last loaded job ID
   const [lastJobId, setLastJobId] = useState<string | null>(null);
@@ -224,16 +222,18 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   };
 
   const handleAnalyzeCV = async () => {
-    if ((!cvFile && !globalCVStatus?.exists) || !job) return;
+    const fileToUse = cvFile || (clientCV ? clientCVToFile(clientCV) : null);
+    if (!fileToUse || !job) {
+      showToast('Por favor, selecciona o sube primero un currículum.', 'info');
+      return;
+    }
     setAnalyzing(true);
     setAnalysisError(null);
     setSummary(null);
     setAnnotatedCV(null);
 
     const formData = new FormData();
-    if (cvFile) {
-      formData.append('cv', cvFile);
-    }
+    formData.append('cv', fileToUse);
     formData.append('jobTitle', job.title);
     formData.append('jobCompany', job.companyName);
     formData.append('jobDescription', job.description || '');
@@ -268,15 +268,17 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
   };
 
   const handleGenerateCoverLetter = async () => {
-    if ((!cvFile && !globalCVStatus?.exists) || !job) return;
+    const fileToUse = cvFile || (clientCV ? clientCVToFile(clientCV) : null);
+    if (!fileToUse || !job) {
+      showToast('Por favor, selecciona o sube primero un currículum.', 'info');
+      return;
+    }
     setGeneratingLetter(true);
     setLetterError(null);
     setCoverLetter(null);
 
     const formData = new FormData();
-    if (cvFile) {
-      formData.append('cv', cvFile);
-    }
+    formData.append('cv', fileToUse);
     formData.append('jobTitle', job.title);
     formData.append('jobCompany', job.companyName);
     formData.append('jobDescription', job.description || '');
@@ -838,12 +840,20 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                 <input
                   type="file"
                   accept=".pdf,.docx"
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     if (e.target.files && e.target.files[0]) {
-                      setCvFile(e.target.files[0]);
+                      const file = e.target.files[0];
+                      setCvFile(file);
                       setSummary(null);
                       setAnnotatedCV(null);
                       setAnalysisError(null);
+                      try {
+                        const saved = await saveClientCV(file);
+                        if (onClientCVChange) onClientCVChange(saved);
+                        showToast('Currículum guardado de forma privada en tu navegador.', 'success');
+                      } catch (err) {
+                        console.warn('Error saving to client storage:', err);
+                      }
                     }
                   }}
                   style={{
@@ -857,12 +867,12 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                   }}
                 />
                 <UploadCloud size={24} className="text-muted" style={{ margin: '0 auto 8px' }} />
-                <span style={{ fontSize: '0.8rem', display: 'block', color: cvFile ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                  {cvFile ? cvFile.name : 'Haz clic o arrastra un archivo PDF o DOCX'}
+                <span style={{ fontSize: '0.8rem', display: 'block', color: (cvFile || clientCV) ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                  {cvFile ? cvFile.name : (clientCV ? `CV: ${clientCV.name} (Local)` : 'Haz clic o arrastra un archivo PDF o DOCX')}
                 </span>
               </div>
 
-              {(cvFile || globalCVStatus?.exists) && (
+              {(cvFile || clientCV) && (
                 <button
                   className="btn-primary"
                   onClick={handleAnalyzeCV}

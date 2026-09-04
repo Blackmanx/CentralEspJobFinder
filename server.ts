@@ -12,8 +12,6 @@ import path from 'path';
 dotenv.config();
 
 const STATES_FILE = path.join(process.cwd(), 'public/data/user_states.json');
-const GLOBAL_CV_PATH = path.join(process.cwd(), 'public/data/global_cv.bin');
-const GLOBAL_CV_META_PATH = path.join(process.cwd(), 'public/data/global_cv_meta.json');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -90,22 +88,12 @@ app.post('/api/analyze-cv', upload.single('cv'), async (req, res) => {
   try {
     const { jobTitle, jobDescription, jobRequirements } = req.body;
     
-    let fileBuffer: Buffer;
-    let originalName = '';
-
-    if (req.file) {
-      fileBuffer = req.file.buffer;
-      originalName = req.file.originalname;
-    } else {
-      try {
-        const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
-        const meta = JSON.parse(metaData);
-        fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
-        originalName = meta.originalname;
-      } catch (err) {
-        return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
-      }
+    if (!req.file) {
+      return res.status(400).json({ error: 'Debes adjuntar un archivo de currículum (PDF o DOCX).' });
     }
+
+    const fileBuffer = req.file.buffer;
+    const originalName = req.file.originalname;
 
     let cvText = '';
     try {
@@ -356,22 +344,12 @@ app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => 
   try {
     const { jobTitle, jobCompany, jobDescription, jobRequirements } = req.body;
     
-    let fileBuffer: Buffer;
-    let originalName = '';
-
-    if (req.file) {
-      fileBuffer = req.file.buffer;
-      originalName = req.file.originalname;
-    } else {
-      try {
-        const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
-        const meta = JSON.parse(metaData);
-        fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
-        originalName = meta.originalname;
-      } catch (err) {
-        return res.status(400).json({ error: 'No se ha subido ningún archivo de currículum.' });
-      }
+    if (!req.file) {
+      return res.status(400).json({ error: 'Debes adjuntar un archivo de currículum (PDF o DOCX).' });
     }
+
+    const fileBuffer = req.file.buffer;
+    const originalName = req.file.originalname;
 
     let cvText = '';
     try {
@@ -394,22 +372,8 @@ app.post('/api/generate-cover-letter', upload.single('cv'), async (req, res) => 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
 
-    const prompt = `Eres un redactor profesional de recursos humanos experto en contratación de personal docente en España.
-Redacta una carta de presentación formal y persuasiva adaptada específicamente al puesto y los requisitos de la oferta de empleo provista.
-
-Debes basarte en la estructura, estilo de redacción, tono y detalles específicos de la siguiente plantilla provista por el usuario:
-
-== PLANTILLA DE CARTA DE PRESENTACIÓN DE REFERENCIA ==
-A la atención del equipo de selección de [Nombre del Colegio o Centro],
-Me dirijo a ustedes con gran entusiasmo para presentar mi candidatura al puesto de [Puesto Docente]. Como graduada en Magisterio de Educación Infantil y en el Máster en Investigación e Innovación en Educación (UNED), mi trayectoria se ha centrado en entender y honrar la infancia desde una mirada profundamente respetuosa y científica. Fruto de este compromiso, participo activamente en redes de colaboración con investigadores y en la redacción de artículos especializados encaminados a mejorar la educación actual, lo que me permite trasladar las últimas evidencias educativas directamente a la práctica en el aula.
-Cuento con una sólida base pedagógica y experiencia práctica que se alinea con los valores de su escuela infantil, por ejemplo:
-En mi paso por Cruz Roja y mis prácticas en centros como el Colegio Infantil, he gestionado grupos de primera infancia, priorizando siempre el bienestar socioemocional y el respeto a los ritmos individuales del niño. Por otro lado, he desarrollado proyectos de vanguardia como "Chatbot Educativo", un chatbot basado en IA generativa diseñado para fomentar el pensamiento crítico en un entorno seguro y de confianza, lo que demuestra mi capacidad para crear espacios de aprendizaje adaptados a los retos actuales.
-Actualmente, desempeño mi labor como profesora de inglés en dos colegios simultáneamente (Colegio Docente y Centro Docente) a jornada partida. Esta experiencia no solo ha consolidado mi fluidez y competencia bilingüe diaria, sino que me ha dotado de una gran capacidad de organización, iniciativa y energía para gestionar diferentes entornos educativos. Asimismo, mi faceta como asistente de fotografía infantil me ha aportado una sensibilidad especial para establecer una comunicación fluida, empática y profesional con las familias, fundamental para el éxito de una escuela.
-Por último, basándome en mi sólida formación académica y experiencia práctica, concibo su escuela como un espacio ideal para crear un entorno de aprendizaje activo y respetuoso; un entorno preparado para ofrecer seguridad y retos evolutivos adaptados a las necesidades individuales de cada niño y niña en las etapas 0-3 y 3-6 años.
-Cabe destacar que resido en Madrid, lo que me permite total puntualidad y compromiso con el horario requerido. Mi objetivo es aportar en su aula una combinación de mi rigor investigador y calidez humana para garantizar que cada niño y niña se sienta visto, escuchado y protegido.
-Agradezco de antemano su tiempo y quedo a su entera disposición para concertar una entrevista.
-Atentamente,
-[Nombre del Candidato]
+    const prompt = `Eres un redactor profesional de recursos humanos experto en contratación de personal docente y educativo en España.
+Redacta una carta de presentación formal, persuasiva y adaptada específicamente al puesto y los requisitos de la oferta de empleo provista, basándote de forma exclusiva y fiel en la experiencia y formación que aparecen en el perfil del candidato provisto.
 
 == DETALLES DE LA OFERTA DE EMPLEO OBJETIVO ==
 Puesto: ${jobTitle || 'No especificado'}
@@ -421,11 +385,13 @@ Requisitos: ${jobRequirements || 'No especificados'}
 ${anonymizedCV}
 
 == INSTRUCCIONES DE REDACCIÓN ==
-1. Adapta la carta de referencia para dirigirla específicamente a la atención del equipo de selección del colegio objetivo (reemplaza "[Nombre del Colegio o Centro]" con el nombre real del centro si está disponible: ${jobCompany || 'el centro'}).
-2. Modifica el nombre del puesto docente [Puesto Docente] por el título de la oferta de empleo provista.
-3. Asegúrate de mantener la redacción académica y profesional del candidato (Magisterio, Máster UNED, chatbot Chatbot Educativo, colegios Colegio Docente y Centro Docente) pero adaptando suavemente los argumentos para responder a las necesidades particulares del colegio y su descripción de puesto.
-4. No utilices emojis de ningún tipo.
-5. Devuelve directamente el texto de la carta de presentación formateada en Markdown, sin introducciones ni comentarios adicionales de tu parte.`;
+1. Dirige la carta a la atención del equipo de selección del centro si se conoce (${jobCompany || 'el centro directivo / equipo de selección'}).
+2. Menciona claramente el puesto al que opta: ${jobTitle || 'la vacante convocada'}.
+3. Conecta de manera natural y profesional las experiencias, competencias y formación del candidato que figuren en su CV con las necesidades concretas de la vacante.
+4. Si el CV contiene datos personales anonimizados, utiliza marcadores limpios como "[Nombre del Candidato]", "[Teléfono]" o "[Correo]" para que el usuario pueda rellenarlos.
+5. No inventes experiencia, títulos ni puestos que no aparezcan en el currículum del candidato.
+6. Mantén un tono formal, motivador y respetuoso. No utilices emojis de ningún tipo.
+7. Devuelve directamente el texto de la carta de presentación formateada en Markdown, sin introducciones ni comentarios adicionales de tu parte.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -442,72 +408,13 @@ app.get('/api/notifications', async (req, res) => {
   const notifications = [
     {
       id: '1',
-      title: '¡Nueva vacante de Infantil en Alcobendas!',
-      message: 'Se ha detectado una oferta del Colegio Brains. Nivel de ajuste estimado del CV: Alto (89%).',
-      timestamp: new Date(Date.now() - 3600000).toISOString(),
-      read: false
-    },
-    {
-      id: '2',
-      title: '¡Puesto de Auxiliar de Escuela Infantil en Segovia!',
-      message: 'Colegio en Segovia busca educador de 0-3 años. Se adapta a tu zona límite de Castilla y León.',
-      timestamp: new Date(Date.now() - 7200000).toISOString(),
-      read: false
-    },
-    {
-      id: '3',
       title: 'Última actualización de ofertas completada',
-      message: `El scraper finalizó con éxito. Se han indexado 98 vacantes locales en total.`,
+      message: `El scraper finalizó con éxito. Se han indexado vacantes docentes y oficiales.`,
       timestamp: lastScrapeSuccessTime || new Date().toISOString(),
       read: true
     }
   ];
   return res.json(notifications);
-});
-
-app.post('/api/global-cv', upload.single('cv'), async (req, res) => {
-  try {
-    const file = req.file;
-    if (!file) {
-      return res.status(400).json({ error: 'No se ha subido ningún archivo.' });
-    }
-
-    await fs.mkdir(path.dirname(GLOBAL_CV_PATH), { recursive: true });
-    await fs.writeFile(GLOBAL_CV_PATH, file.buffer);
-    await fs.writeFile(GLOBAL_CV_META_PATH, JSON.stringify({
-      originalname: file.originalname,
-      mimetype: file.mimetype
-    }, null, 2));
-
-    return res.json({ success: true, originalname: file.originalname });
-  } catch (err: any) {
-    console.error('Error al guardar el currículum global:', err);
-    return res.status(500).json({ error: 'Error al guardar el currículum: ' + err.message });
-  }
-});
-
-app.get('/api/global-cv', async (req, res) => {
-  try {
-    await fs.access(GLOBAL_CV_META_PATH);
-    const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
-    return res.json({ exists: true, ...JSON.parse(metaData) });
-  } catch {
-    return res.json({ exists: false });
-  }
-});
-
-app.get('/api/global-cv/download', async (req, res) => {
-  try {
-    const metaData = await fs.readFile(GLOBAL_CV_META_PATH, 'utf-8');
-    const meta = JSON.parse(metaData);
-    const fileBuffer = await fs.readFile(GLOBAL_CV_PATH);
-    
-    res.setHeader('Content-Type', meta.mimetype);
-    res.setHeader('Content-Disposition', `inline; filename="${meta.originalname}"`);
-    return res.send(fileBuffer);
-  } catch (err) {
-    return res.status(404).json({ error: 'Currículum no encontrado' });
-  }
 });
 
 app.listen(port, () => {

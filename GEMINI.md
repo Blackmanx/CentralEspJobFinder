@@ -10,3 +10,7 @@
 - Proyecto: **JobCrawling**
 - Repositorio remoto: `https://github.com/Blackmanx/JobCrawling.git`
 - Ruta en Raspberry Pi: `/home/pi/JobCrawling`
+
+## Mantenimiento de Documentación Técnica (`_docs/`)
+- El agente de IA DEBE mantener la carpeta `_docs/` sincronizada con cualquier cambio arquitectural, de endpoints, privacidad de CV o scraping realizado en el proyecto.
+

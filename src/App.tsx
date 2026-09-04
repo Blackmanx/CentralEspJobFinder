@@ -28,9 +28,11 @@ import {
   ChevronDown,
   ChevronUp,
   Send,
-  X
+  X,
+  Trash2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { saveClientCV, getClientCV, removeClientCV, clientCVToFile, ClientCV } from './utils/clientCVStorage';
 
 const LOCAL_STORAGE_KEY = 'jobfinder_states';
 
@@ -103,8 +105,8 @@ export default function App() {
   const [scraping, setScraping] = useState(false);
   const [scrapeProgress, setScrapeProgress] = useState('');
 
-  // Global CV Status (loaded and synchronized with backend server)
-  const [globalCVStatus, setGlobalCVStatus] = useState<{ exists: boolean; originalname?: string; mimetype?: string } | null>(null);
+  // Client CV Status (stored strictly inside the browser)
+  const [clientCV, setClientCV] = useState<ClientCV | null>(null);
   
   // Background Auto-Scanning States
   const [isAutoScanning, setIsAutoScanning] = useState(false);
@@ -113,41 +115,33 @@ export default function App() {
   const [scanCurrentIndex, setScanCurrentIndex] = useState(0);
   const [scanTimeRemaining, setScanTimeRemaining] = useState(0);
 
-  const checkGlobalCV = async () => {
+  const loadClientCV = async () => {
     try {
-      const res = await fetch('/api/global-cv');
-      if (res.ok) {
-        const data = await res.json();
-        setGlobalCVStatus(data);
-      }
+      const cv = await getClientCV();
+      setClientCV(cv);
     } catch (err) {
-      console.error('Error checking global CV status:', err);
+      console.error('Error loading client CV:', err);
     }
   };
 
-  const handleUploadGlobalCV = async (file: File) => {
-    const formData = new FormData();
-    formData.append('cv', file);
-
+  const handleUploadClientCV = async (file: File) => {
     try {
-      const res = await fetch('/api/global-cv', {
-        method: 'POST',
-        body: formData
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setGlobalCVStatus({
-          exists: true,
-          originalname: data.originalname,
-          mimetype: file.type
-        });
-        showToast('Currículum subido y guardado en el servidor.', 'success');
-      } else {
-        showToast('Error al subir el currículum al servidor.', 'error');
-      }
+      const saved = await saveClientCV(file);
+      setClientCV(saved);
+      showToast('Currículum guardado de forma privada en este navegador.', 'success');
     } catch (err) {
-      console.error(err);
-      showToast('Error de red al subir el currículum.', 'error');
+      console.error('Error saving CV locally:', err);
+      showToast('Error al guardar el currículum en el navegador.', 'error');
+    }
+  };
+
+  const handleRemoveClientCV = async () => {
+    try {
+      await removeClientCV();
+      setClientCV(null);
+      showToast('Currículum eliminado de este navegador.', 'info');
+    } catch (err) {
+      console.error('Error removing CV from storage:', err);
     }
   };
 
@@ -312,7 +306,7 @@ export default function App() {
     checkScrapingStatus();
     loadUserStates();
     loadNotifications();
-    checkGlobalCV();
+    loadClientCV();
   }, []);
 
   // Check if scraper is running in background by checking folder/file status
@@ -350,8 +344,10 @@ export default function App() {
           const nextJobId = scanQueue[0];
           const jobToScan = jobs.find(j => j.id === nextJobId);
           
-          if (jobToScan && globalCVStatus?.exists) {
+          if (jobToScan && clientCV) {
             const formData = new FormData();
+            const cvFile = clientCVToFile(clientCV);
+            formData.append('cv', cvFile);
             formData.append('jobTitle', jobToScan.title);
             formData.append('jobDescription', jobToScan.description || '');
             formData.append('jobRequirements', jobToScan.requirements ? jobToScan.requirements.join('\n') : '');
@@ -393,11 +389,11 @@ export default function App() {
     return () => {
       if (timer) clearTimeout(timer);
     };
-  }, [isAutoScanning, scanQueue, scanTimeRemaining, jobs, globalCVStatus, userStates]);
+  }, [isAutoScanning, scanQueue, scanTimeRemaining, jobs, clientCV, userStates]);
 
   const startAutoScan = () => {
-    if (!globalCVStatus?.exists) {
-      showToast('Por favor, sube primero tu currículum en el cargador global.', 'info');
+    if (!clientCV) {
+      showToast('Por favor, sube primero tu currículum en el panel lateral (se guarda solo en tu navegador).', 'info');
       return;
     }
     
@@ -834,7 +830,7 @@ export default function App() {
                 accept=".pdf,.docx"
                 onChange={(e) => {
                   if (e.target.files && e.target.files[0]) {
-                    handleUploadGlobalCV(e.target.files[0]);
+                    handleUploadClientCV(e.target.files[0]);
                   }
                 }}
                 style={{
@@ -847,21 +843,36 @@ export default function App() {
                   cursor: 'pointer'
                 }}
               />
-              <span style={{ fontSize: '0.75rem', color: globalCVStatus?.exists ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                {globalCVStatus?.exists ? `CV: ${globalCVStatus.originalname}` : 'Subir currículum'}
+              <span style={{ fontSize: '0.75rem', color: clientCV ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                {clientCV ? `CV: ${clientCV.name}` : 'Subir currículum (Privado)'}
               </span>
+              {clientCV && (
+                <span style={{ display: 'block', fontSize: '0.65rem', color: '#10b981', marginTop: '2px' }}>
+                  🔒 Solo en este navegador
+                </span>
+              )}
             </div>
 
-            {globalCVStatus?.exists && (
-              <button
-                onClick={startAutoScan}
-                disabled={isAutoScanning}
-                className="btn-primary"
-                style={{ width: '100%', justifyContent: 'center', fontSize: '0.75rem', padding: '8px' }}
-              >
-                <Sparkles size={12} />
-                {isAutoScanning ? 'Escaneando...' : 'Auto-analizar Infantil'}
-              </button>
+            {clientCV && (
+              <div style={{ display: 'flex', gap: '6px', width: '100%' }}>
+                <button
+                  onClick={startAutoScan}
+                  disabled={isAutoScanning}
+                  className="btn-primary"
+                  style={{ flex: 1, justifyContent: 'center', fontSize: '0.75rem', padding: '8px' }}
+                >
+                  <Sparkles size={12} />
+                  {isAutoScanning ? 'Escaneando...' : 'Auto-analizar Infantil'}
+                </button>
+                <button
+                  onClick={handleRemoveClientCV}
+                  className="btn-secondary"
+                  title="Eliminar CV de este navegador"
+                  style={{ padding: '8px', color: 'var(--danger, #ef4444)' }}
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
             )}
 
             {isAutoScanning && (
@@ -1465,6 +1476,8 @@ export default function App() {
         userState={userStates[selectedJob.id] || { status: 'not_applied', notes: '', updatedAt: '' }}
         onUpdateState={handleUpdateJobState}
         showToast={showToast}
+        clientCV={clientCV}
+        onClientCVChange={setClientCV}
       />
     )}
 

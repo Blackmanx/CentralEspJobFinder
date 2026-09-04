@@ -624,24 +624,26 @@ export const JobTable: React.FC<JobTableProps> = ({
               </div>
 
               {/* Meta details list */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 16px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <MapPin size={12} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 12px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                  <MapPin size={12} style={{ flexShrink: 0 }} />
                   <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
                     {job.location || 'Madrid'}
                   </span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Clock size={12} />
-                  <span>{job.hours || 'N/D'}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                  <Clock size={12} style={{ flexShrink: 0 }} />
+                  <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{job.hours || 'N/D'}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Coins size={12} />
-                  <span>{job.salary || 'S/C'}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                  <Coins size={12} style={{ flexShrink: 0 }} />
+                  <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{job.salary || 'S/C'}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Calendar size={12} style={{ color: freshness.color }} />
-                  <span style={{ color: freshness.color, fontWeight: 600 }}>{freshness.timeAgoLabel}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                  <Calendar size={12} style={{ color: freshness.color, flexShrink: 0 }} />
+                  <span style={{ color: freshness.color, fontWeight: 600, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>
+                    {freshness.timeAgoLabel}
+                  </span>
                 </div>
               </div>
 

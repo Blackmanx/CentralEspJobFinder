@@ -408,7 +408,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
                   title={`Registrada: ${freshness.timeAgoLabel}`}
                 >
                   <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: freshness.color }} />
-                  {freshness.badgeLabel} • {freshness.timeAgoLabel}
+                  {freshness.badgeLabel}
                 </span>
                 {job.certificationTags?.map((tag) => (
                   <span key={tag} style={{
@@ -547,7 +547,7 @@ export const JobDrawer: React.FC<JobDrawerProps> = ({
               <div>
                 <span className="text-muted" style={{ display: 'block', fontSize: '0.75rem' }}>Antigüedad</span>
                 <span style={{ fontSize: '0.875rem', fontWeight: 600, color: freshness.color }}>
-                  {freshness.badgeLabel} ({freshness.timeAgoLabel})
+                  {freshness.timeAgoLabel}
                 </span>
               </div>
             </div>

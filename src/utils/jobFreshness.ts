@@ -51,14 +51,12 @@ export function getJobFreshness(job: { scrapedAt?: string; publishDate?: string;
     yesterday.getMonth() === scrapedDate.getMonth() &&
     yesterday.getDate() === scrapedDate.getDate();
 
-  const hoursStr = scrapedDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
   // 1. TODAY (< 24h or same calendar day)
   if (isSameCalendarDay || diffHours < 24) {
     return {
       category: 'today',
       badgeLabel: 'Nueva Hoy',
-      timeAgoLabel: diffHours < 1 ? 'Hace unos minutos' : `Hoy (${hoursStr})`,
+      timeAgoLabel: 'Hoy',
       daysAgo: 0,
       hoursAgo: diffHours,
       color: '#10b981',
@@ -75,7 +73,7 @@ export function getJobFreshness(job: { scrapedAt?: string; publishDate?: string;
     return {
       category: 'yesterday',
       badgeLabel: 'Ayer',
-      timeAgoLabel: `Ayer (${hoursStr})`,
+      timeAgoLabel: 'Ayer',
       daysAgo: 1,
       hoursAgo: diffHours,
       color: '#3b82f6',
@@ -92,7 +90,7 @@ export function getJobFreshness(job: { scrapedAt?: string; publishDate?: string;
     return {
       category: 'recent',
       badgeLabel: `Hace ${diffDays}d`,
-      timeAgoLabel: `Hace ${diffDays} días`,
+      timeAgoLabel: `Hace ${diffDays}d`,
       daysAgo: diffDays,
       hoursAgo: diffHours,
       color: '#d97706',

@@ -11,8 +11,6 @@ import path from 'path';
 
 dotenv.config();
 
-const STATES_FILE = path.join(process.cwd(), 'public/data/user_states.json');
-
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -309,34 +307,6 @@ app.post('/api/notify-email', async (req, res) => {
   } catch (err: any) {
     console.error('Error al enviar correo:', err);
     return res.status(500).json({ error: 'Error al enviar correo' });
-  }
-});
-
-app.get('/api/user-states', async (req, res) => {
-  try {
-    await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });
-    let data = '{}';
-    try {
-      data = await fs.readFile(STATES_FILE, 'utf-8');
-    } catch (readErr) {
-      await fs.writeFile(STATES_FILE, '{}', 'utf-8');
-    }
-    return res.json(JSON.parse(data));
-  } catch (err: any) {
-    console.error('Error al leer user-states:', err);
-    return res.status(500).json({ error: 'Error al leer la base de datos de estados.' });
-  }
-});
-
-app.post('/api/user-states', async (req, res) => {
-  try {
-    await fs.mkdir(path.dirname(STATES_FILE), { recursive: true });
-    const body = req.body;
-    await fs.writeFile(STATES_FILE, JSON.stringify(body, null, 2), 'utf-8');
-    return res.json({ success: true });
-  } catch (err: any) {
-    console.error('Error al guardar user-states:', err);
-    return res.status(500).json({ error: 'Error al escribir la base de datos de estados.' });
   }
 });
 

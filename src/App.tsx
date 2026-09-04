@@ -157,23 +157,16 @@ export default function App() {
     }
   };
 
-  const loadUserStates = async () => {
+  const loadUserStates = () => {
     try {
-      const res = await fetch('/api/user-states');
-      if (res.ok) {
-        const data = await res.json();
-        setUserStates(data);
-      }
-    } catch (e) {
-      console.error('Error loading states from server:', e);
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (stored) {
-        try {
-          setUserStates(JSON.parse(stored));
-        } catch (err) {
-          console.error(err);
-        }
+        setUserStates(JSON.parse(stored));
+      } else {
+        setUserStates({});
       }
+    } catch (e) {
+      console.error('Error loading states from localStorage:', e);
     }
   };
 
@@ -437,16 +430,6 @@ export default function App() {
 
     setUserStates(updatedStates);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedStates));
-
-    try {
-      await fetch('/api/user-states', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedStates)
-      });
-    } catch (e) {
-      console.error('Error saving states to server:', e);
-    }
 
     // Confetti triggers!
     if (status === 'applied' || status === 'offered') {

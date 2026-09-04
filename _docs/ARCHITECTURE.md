@@ -73,10 +73,12 @@ El sistema está dividido en tres capas principales que colaboran entre sí:
 | Método | Ruta | Descripción | Payload / Headers |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/jobs` | Devuelve la lista de ofertas (`jobs.json`) | Ninguno |
-| `GET` | `/api/user-states` | Devuelve el estado de las postulaciones (`user_states.json`) | Ninguno |
-| `POST` | `/api/user-states` | Actualiza el estado de una vacante para el usuario | `{ jobId, status, notes, interviewDate, cvAnalysis }` |
 | `POST` | `/api/analyze-cv` | Analiza adecuación entre el CV y la oferta mediante Gemini | Multipart con archivo `cv` y campos `jobTitle`, `jobCompany`, `jobDescription`, `jobRequirements` |
 | `POST` | `/api/generate-cover-letter` | Redacta carta de presentación personalizada adaptada al centro | Multipart con archivo `cv` y campos de la oferta |
+| `POST` | `/api/send-jobs-email` | Envío manual de digest filtrado por correo | `{ targetEmail, jobs }` |
+
+> [!NOTE]
+> Los estados de postulación, notas personales y análisis (`userStates`) se almacenan de forma 100% aislada en el `localStorage` del navegador de cada usuario (`jobfinder_states`), garantizando que ningún usuario acceda a las notas o candidaturas de otro.
 
 ---
 

@@ -299,10 +299,10 @@ app.post('/api/notify-email', async (req, res) => {
     }
 
     const { sendJobsEmail } = await import('./scripts/emailNotifier');
-    const result = await sendJobsEmail(targetEmail, jobs);
+    const result = await sendJobsEmail(targetEmail, jobs, { forceAll: true });
     return res.json({
       success: true,
-      message: 'Correo enviado correctamente'
+      message: result.message || 'Correo enviado correctamente'
     });
   } catch (err: any) {
     console.error('Error al enviar correo:', err);

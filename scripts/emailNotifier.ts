@@ -37,7 +37,7 @@ function getEmailConfig(): EmailConfig {
   };
 }
 
-export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
+export function generateEmailHtml(jobs: Job[], recipientEmail: string, isIncremental: boolean = false): string {
   const escapeHtml = (value: unknown): string => String(value ?? '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -134,8 +134,8 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
       <!-- Header -->
       <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 24px; color: #ffffff; text-align: center;">
         <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">JobCrawling</h1>
-        <p style="margin: 6px 0 0 0; font-size: 13px; color: #94a3b8;">
-          Boletín de Ofertas: Educación Infantil, TSEI, UNED BICI, Bolsas Oficiales y Monitores
+        <p style="margin: 6px 0 0 0; font-size: 13px; color: ${isIncremental ? '#38bdf8' : '#94a3b8'}; font-weight: ${isIncremental ? '600' : 'normal'};">
+          ${isIncremental ? '✨ Nuevas ofertas detectadas desde el último boletín' : 'Boletín de Ofertas: Educación Infantil, TSEI, UNED BICI, Bolsas Oficiales y Monitores'}
         </p>
         <div style="margin-top: 12px; display: inline-block; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #e2e8f0;">
           📅 ${new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -239,7 +239,46 @@ export function generateEmailHtml(jobs: Job[], recipientEmail: string): string {
   `;
 }
 
-export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]): Promise<{ success: boolean; message: string }> {
+const SENT_JOBS_FILE = path.join(process.cwd(), 'public/data/sent_jobs_history.json');
+
+export interface RecipientSentHistory {
+  sentIds: string[];
+  lastSentAt: string;
+  lastBatchCount: number;
+}
+
+export type SentJobsHistory = Record<string, RecipientSentHistory>;
+
+export async function loadSentJobsHistory(): Promise<SentJobsHistory> {
+  try {
+    await fs.mkdir(path.dirname(SENT_JOBS_FILE), { recursive: true });
+    const content = await fs.readFile(SENT_JOBS_FILE, 'utf-8');
+    return JSON.parse(content);
+  } catch {
+    return {};
+  }
+}
+
+export async function saveSentJobsHistory(history: SentJobsHistory): Promise<void> {
+  try {
+    await fs.mkdir(path.dirname(SENT_JOBS_FILE), { recursive: true });
+    await fs.writeFile(SENT_JOBS_FILE, JSON.stringify(history, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error al guardar historial de ofertas enviadas:', err);
+  }
+}
+
+export interface SendJobsEmailOptions {
+  forceAll?: boolean;
+  resetHistory?: boolean;
+  dryRun?: boolean;
+}
+
+export async function sendJobsEmail(
+  customRecipient?: string, 
+  customJobs?: Job[], 
+  options: SendJobsEmailOptions = {}
+): Promise<{ success: boolean; message: string; sentCount?: number }> {
   const config = getEmailConfig();
   const rawRecipient = customRecipient || config.emailTo;
 
@@ -254,16 +293,16 @@ export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]
   // Support multiple recipients separated by comma or semicolon
   const recipients = rawRecipient.split(/[,;]+/).map(r => r.trim()).filter(Boolean);
 
-  let jobs: Job[] = [];
+  let allJobs: Job[] = [];
   if (customJobs && Array.isArray(customJobs) && customJobs.length > 0) {
-    jobs = customJobs;
+    allJobs = customJobs;
   } else {
     const jobsPath = path.join(process.cwd(), 'public/data/jobs.json');
     const fileContent = await fs.readFile(jobsPath, 'utf-8');
-    jobs = JSON.parse(fileContent);
+    allJobs = JSON.parse(fileContent);
   }
 
-  console.log(`Preparando envío de correo para ${jobs.length} ofertas a: ${recipients.join(', ')}...`);
+  const history = await loadSentJobsHistory();
 
   const transporter = nodemailer.createTransport({
     host: config.smtpHost,
@@ -275,15 +314,49 @@ export async function sendJobsEmail(customRecipient?: string, customJobs?: Job[]
     }
   });
 
-  const tseiCount = jobs.filter(j => j.certificationTags?.includes('TSEI')).length;
-  const monitorCount = jobs.filter(j => j.certificationTags?.includes('Monitor_Ocio')).length;
-  const subject = `Boletín de Empleo: ${tseiCount} vacantes Infantil / TSEI y ${monitorCount} monitores`;
+  let totalEmailsSent = 0;
+  let totalVacanciesSent = 0;
 
   for (const recipient of recipients) {
-    const htmlContent = generateEmailHtml(jobs, recipient);
+    const normRecipient = recipient.toLowerCase().trim();
 
-    const textAlternative = `Boletín de Ofertas JobCrawling
-Resumen de Empleo: ${tseiCount} vacantes Infantil / TSEI y ${monitorCount} puestos de Monitores y Ocio.
+    if (options.resetHistory) {
+      delete history[normRecipient];
+      await saveSentJobsHistory(history);
+      console.log(`🔄 Historial de ofertas enviadas reseteado para ${recipient}`);
+    }
+
+    const previousSentIds = new Set(history[normRecipient]?.sentIds || []);
+    
+    // Filter to only new jobs that haven't been sent to this recipient yet
+    const jobsToSend = options.forceAll 
+      ? allJobs 
+      : allJobs.filter(j => !previousSentIds.has(j.id));
+
+    if (jobsToSend.length === 0) {
+      console.log(`ℹ️ [${recipient}] No hay ofertas nuevas desde el último boletín (${previousSentIds.size} ofertas ya enviadas previamente). Se omite el correo.`);
+      continue;
+    }
+
+    const isFirstTime = previousSentIds.size === 0;
+    const isIncremental = !isFirstTime && !options.forceAll;
+
+    console.log(`Preparando envío de correo para ${jobsToSend.length} ofertas ${isIncremental ? '(Nuevas desde el último envío) ' : ''}a: ${recipient}...`);
+
+    if (options.dryRun) {
+      console.log(`[DRY-RUN] Se habrían enviado ${jobsToSend.length} ofertas a ${recipient}.`);
+      continue;
+    }
+
+    const tseiCount = jobsToSend.filter(j => j.certificationTags?.includes('TSEI')).length;
+    const monitorCount = jobsToSend.filter(j => j.certificationTags?.includes('Monitor_Ocio')).length;
+    const subjectPrefix = isIncremental ? 'Nuevas vacantes detectadas: ' : 'Boletín de Empleo: ';
+    const subject = `${subjectPrefix}${jobsToSend.length} ofertas (${tseiCount} Infantil / TSEI, ${monitorCount} monitores)`;
+
+    const htmlContent = generateEmailHtml(jobsToSend, recipient, isIncremental);
+
+    const textAlternative = `Boletín de Ofertas JobCrawling${isIncremental ? ' (Nuevas ofertas)' : ''}
+Resumen de Empleo: ${jobsToSend.length} vacantes disponibles (${tseiCount} Infantil / TSEI y ${monitorCount} puestos de Monitores y Ocio).
 
 Visita la plataforma web para ver los enlaces directos de inscripción: https://jobcrawling.sajl.cc
 
@@ -303,10 +376,34 @@ JobCrawling`;
       }
     });
 
-    console.log(`✅ Correo enviado exitosamente a ${recipient} (ID: ${info.messageId})`);
+    console.log(`✅ Correo enviado exitosamente a ${recipient} (ID: ${info.messageId}) - ${jobsToSend.length} vacantes.`);
+
+    // Record the newly sent job IDs
+    const updatedSentIds = Array.from(new Set([...previousSentIds, ...jobsToSend.map(j => j.id)]));
+    history[normRecipient] = {
+      sentIds: updatedSentIds,
+      lastSentAt: new Date().toISOString(),
+      lastBatchCount: jobsToSend.length
+    };
+    await saveSentJobsHistory(history);
+
+    totalEmailsSent++;
+    totalVacanciesSent += jobsToSend.length;
   }
 
-  return { success: true, message: 'Correo enviado correctamente' };
+  if (totalEmailsSent === 0) {
+    return { 
+      success: true, 
+      message: 'No había nuevas ofertas pendientes para los destinatarios.',
+      sentCount: 0 
+    };
+  }
+
+  return { 
+    success: true, 
+    message: `Se enviaron ${totalVacanciesSent} vacantes a ${totalEmailsSent} destinatario(s).`,
+    sentCount: totalVacanciesSent
+  };
 }
 
 // CLI execution handling
@@ -316,8 +413,11 @@ if (process.argv[1] && process.argv[1].endsWith('emailNotifier.ts')) {
       // Allow passing custom recipient: npx tsx scripts/emailNotifier.ts --to user@example.com
       const toIndex = process.argv.indexOf('--to');
       const customTo = toIndex !== -1 && process.argv[toIndex + 1] ? process.argv[toIndex + 1] : undefined;
+      const forceAll = process.argv.includes('--all') || process.argv.includes('--force-all');
+      const resetHistory = process.argv.includes('--reset-history');
+      const dryRun = process.argv.includes('--dry-run');
 
-      await sendJobsEmail(customTo);
+      await sendJobsEmail(customTo, undefined, { forceAll, resetHistory, dryRun });
       process.exit(0);
     } catch (err: any) {
       console.error(`❌ Error al enviar el correo: ${err.message}`);

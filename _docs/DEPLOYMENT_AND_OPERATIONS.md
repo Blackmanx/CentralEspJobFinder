@@ -54,3 +54,14 @@ Para evitar que los archivos de log (`jobfinder.log`, `jobfinder_cron.log`) llen
     npm run notify:email -- --to velsi12blackman@gmail.com
     ```
   - **Condición de uso**: ÚNICAMENTE debe dispararse si la tarea o cambio realizado afecta directamente al módulo de correos (`scripts/emailNotifier.ts`) o a la estructura de la plantilla de email. No enviar para cambios de frontend, base de datos o backend general.
+
+### 3.2 Historial de Ofertas y Envío Incremental (`sent_jobs_history.json`)
+Para evitar enviar ofertas repetidas en los boletines diarios:
+- El sistema mantiene un registro en `public/data/sent_jobs_history.json` (ignorado en Git) indexado por la dirección de correo de cada destinatario (`{ [email]: { sentIds, lastSentAt, lastBatchCount } }`).
+- **Comportamiento incremental**: Cada ejecución compara las vacantes actuales con el historial del destinatario y envía **únicamente las ofertas nuevas** aparecidas desde el último envío. Si no hay vacantes nuevas, el envío se omite automáticamente sin mandar correos vacíos.
+- **Flags de CLI soportados**:
+  - `--to <email>`: Especifica destinatario alternativo.
+  - `--force-all` o `--all`: Fuerza el envío de todas las ofertas activas, ignorando el historial previo.
+  - `--reset-history`: Borra el registro de ofertas enviadas para el destinatario antes de procesar.
+  - `--dry-run`: Simula el conteo y validación de vacantes sin despachar el correo electrónico.
+
